@@ -10,6 +10,9 @@ export class CompanySignUpController implements IController {
     if (!httpRequest.body.email) {
       return badRequest(new MissingParamError("email"));
     }
+    if (!httpRequest.body.country) {
+      return badRequest(new MissingParamError("country"));
+    }
     return {
       statusCode: 200,
       body: "",
