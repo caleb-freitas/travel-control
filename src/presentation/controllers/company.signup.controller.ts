@@ -1,3 +1,4 @@
+import { InvalidParamError } from "../errors";
 import { MissingParamError } from "../errors/missing.param.error";
 import { badRequest } from "../helpers/http.helper";
 import { IController, IHttpRequest, IHttpResponse } from "../protocols";
@@ -16,6 +17,9 @@ export class CompanySignUpController implements IController {
       if (!httpRequest.body[field]) {
         return badRequest(new MissingParamError(field));
       }
+    }
+    if (httpRequest.body.password !== httpRequest.body.passwordConfirmation) {
+      return badRequest(new InvalidParamError("passwordConfirmation"));
     }
     return {
       statusCode: 200,
