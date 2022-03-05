@@ -5,7 +5,7 @@ import { CompanySignUpController } from "./company.signup.controller";
 
 interface ISutTypes {
   sut: CompanySignUpController;
-  passwordValidatorAdapterStub: IPasswordValidator;
+  passwordValidatorStub: IPasswordValidator;
 }
 
 function makePasswordValidator(): IPasswordValidator {
@@ -18,9 +18,9 @@ function makePasswordValidator(): IPasswordValidator {
 }
 
 function makeSut(): ISutTypes {
-  const passwordValidatorAdapterStub = makePasswordValidator();
-  const sut = new CompanySignUpController(passwordValidatorAdapterStub);
-  return { sut, passwordValidatorAdapterStub };
+  const passwordValidatorStub = makePasswordValidator();
+  const sut = new CompanySignUpController(passwordValidatorStub);
+  return { sut, passwordValidatorStub };
 }
 
 describe("CompanySignUpController", () => {
@@ -137,9 +137,9 @@ describe("CompanySignUpController", () => {
       );
     });
 
-    test("should call PasswordValidatorAdapter with correct password", async () => {
-      const { sut, passwordValidatorAdapterStub } = makeSut();
-      const isValidSpy = jest.spyOn(passwordValidatorAdapterStub, "isValid");
+    test("should call PasswordValidator with correct password", async () => {
+      const { sut, passwordValidatorStub } = makeSut();
+      const isValidSpy = jest.spyOn(passwordValidatorStub, "isValid");
       const httpRequest = {
         body: {
           name: "valid_name",
@@ -152,6 +152,23 @@ describe("CompanySignUpController", () => {
       };
       await sut.handle(httpRequest);
       expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.password);
+    });
+
+    test("should return an error if PasswordValidator returns false", async () => {
+      const { sut, passwordValidatorStub } = makeSut();
+      jest.spyOn(passwordValidatorStub, "isValid").mockReturnValueOnce(false);
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "valid@mail.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "valid_cnpj",
+        },
+      };
+      const response = await sut.handle(httpRequest);
+      expect(response.body).toEqual(new InvalidParamError("password"));
     });
   });
 });
