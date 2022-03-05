@@ -1,7 +1,6 @@
 import { MissingParamError } from "../errors/missing.param.error";
 import { badRequest } from "../helpers/http.helper";
-import { IController } from "../protocols/controller";
-import { IHttpRequest, IHttpResponse } from "../protocols/http";
+import { IController, IHttpRequest, IHttpResponse } from "../protocols";
 
 export class CompanySignUpController implements IController {
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
