@@ -1,5 +1,5 @@
 import { InvalidParamError, MissingParamError } from "../errors";
-import { badRequest } from "../helpers/http.helper";
+import { badRequest, serverError } from "../helpers/http.helper";
 import { IPasswordValidator } from "../protocols";
 import { CompanySignUpController } from "./company.signup.controller";
 
@@ -169,6 +169,27 @@ describe("CompanySignUpController", () => {
       };
       const response = await sut.handle(httpRequest);
       expect(response.body).toEqual(new InvalidParamError("password"));
+    });
+
+    test("should throw if PasswordValidator throws", async () => {
+      const { sut, passwordValidatorStub } = makeSut();
+      jest
+        .spyOn(passwordValidatorStub, "isValid")
+        .mockImplementationOnce(() => {
+          throw new Error();
+        });
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "valid@mail.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "valid_cnpj",
+        },
+      };
+      const response = await sut.handle(httpRequest);
+      expect(response).toEqual(serverError(new Error()));
     });
   });
 });
