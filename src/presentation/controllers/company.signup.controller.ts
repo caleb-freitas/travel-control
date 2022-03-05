@@ -13,6 +13,9 @@ export class CompanySignUpController implements IController {
     if (!httpRequest.body.country) {
       return badRequest(new MissingParamError("country"));
     }
+    if (!httpRequest.body.cnpj) {
+      return badRequest(new MissingParamError("cnpj"));
+    }
     return {
       statusCode: 200,
       body: "",
