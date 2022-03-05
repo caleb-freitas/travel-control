@@ -16,6 +16,9 @@ export class CompanySignUpController implements IController {
     if (!httpRequest.body.cnpj) {
       return badRequest(new MissingParamError("cnpj"));
     }
+    if (!httpRequest.body.password) {
+      return badRequest(new MissingParamError("password"));
+    }
     return {
       statusCode: 200,
       body: "",
