@@ -1,14 +1,26 @@
 import { InvalidParamError, MissingParamError } from "../errors";
 import { badRequest } from "../helpers/http.helper";
+import { IPasswordValidator } from "../protocols";
 import { CompanySignUpController } from "./company.signup.controller";
 
 interface ISutTypes {
   sut: CompanySignUpController;
+  passwordValidatorAdapterStub: IPasswordValidator;
+}
+
+function makePasswordValidator(): IPasswordValidator {
+  class PasswordValidatorStub implements IPasswordValidator {
+    isValid(password: string): boolean {
+      return true;
+    }
+  }
+  return new PasswordValidatorStub();
 }
 
 function makeSut(): ISutTypes {
-  const sut = new CompanySignUpController();
-  return { sut };
+  const passwordValidatorAdapterStub = makePasswordValidator();
+  const sut = new CompanySignUpController(passwordValidatorAdapterStub);
+  return { sut, passwordValidatorAdapterStub };
 }
 
 describe("CompanySignUpController", () => {
@@ -123,6 +135,23 @@ describe("CompanySignUpController", () => {
       expect(response).toEqual(
         badRequest(new InvalidParamError("passwordConfirmation"))
       );
+    });
+
+    test("should call PasswordValidatorAdapter with correct password", async () => {
+      const { sut, passwordValidatorAdapterStub } = makeSut();
+      const isValidSpy = jest.spyOn(passwordValidatorAdapterStub, "isValid");
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "valid@mail.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "valid_cnpj",
+        },
+      };
+      await sut.handle(httpRequest);
+      expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.password);
     });
   });
 });
