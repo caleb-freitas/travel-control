@@ -7,18 +7,6 @@ interface ISutTypes {
   sut: CompanySignUpController;
 }
 
-function makeFakeRequest(): IHttpRequest {
-  return {
-    body: {
-      email: "valid@mail.com",
-      password: "valid_password",
-      passwordConfirmation: "valid_password",
-      country: "valid_country",
-      cnpj: "valid_cnpj",
-    },
-  };
-}
-
 function makeSut(): ISutTypes {
   const sut = new CompanySignUpController();
   return { sut };
@@ -27,7 +15,31 @@ function makeSut(): ISutTypes {
 describe("CompanySignUpController", () => {
   test("should return 400 if no name is provided", async () => {
     const { sut } = makeSut();
-    const response = await sut.handle(makeFakeRequest());
+    const httpRequest = {
+      body: {
+        email: "valid@mail.com",
+        password: "valid_password",
+        passwordConfirmation: "valid_password",
+        country: "valid_country",
+        cnpj: "valid_cnpj",
+      },
+    };
+    const response = await sut.handle(httpRequest);
     expect(response).toEqual(badRequest(new MissingParamError("name")));
+  });
+
+  test("should return 400 if no email is provided", async () => {
+    const { sut } = makeSut();
+    const httpRequest = {
+      body: {
+        name: "valid_name",
+        password: "valid_password",
+        passwordConfirmation: "valid_password",
+        country: "valid_country",
+        cnpj: "valid_cnpj",
+      },
+    };
+    const response = await sut.handle(httpRequest);
+    expect(response).toEqual(badRequest(new MissingParamError("email")));
   });
 });
