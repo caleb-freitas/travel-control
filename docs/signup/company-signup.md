@@ -12,6 +12,8 @@
 
 - [ ] Ensure that the `email` field is a valid email
 
+- [ ] Ensure that the `cnpj` field is a valid cnpj
+
 - [ ] Validates if already exists a company with the provided `email` 
 
 - [ ] Validates if already exists a company with the provided `cnpj`
