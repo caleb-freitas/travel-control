@@ -12,6 +12,7 @@ export class CompanySignUpController implements IController {
   constructor(private readonly passwordValidator: IPasswordValidator) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
+    const { password, passwordConfirmation } = httpRequest.body;
     const requiredFields: string[] = [
       "name",
       "email",
@@ -25,10 +26,10 @@ export class CompanySignUpController implements IController {
         return badRequest(new MissingParamError(field));
       }
     }
-    if (httpRequest.body.password !== httpRequest.body.passwordConfirmation) {
+    if (password !== passwordConfirmation) {
       return badRequest(new InvalidParamError("passwordConfirmation"));
     }
-    this.passwordValidator.isValid(httpRequest.body.password);
+    this.passwordValidator.isValid(password);
     return {
       statusCode: 200,
       body: "",
