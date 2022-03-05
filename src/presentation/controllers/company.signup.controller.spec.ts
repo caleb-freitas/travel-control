@@ -1,21 +1,9 @@
 import { MissingParamError } from "../errors/missing.param.error";
-import { badRequest } from "../helpers/http";
-import { IController } from "../protocols/controller";
-import { IHttpRequest, IHttpResponse } from "../protocols/http";
+import { badRequest } from "../helpers/http.helper";
+import { CompanySignUpController } from "./company.signup.controller";
 
 describe("CompanySignUpController", () => {
   test("should return 400 if no name is provided", async () => {
-    class CompanySignUpController implements IController {
-      async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-        if (!httpRequest.body.name) {
-          return badRequest(new MissingParamError("name"));
-        }
-        return {
-          statusCode: 200,
-          body: "",
-        };
-      }
-    }
     const sut = new CompanySignUpController();
     const httpRequest = {
       body: {
