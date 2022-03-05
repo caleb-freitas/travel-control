@@ -1,9 +1,16 @@
 import { InvalidParamError } from "../errors";
 import { MissingParamError } from "../errors/missing.param.error";
 import { badRequest } from "../helpers/http.helper";
-import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import {
+  IController,
+  IHttpRequest,
+  IHttpResponse,
+  IPasswordValidator,
+} from "../protocols";
 
 export class CompanySignUpController implements IController {
+  constructor(private readonly passwordValidator: IPasswordValidator) {}
+
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const requiredFields: string[] = [
       "name",
@@ -21,6 +28,7 @@ export class CompanySignUpController implements IController {
     if (httpRequest.body.password !== httpRequest.body.passwordConfirmation) {
       return badRequest(new InvalidParamError("passwordConfirmation"));
     }
+    this.passwordValidator.isValid(httpRequest.body.password);
     return {
       statusCode: 200,
       body: "",
