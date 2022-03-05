@@ -87,4 +87,21 @@ describe("CompanySignUpController", () => {
     const response = await sut.handle(httpRequest);
     expect(response).toEqual(badRequest(new MissingParamError("password")));
   });
+
+  test("should return 400 if no passwordConfirmation is provided", async () => {
+    const { sut } = makeSut();
+    const httpRequest = {
+      body: {
+        name: "valid_name",
+        email: "valid@mail.com",
+        password: "valid_password",
+        country: "valid_country",
+        cnpj: "valid_cnpj",
+      },
+    };
+    const response = await sut.handle(httpRequest);
+    expect(response).toEqual(
+      badRequest(new MissingParamError("passwordConfirmation"))
+    );
+  });
 });
