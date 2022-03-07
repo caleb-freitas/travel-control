@@ -1,11 +1,12 @@
 import { InvalidParamError, MissingParamError } from "../errors";
 import { badRequest, serverError } from "../helpers/http.helper";
-import { IPasswordValidator } from "../protocols";
+import { IPasswordValidator, IEmailValidator } from "../protocols";
 import { CompanySignUpController } from "./company.signup.controller";
 
 interface ISutTypes {
   sut: CompanySignUpController;
   passwordValidatorStub: IPasswordValidator;
+  emailValidatorStub: IEmailValidator;
 }
 
 function makePasswordValidator(): IPasswordValidator {
@@ -17,10 +18,23 @@ function makePasswordValidator(): IPasswordValidator {
   return new PasswordValidatorStub();
 }
 
+function makeEmailValidator(): IEmailValidator {
+  class EmailValidatorStub implements IEmailValidator {
+    isValid(email: string): boolean {
+      return true;
+    }
+  }
+  return new EmailValidatorStub();
+}
+
 function makeSut(): ISutTypes {
   const passwordValidatorStub = makePasswordValidator();
-  const sut = new CompanySignUpController(passwordValidatorStub);
-  return { sut, passwordValidatorStub };
+  const emailValidatorStub = makeEmailValidator();
+  const sut = new CompanySignUpController(
+    passwordValidatorStub,
+    emailValidatorStub
+  );
+  return { sut, passwordValidatorStub, emailValidatorStub };
 }
 
 describe("CompanySignUpController", () => {
@@ -118,7 +132,7 @@ describe("CompanySignUpController", () => {
     });
   });
 
-  describe("Password  validation", () => {
+  describe("Password validation", () => {
     test("should return 400 if password and passwordConfirmation are not equals", async () => {
       const { sut } = makeSut();
       const httpRequest = {
@@ -137,7 +151,7 @@ describe("CompanySignUpController", () => {
       );
     });
 
-    test("should call PasswordValidator with correct password", async () => {
+    test("should call PasswordValidatorAdapter with correct password", async () => {
       const { sut, passwordValidatorStub } = makeSut();
       const isValidSpy = jest.spyOn(passwordValidatorStub, "isValid");
       const httpRequest = {
@@ -171,7 +185,7 @@ describe("CompanySignUpController", () => {
       expect(response.body).toEqual(new InvalidParamError("password"));
     });
 
-    test("should throw if PasswordValidator throws", async () => {
+    test("should throw if PasswordValidatorAdapter throws", async () => {
       const { sut, passwordValidatorStub } = makeSut();
       jest
         .spyOn(passwordValidatorStub, "isValid")
@@ -190,6 +204,25 @@ describe("CompanySignUpController", () => {
       };
       const response = await sut.handle(httpRequest);
       expect(response).toEqual(serverError(new Error()));
+    });
+  });
+
+  describe("Email validation", () => {
+    test("should call EmailValidatorAdapter with correct password", async () => {
+      const { sut, emailValidatorStub } = makeSut();
+      const isValidSpy = jest.spyOn(emailValidatorStub, "isValid");
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "valid@email.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "valid_cnpj",
+        },
+      };
+      await sut.handle(httpRequest);
+      expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email);
     });
   });
 });
