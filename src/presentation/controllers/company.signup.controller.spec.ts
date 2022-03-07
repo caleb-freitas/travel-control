@@ -154,15 +154,15 @@ describe("CompanySignUpController", () => {
       expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.password);
     });
 
-    test("should return an error if PasswordValidator returns false", async () => {
+    test("should return 400 if provided password does not meet the requirements", async () => {
       const { sut, passwordValidatorStub } = makeSut();
       jest.spyOn(passwordValidatorStub, "isValid").mockReturnValueOnce(false);
       const httpRequest = {
         body: {
           name: "valid_name",
           email: "valid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
+          password: "invalid",
+          passwordConfirmation: "invalid",
           country: "valid_country",
           cnpj: "valid_cnpj",
         },
