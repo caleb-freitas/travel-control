@@ -1,3 +1,3 @@
 export interface IPasswordValidator {
-  isValid(password: string): boolean;
+  isValid(password: string): boolean | any[];
 }
