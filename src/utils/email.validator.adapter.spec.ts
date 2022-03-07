@@ -15,4 +15,10 @@ describe("EmailValidatorAdapter", () => {
     sut.isValid("valid@email.com");
     expect(isValidSpy).toHaveBeenCalledWith("valid@email.com");
   });
+
+  test("should return true if validator return true", () => {
+    const sut = new EmailValidatorAdapter();
+    const response = sut.isValid("valid@email.com");
+    expect(response).toBe(true);
+  });
 });
