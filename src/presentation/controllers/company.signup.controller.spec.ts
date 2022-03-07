@@ -224,5 +224,22 @@ describe("CompanySignUpController", () => {
       await sut.handle(httpRequest);
       expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email);
     });
+
+    test("should return 400 if provided email does not meet the requirements", async () => {
+      const { sut, emailValidatorStub } = makeSut();
+      jest.spyOn(emailValidatorStub, "isValid").mockReturnValueOnce(false);
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "invalid@mail.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "valid_cnpj",
+        },
+      };
+      const response = await sut.handle(httpRequest);
+      expect(response.body).toEqual(new InvalidParamError("email"));
+    });
   });
 });
