@@ -34,11 +34,14 @@ export class CompanySignUpController implements IController {
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError("passwordConfirmation"));
       }
-      const isValid = this.passwordValidator.isValid(password);
-      if (!isValid) {
+      const validPassword = this.passwordValidator.isValid(password);
+      if (!validPassword) {
         return badRequest(new InvalidParamError("password"));
       }
-      this.emailValidator.isValid(email);
+      const validEmail = this.emailValidator.isValid(email);
+      if (!validEmail) {
+        return badRequest(new InvalidParamError("email"));
+      }
       return {
         statusCode: 200,
         body: "",
