@@ -46,6 +46,7 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
+    "cpf-cnpj-validator": "^1.0.3",
     "password-validator": "^5.2.1",
     "validator": "^13.7.0"
   }
