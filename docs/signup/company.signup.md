@@ -34,7 +34,7 @@
 
 - [ x ] Should return **400** if `name`, `email`, `country`, `cnpj`, `password` and `passwordConfirmation` are not provided
 
-- [ x ] Should return **400** if `password` and `passwordConfirmation` are not equals
+- [x] Should return **400** if `password` and `passwordConfirmation` are not equals
 
 - [ x ] Should return **400** if the provided `password` does not meet the requirements
 
