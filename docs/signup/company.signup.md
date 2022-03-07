@@ -4,15 +4,15 @@
 
 - [ ] Receives a POST request on the route `/api/company/signup`
 
-- [ x ] Validate the required fields: `name`, `email`, `country`, `cnpj`, `password` and `passwordConfirmation`
+- [x] Validate the required fields: `name`, `email`, `country`, `cnpj`, `password` and `passwordConfirmation`
 
-- [ x ] Ensure that `password` and `passwordConfirmation` are equals
+- [x] Ensure that `password` and `passwordConfirmation` are equals
 
-- [ x ] Validates if the `password` contains at least 8 characters including letters and numbers
+- [x] Validates if the `password` contains at least 8 characters including letters and numbers
 
-- [ x ] Ensure that the `email` field is a valid email
+- [x] Ensure that the `email` field is a valid email
 
-- [ x ] Ensure that the `cnpj` field is a valid cnpj
+- [x] Ensure that the `cnpj` field is a valid cnpj
 
 - [ ] Validates if already exists a company with the provided `email` 
 
@@ -26,21 +26,21 @@
 
 - [ ] Updates the company data with the generated access token
 
-- [ ] Should return **200** with the access token
+- [ ] Should return **200** with the access token on success
 
 ## Exception Case
 
 - [ ] Should return **400** if the API does not exists
 
-- [ x ] Should return **400** if `name`, `email`, `country`, `cnpj`, `password` and `passwordConfirmation` are not provided
+- [x] Should return **400** if `name`, `email`, `country`, `cnpj`, `password` and `passwordConfirmation` are not provided
 
 - [x] Should return **400** if `password` and `passwordConfirmation` are not equals
 
-- [ x ] Should return **400** if the provided `password` does not meet the requirements
+- [x] Should return **400** if the provided `password` does not meet the requirements
 
-- [ x ] Should return **400** if the provided `email` are invalid
+- [x] Should return **400** if the provided `email` are invalid
 
-- [ x ] Should return **400** if the provided `cnpj` are invalid
+- [x] Should return **400** if the provided `cnpj` are invalid
 
 - [ ] Should return **403** if the provided `email` are already in use
 
