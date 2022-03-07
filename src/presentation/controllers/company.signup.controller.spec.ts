@@ -295,5 +295,22 @@ describe("CompanySignUpController", () => {
       await sut.handle(httpRequest);
       expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.cnpj);
     });
+
+    test("should return 400 if provided cnpj does not meet the requirements", async () => {
+      const { sut, cnpjValidatorStub } = makeSut();
+      jest.spyOn(cnpjValidatorStub, "isCnpj").mockReturnValueOnce(false);
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "invalid@mail.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "invalid_cnpj",
+        },
+      };
+      const response = await sut.handle(httpRequest);
+      expect(response.body).toEqual(new InvalidParamError("cnpj"));
+    });
   });
 });
