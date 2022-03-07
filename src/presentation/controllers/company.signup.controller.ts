@@ -44,7 +44,10 @@ export class CompanySignUpController implements IController {
       if (!validEmail) {
         return badRequest(new InvalidParamError("email"));
       }
-      this.cnpjValidator.isCnpj(cnpj);
+      const validCnpj = this.cnpjValidator.isCnpj(cnpj);
+      if (!validCnpj) {
+        return badRequest(new InvalidParamError("cnpj"));
+      }
       return {
         statusCode: 200,
         body: "",
