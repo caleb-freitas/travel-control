@@ -185,7 +185,7 @@ describe("CompanySignUpController", () => {
       expect(response.body).toEqual(new InvalidParamError("password"));
     });
 
-    test("should throw if PasswordValidatorAdapter throws", async () => {
+    test("should throw if PasswordValidator throws", async () => {
       const { sut, passwordValidatorStub } = makeSut();
       jest
         .spyOn(passwordValidatorStub, "isValid")
@@ -208,7 +208,7 @@ describe("CompanySignUpController", () => {
   });
 
   describe("Email validation", () => {
-    test("should call EmailValidatorAdapter with correct password", async () => {
+    test("should call EmailValidator with correct password", async () => {
       const { sut, emailValidatorStub } = makeSut();
       const isValidSpy = jest.spyOn(emailValidatorStub, "isValid");
       const httpRequest = {
@@ -240,6 +240,25 @@ describe("CompanySignUpController", () => {
       };
       const response = await sut.handle(httpRequest);
       expect(response.body).toEqual(new InvalidParamError("email"));
+    });
+
+    test("should throw if EmailValidator throws", async () => {
+      const { sut, emailValidatorStub } = makeSut();
+      jest.spyOn(emailValidatorStub, "isValid").mockImplementationOnce(() => {
+        throw new Error();
+      });
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "valid@mail.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "valid_cnpj",
+        },
+      };
+      const response = await sut.handle(httpRequest);
+      expect(response).toEqual(serverError(new Error()));
     });
   });
 });
