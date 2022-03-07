@@ -2,6 +2,7 @@ import { InvalidParamError } from "../errors";
 import { MissingParamError } from "../errors/missing.param.error";
 import { badRequest, serverError } from "../helpers/http.helper";
 import {
+  ICnpjValidator,
   IController,
   IEmailValidator,
   IHttpRequest,
@@ -12,12 +13,13 @@ import {
 export class CompanySignUpController implements IController {
   constructor(
     private readonly passwordValidator: IPasswordValidator,
-    private readonly emailValidator: IEmailValidator
+    private readonly emailValidator: IEmailValidator,
+    private readonly cnpjValidator: ICnpjValidator
   ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { password, passwordConfirmation, email } = httpRequest.body;
+      const { password, passwordConfirmation, email, cnpj } = httpRequest.body;
       const requiredFields: string[] = [
         "name",
         "email",
@@ -42,6 +44,7 @@ export class CompanySignUpController implements IController {
       if (!validEmail) {
         return badRequest(new InvalidParamError("email"));
       }
+      this.cnpjValidator.isCnpj(cnpj);
       return {
         statusCode: 200,
         body: "",
