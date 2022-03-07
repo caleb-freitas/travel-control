@@ -1,13 +1,11 @@
 import { InvalidParamError, MissingParamError } from "../errors";
 import { badRequest, serverError } from "../helpers/http.helper";
-import { IPasswordValidator, IEmailValidator } from "../protocols";
+import {
+  IPasswordValidator,
+  IEmailValidator,
+  ICnpjValidator,
+} from "../protocols";
 import { CompanySignUpController } from "./company.signup.controller";
-
-interface ISutTypes {
-  sut: CompanySignUpController;
-  passwordValidatorStub: IPasswordValidator;
-  emailValidatorStub: IEmailValidator;
-}
 
 function makePasswordValidator(): IPasswordValidator {
   class PasswordValidatorStub implements IPasswordValidator {
@@ -27,14 +25,32 @@ function makeEmailValidator(): IEmailValidator {
   return new EmailValidatorStub();
 }
 
+function makeCnpjValidator(): ICnpjValidator {
+  class CnpjValidatorStub implements ICnpjValidator {
+    isCnpj(cnpj: string): boolean {
+      return true;
+    }
+  }
+  return new CnpjValidatorStub();
+}
+
+interface ISutTypes {
+  sut: CompanySignUpController;
+  passwordValidatorStub: IPasswordValidator;
+  emailValidatorStub: IEmailValidator;
+  cnpjValidatorStub: ICnpjValidator;
+}
+
 function makeSut(): ISutTypes {
   const passwordValidatorStub = makePasswordValidator();
   const emailValidatorStub = makeEmailValidator();
+  const cnpjValidatorStub = makeCnpjValidator();
   const sut = new CompanySignUpController(
     passwordValidatorStub,
-    emailValidatorStub
+    emailValidatorStub,
+    cnpjValidatorStub
   );
-  return { sut, passwordValidatorStub, emailValidatorStub };
+  return { sut, passwordValidatorStub, emailValidatorStub, cnpjValidatorStub };
 }
 
 describe("CompanySignUpController", () => {
@@ -259,6 +275,25 @@ describe("CompanySignUpController", () => {
       };
       const response = await sut.handle(httpRequest);
       expect(response).toEqual(serverError(new Error()));
+    });
+  });
+
+  describe("Cnpj validation", () => {
+    test("should call CnpjValidator with correct cnpj", async () => {
+      const { sut, cnpjValidatorStub } = makeSut();
+      const isValidSpy = jest.spyOn(cnpjValidatorStub, "isCnpj");
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "valid@email.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "valid_cnpj",
+        },
+      };
+      await sut.handle(httpRequest);
+      expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.cnpj);
     });
   });
 });
