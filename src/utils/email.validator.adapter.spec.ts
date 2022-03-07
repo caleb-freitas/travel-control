@@ -21,4 +21,11 @@ describe("EmailValidatorAdapter", () => {
     const response = sut.isValid("valid@email.com");
     expect(response).toBe(true);
   });
+
+  test("should return true if validator return true", () => {
+    const sut = new EmailValidatorAdapter();
+    jest.spyOn(validator, "isEmail").mockReturnValueOnce(false);
+    const response = sut.isValid("valid@email.com");
+    expect(response).toBe(false);
+  });
 });
