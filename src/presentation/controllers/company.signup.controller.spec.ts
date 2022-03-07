@@ -312,5 +312,24 @@ describe("CompanySignUpController", () => {
       const response = await sut.handle(httpRequest);
       expect(response.body).toEqual(new InvalidParamError("cnpj"));
     });
+
+    test("should throw if CnpjValidator throws", async () => {
+      const { sut, cnpjValidatorStub } = makeSut();
+      jest.spyOn(cnpjValidatorStub, "isCnpj").mockImplementationOnce(() => {
+        throw new Error();
+      });
+      const httpRequest = {
+        body: {
+          name: "valid_name",
+          email: "valid@mail.com",
+          password: "valid_password",
+          passwordConfirmation: "valid_password",
+          country: "valid_country",
+          cnpj: "invalid_cnpj",
+        },
+      };
+      const response = await sut.handle(httpRequest);
+      expect(response).toEqual(serverError(new Error()));
+    });
   });
 });
