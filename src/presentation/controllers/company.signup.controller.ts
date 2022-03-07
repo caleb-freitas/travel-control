@@ -1,30 +1,59 @@
+import { InvalidParamError } from "../errors";
 import { MissingParamError } from "../errors/missing.param.error";
-import { badRequest } from "../helpers/http.helper";
-import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import { badRequest, serverError } from "../helpers/http.helper";
+import {
+  ICnpjValidator,
+  IController,
+  IEmailValidator,
+  IHttpRequest,
+  IHttpResponse,
+  IPasswordValidator,
+} from "../protocols";
 
 export class CompanySignUpController implements IController {
+  constructor(
+    private readonly passwordValidator: IPasswordValidator,
+    private readonly emailValidator: IEmailValidator,
+    private readonly cnpjValidator: ICnpjValidator
+  ) {}
+
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    if (!httpRequest.body.name) {
-      return badRequest(new MissingParamError("name"));
+    try {
+      const { password, passwordConfirmation, email, cnpj } = httpRequest.body;
+      const requiredFields: string[] = [
+        "name",
+        "email",
+        "country",
+        "cnpj",
+        "password",
+        "passwordConfirmation",
+      ];
+      for (const field of requiredFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new MissingParamError(field));
+        }
+      }
+      if (password !== passwordConfirmation) {
+        return badRequest(new InvalidParamError("passwordConfirmation"));
+      }
+      const validPassword = this.passwordValidator.isValid(password);
+      if (!validPassword) {
+        return badRequest(new InvalidParamError("password"));
+      }
+      const validEmail = this.emailValidator.isValid(email);
+      if (!validEmail) {
+        return badRequest(new InvalidParamError("email"));
+      }
+      const validCnpj = this.cnpjValidator.isCnpj(cnpj);
+      if (!validCnpj) {
+        return badRequest(new InvalidParamError("cnpj"));
+      }
+      return {
+        statusCode: 200,
+        body: "",
+      };
+    } catch (error) {
+      return serverError(error);
     }
-    if (!httpRequest.body.email) {
-      return badRequest(new MissingParamError("email"));
-    }
-    if (!httpRequest.body.country) {
-      return badRequest(new MissingParamError("country"));
-    }
-    if (!httpRequest.body.cnpj) {
-      return badRequest(new MissingParamError("cnpj"));
-    }
-    if (!httpRequest.body.password) {
-      return badRequest(new MissingParamError("password"));
-    }
-    if (!httpRequest.body.passwordConfirmation) {
-      return badRequest(new MissingParamError("passwordConfirmation"));
-    }
-    return {
-      statusCode: 200,
-      body: "",
-    };
   }
 }
