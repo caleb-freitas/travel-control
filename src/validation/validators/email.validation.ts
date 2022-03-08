@@ -7,6 +7,7 @@ export class EmailValidation implements IValidation {
     private readonly email: string,
     private readonly emailValidator: IEmailValidator
   ) {}
+
   validate(input: any): Error {
     const validEmail = this.emailValidator.isValid(input[this.email]);
     if (!validEmail) {
