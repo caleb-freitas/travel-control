@@ -39,4 +39,10 @@ describe("PasswordValidation", () => {
     const error = sut.validate({ password: "any_password" });
     expect(error).toEqual(new InvalidParamError("password"));
   });
+
+  test("should not return if validation succeeds", () => {
+    const { sut } = makeSut();
+    const response = sut.validate({ password: "any_password" });
+    expect(response).toBeFalsy();
+  });
 });
