@@ -45,4 +45,12 @@ describe("CnpjValidation", () => {
     const response = sut.validate({ cnpj: "any_cnpj" });
     expect(response).toBeFalsy();
   });
+
+  test("should throw if CnpjValidator throw", () => {
+    const { sut, cnpjValidatorStub } = makeSut();
+    jest.spyOn(cnpjValidatorStub, "isCnpj").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    expect(sut.validate).toThrow();
+  });
 });
