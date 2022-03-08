@@ -39,4 +39,10 @@ describe("CnpjValidation", () => {
     const error = sut.validate({ cnpj: "invalid_cnpj" });
     expect(error).toEqual(new InvalidParamError("cnpj"));
   });
+
+  test("should not return if validation succeeds", () => {
+    const { sut } = makeSut();
+    const response = sut.validate({ cnpj: "any_cnpj" });
+    expect(response).toBeFalsy();
+  });
 });
