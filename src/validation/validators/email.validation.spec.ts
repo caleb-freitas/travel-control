@@ -45,4 +45,12 @@ describe("EmailValidation", () => {
     const response = sut.validate({ email: "any@email.com" });
     expect(response).toBeFalsy();
   });
+
+  test("should throw if EmailValidator throw", () => {
+    const { sut, emailValidatorStub } = makeSut();
+    jest.spyOn(emailValidatorStub, "isValid").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    expect(sut.validate).toThrow();
+  });
 });
