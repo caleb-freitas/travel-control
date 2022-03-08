@@ -4,6 +4,7 @@ import {
   IPasswordValidator,
   IEmailValidator,
   ICnpjValidator,
+  IHttpRequest,
 } from "../protocols";
 import { CompanySignUpController } from "./company.signup.controller";
 
@@ -32,6 +33,19 @@ function makeCnpjValidator(): ICnpjValidator {
     }
   }
   return new CnpjValidatorStub();
+}
+
+function makeFakeRequest(): IHttpRequest {
+  return {
+    body: {
+      name: "any_name",
+      email: "any@mail.com",
+      password: "any_password",
+      passwordConfirmation: "any_password",
+      country: "any_country",
+      cnpj: "any_cnpj",
+    },
+  };
 }
 
 interface ISutTypes {
@@ -167,37 +181,17 @@ describe("CompanySignUpController", () => {
       );
     });
 
-    test("should call PasswordValidatorAdapter with correct password", async () => {
+    test("should call PasswordValidator with correct password", async () => {
       const { sut, passwordValidatorStub } = makeSut();
       const isValidSpy = jest.spyOn(passwordValidatorStub, "isValid");
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "valid_cnpj",
-        },
-      };
-      await sut.handle(httpRequest);
-      expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.password);
+      await sut.handle(makeFakeRequest());
+      expect(isValidSpy).toHaveBeenCalledWith(makeFakeRequest().body.password);
     });
 
     test("should return 400 if provided password does not meet the requirements", async () => {
       const { sut, passwordValidatorStub } = makeSut();
       jest.spyOn(passwordValidatorStub, "isValid").mockReturnValueOnce(false);
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@mail.com",
-          password: "invalid",
-          passwordConfirmation: "invalid",
-          country: "valid_country",
-          cnpj: "valid_cnpj",
-        },
-      };
-      const response = await sut.handle(httpRequest);
+      const response = await sut.handle(makeFakeRequest());
       expect(response.body).toEqual(new InvalidParamError("password"));
     });
 
@@ -208,17 +202,7 @@ describe("CompanySignUpController", () => {
         .mockImplementationOnce(() => {
           throw new Error();
         });
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "valid_cnpj",
-        },
-      };
-      const response = await sut.handle(httpRequest);
+      const response = await sut.handle(makeFakeRequest());
       expect(response).toEqual(serverError(new Error()));
     });
   });
@@ -227,34 +211,14 @@ describe("CompanySignUpController", () => {
     test("should call EmailValidator with correct password", async () => {
       const { sut, emailValidatorStub } = makeSut();
       const isValidSpy = jest.spyOn(emailValidatorStub, "isValid");
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@email.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "valid_cnpj",
-        },
-      };
-      await sut.handle(httpRequest);
-      expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email);
+      await sut.handle(makeFakeRequest());
+      expect(isValidSpy).toHaveBeenCalledWith(makeFakeRequest().body.email);
     });
 
     test("should return 400 if provided email does not meet the requirements", async () => {
       const { sut, emailValidatorStub } = makeSut();
       jest.spyOn(emailValidatorStub, "isValid").mockReturnValueOnce(false);
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "invalid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "valid_cnpj",
-        },
-      };
-      const response = await sut.handle(httpRequest);
+      const response = await sut.handle(makeFakeRequest());
       expect(response.body).toEqual(new InvalidParamError("email"));
     });
 
@@ -263,17 +227,7 @@ describe("CompanySignUpController", () => {
       jest.spyOn(emailValidatorStub, "isValid").mockImplementationOnce(() => {
         throw new Error();
       });
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "valid_cnpj",
-        },
-      };
-      const response = await sut.handle(httpRequest);
+      const response = await sut.handle(makeFakeRequest());
       expect(response).toEqual(serverError(new Error()));
     });
   });
@@ -282,34 +236,14 @@ describe("CompanySignUpController", () => {
     test("should call CnpjValidator with correct cnpj", async () => {
       const { sut, cnpjValidatorStub } = makeSut();
       const isValidSpy = jest.spyOn(cnpjValidatorStub, "isCnpj");
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@email.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "valid_cnpj",
-        },
-      };
-      await sut.handle(httpRequest);
-      expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.cnpj);
+      await sut.handle(makeFakeRequest());
+      expect(isValidSpy).toHaveBeenCalledWith(makeFakeRequest().body.cnpj);
     });
 
     test("should return 400 if provided cnpj does not meet the requirements", async () => {
       const { sut, cnpjValidatorStub } = makeSut();
       jest.spyOn(cnpjValidatorStub, "isCnpj").mockReturnValueOnce(false);
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "invalid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "invalid_cnpj",
-        },
-      };
-      const response = await sut.handle(httpRequest);
+      const response = await sut.handle(makeFakeRequest());
       expect(response.body).toEqual(new InvalidParamError("cnpj"));
     });
 
@@ -318,17 +252,7 @@ describe("CompanySignUpController", () => {
       jest.spyOn(cnpjValidatorStub, "isCnpj").mockImplementationOnce(() => {
         throw new Error();
       });
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          country: "valid_country",
-          cnpj: "invalid_cnpj",
-        },
-      };
-      const response = await sut.handle(httpRequest);
+      const response = await sut.handle(makeFakeRequest());
       expect(response).toEqual(serverError(new Error()));
     });
   });
