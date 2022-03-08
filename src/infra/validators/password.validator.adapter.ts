@@ -1,4 +1,4 @@
-import { IPasswordValidator } from "../presentation/protocols";
+import { IPasswordValidator } from "../../presentation/protocols";
 
 export class PasswordValidatorAdapter implements IPasswordValidator {
   isValid(password: string): boolean {
