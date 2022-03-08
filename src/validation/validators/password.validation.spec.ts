@@ -1,3 +1,4 @@
+import { InvalidParamError } from "../../presentation/errors";
 import { IPasswordValidator } from "../../presentation/protocols";
 import { PasswordValidation } from "./password.validation";
 
@@ -30,5 +31,12 @@ describe("PasswordValidation", () => {
     const isValidSpy = jest.spyOn(passwordValidatorStub, "isValid");
     sut.validate({ password: "any_password" });
     expect(isValidSpy).toHaveBeenCalledWith("any_password");
+  });
+
+  test("should return InvalidParamError if provided password does not meet the requirements", () => {
+    const { sut, passwordValidatorStub } = makeSut();
+    jest.spyOn(passwordValidatorStub, "isValid").mockReturnValueOnce(false);
+    const error = sut.validate({ password: "any_password" });
+    expect(error).toEqual(new InvalidParamError("password"));
   });
 });
