@@ -32,4 +32,11 @@ describe("CnpjValidation", () => {
     sut.validate({ cnpj: "any_cnpj" });
     expect(isValidSpy).toHaveBeenCalledWith("any_cnpj");
   });
+
+  test("should return InvalidParamError if provided cnpj does not meet the requirements", () => {
+    const { sut, cnpjValidatorStub } = makeSut();
+    jest.spyOn(cnpjValidatorStub, "isCnpj").mockReturnValueOnce(false);
+    const error = sut.validate({ cnpj: "invalid_cnpj" });
+    expect(error).toEqual(new InvalidParamError("cnpj"));
+  });
 });
