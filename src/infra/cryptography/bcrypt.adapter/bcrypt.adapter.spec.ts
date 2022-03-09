@@ -27,10 +27,9 @@ describe("BcryptAdapter", () => {
     expect(promise).rejects.toThrow();
   });
 
-  test("should return a valid hash on hash success", async () => {
+  test("should return a hash on hash success", async () => {
     const sut = new BcryptAdapter(salt);
-    const hashSpy = jest.spyOn(bcrypt, "hash");
-    await sut.hash("any_value");
-    expect(hashSpy).toHaveBeenCalledWith("any_value", salt);
+    const hash = await sut.hash("any_value");
+    expect(hash).toBe("hash");
   });
 });
