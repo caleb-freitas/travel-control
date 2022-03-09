@@ -1,10 +1,10 @@
-import { IAccountModel } from "../../../domain/models/account.model";
 import {
+  IAccountModel,
   IAddAccount,
   IAddAccountModel,
-} from "../../../domain/usecases/add.account";
-import { IHasher } from "../../protocols/cryptography/hasher";
-import { IAddAccountRepository } from "../../protocols/database/add.account.repository";
+  IAddAccountRepository,
+  IHasher,
+} from "./db.add.account.protocols";
 
 export class DbAddAccount implements IAddAccount {
   constructor(
