@@ -11,18 +11,12 @@ export class DbAddAccount implements IAddAccount {
     private readonly hasher: IHasher,
     private readonly addAccountRepository: IAddAccountRepository
   ) {}
-  async add(account: IAddAccountModel): Promise<IAccountModel> {
-    await this.hasher.hash(account.password);
-    await this.addAccountRepository.add(account);
-    return {
-      id: "string",
-      name: "string",
-      email: "string",
-      password: "string",
-      passwordConfirmation: "string",
-      cnpj: "string",
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
+  async add(accountData: IAddAccountModel): Promise<IAccountModel> {
+    const hashedPassword = await this.hasher.hash(accountData.password);
+    const account = await this.addAccountRepository.add({
+      ...accountData,
+      password: hashedPassword,
+    });
+    return account;
   }
 }
