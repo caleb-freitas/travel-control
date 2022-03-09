@@ -18,15 +18,11 @@
 
 - [ ] Validates if already exists a company with the provided `cnpj`
 
-- [ ] Generates an encrypted password
+- [x] Generates an encrypted password
 
 - [ ] Create an account for the company with the entered data, replacing the password with the encrypted password
 
-- [ ] Generates an access token from the company id
-
-- [ ] Updates the company data with the generated access token
-
-- [ ] Should return **200** with the access token on success
+- [ ] Should return **200** with the account data
 
 ## Exception Case
 
@@ -46,10 +42,6 @@
 
 - [ ] Should return **403** if the provided `cnpj` are already in use
 
-- [ ] Should return **500** if there is an error when generating an encrypted password
+- [x] Should return **500** if there is an error when generating an encrypted password
 
 - [ ] Should return **500** if there is an error when creating a company account
-
-- [ ] Should return **500** if there is an error when generating access token
-
-- [ ] Should return **500** if there is an error when updating company's access token
