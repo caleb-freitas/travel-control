@@ -23,7 +23,6 @@ export class CompanySignUpController implements IController {
       const requiredFields: string[] = [
         "name",
         "email",
-        "country",
         "cnpj",
         "password",
         "passwordConfirmation",
