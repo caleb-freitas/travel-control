@@ -4,7 +4,7 @@
 
 - [ ] Receives a POST request on the route `/api/company/signup`
 
-- [x] Validate the required fields: `name`, `email`, `country`, `cnpj`, `password` and `passwordConfirmation`
+- [x] Validate the required fields: `name`, `email`, `cnpj`, `password` and `passwordConfirmation`
 
 - [x] Ensure that `password` and `passwordConfirmation` are equals
 
@@ -28,7 +28,7 @@
 
 - [ ] Should return **400** if the API does not exists
 
-- [x] Should return **400** if `name`, `email`, `country`, `cnpj`, `password` and `passwordConfirmation` are not provided
+- [x] Should return **400** if `name`, `email`, `cnpj`, `password` and `passwordConfirmation` are not provided
 
 - [x] Should return **400** if `password` and `passwordConfirmation` are not equals
 

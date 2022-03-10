@@ -5,5 +5,5 @@ export interface IAccountModel {
   password: string;
   cnpj: string;
   created_at: Date;
-  updated_at: Date;
+  updated_at?: Date;
 }

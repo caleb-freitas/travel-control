@@ -42,7 +42,6 @@ function makeFakeRequest(): IHttpRequest {
       email: "any@mail.com",
       password: "any_password",
       passwordConfirmation: "any_password",
-      country: "any_country",
       cnpj: "any_cnpj",
     },
   };
@@ -76,7 +75,6 @@ describe("CompanySignUpController", () => {
           email: "valid@mail.com",
           password: "valid_password",
           passwordConfirmation: "valid_password",
-          country: "valid_country",
           cnpj: "valid_cnpj",
         },
       };
@@ -91,27 +89,11 @@ describe("CompanySignUpController", () => {
           name: "valid_name",
           password: "valid_password",
           passwordConfirmation: "valid_password",
-          country: "valid_country",
           cnpj: "valid_cnpj",
         },
       };
       const response = await sut.handle(httpRequest);
       expect(response).toEqual(badRequest(new MissingParamError("email")));
-    });
-
-    test("should return 400 if no country is provided", async () => {
-      const { sut } = makeSut();
-      const httpRequest = {
-        body: {
-          name: "valid_name",
-          email: "valid@mail.com",
-          password: "valid_password",
-          passwordConfirmation: "valid_password",
-          cnpj: "valid_cnpj",
-        },
-      };
-      const response = await sut.handle(httpRequest);
-      expect(response).toEqual(badRequest(new MissingParamError("country")));
     });
 
     test("should return 400 if no cnpj is provided", async () => {
@@ -122,7 +104,6 @@ describe("CompanySignUpController", () => {
           email: "valid@mail.com",
           password: "valid_password",
           passwordConfirmation: "valid_password",
-          country: "valid_country",
         },
       };
       const response = await sut.handle(httpRequest);
@@ -136,7 +117,6 @@ describe("CompanySignUpController", () => {
           name: "valid_name",
           email: "valid@mail.com",
           passwordConfirmation: "valid_password",
-          country: "valid_country",
           cnpj: "valid_cnpj",
         },
       };
@@ -151,7 +131,6 @@ describe("CompanySignUpController", () => {
           name: "valid_name",
           email: "valid@mail.com",
           password: "valid_password",
-          country: "valid_country",
           cnpj: "valid_cnpj",
         },
       };
@@ -171,7 +150,6 @@ describe("CompanySignUpController", () => {
           email: "valid@mail.com",
           password: "valid_password",
           passwordConfirmation: "invalid_password",
-          country: "valid_country",
           cnpj: "valid_cnpj",
         },
       };

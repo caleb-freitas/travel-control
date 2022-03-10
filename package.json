@@ -11,8 +11,10 @@
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:staged": "npm test",
     "test:ci": "npm test -- --coverage",
+    "test:clear": "jest --clearCache",
     "prepare": "husky install",
-    "test:clear": "jest --clearCache"
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev --name",
+    "test:prisma": "dotenv -e .env.test jest -i"
   },
   "lint-staged": {
     "*.ts": [
