@@ -20,7 +20,7 @@
 
 - [x] Generates an encrypted password
 
-- [ ] Create an account for the company with the entered data, replacing the password with the encrypted password
+- [x] Create an account for the company with the entered data, replacing the password with the encrypted password
 
 - [ ] Should return **200** with the account data
 
