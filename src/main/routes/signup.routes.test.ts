@@ -2,10 +2,10 @@ import request from "supertest";
 
 import app from "../config/app";
 
-describe("POST /api/signup", () => {
+describe("POST /api/company/signup", () => {
   test("should return 200 on signup", async () => {
     await request(app)
-      .post("/api/signup")
+      .post("/api/company/signup")
       .send({
         name: "user",
         email: "user1@mail.com",
