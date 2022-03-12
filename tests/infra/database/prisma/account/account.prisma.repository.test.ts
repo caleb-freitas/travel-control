@@ -1,6 +1,6 @@
-import { IAddAccountModel } from "../../../../domain/usecases/add.account";
-import { prisma } from "../prisma.client";
-import { AccountPrismaRepository } from "./account.prisma.repository";
+import { IAddAccountModel } from "../../../../../src/data/usecases";
+import { AccountPrismaRepository } from "../../../../../src/infra/database/prisma/account/account.prisma.repository";
+import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 
 function makeSut(): AccountPrismaRepository {
   return new AccountPrismaRepository();

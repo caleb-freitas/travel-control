@@ -1,6 +1,6 @@
-import { prisma } from "../prisma.client";
-import { AccountPrismaRepository } from "./account.prisma.repository";
-import { CheckAccountByEmailRepository } from "./check.account.by.email.repository";
+import { AccountPrismaRepository } from "../../../../../src/infra/database/prisma/account/account.prisma.repository";
+import { CheckAccountByEmailRepository } from "../../../../../src/infra/database/prisma/account/check.account.by.email.repository";
+import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 
 function makeAccountPrismaRepository(): AccountPrismaRepository {
   return new AccountPrismaRepository();

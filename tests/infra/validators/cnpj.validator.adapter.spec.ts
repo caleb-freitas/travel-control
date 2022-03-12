@@ -1,7 +1,7 @@
 import { cnpj } from "cpf-cnpj-validator";
 
-import { ICnpjValidator } from "../../presentation/protocols";
-import { CnpjValidatorAdapter } from "./cnpj.validator.adapter";
+import { CnpjValidatorAdapter } from "../../../src/infra/validators/cnpj.validator.adapter";
+import { ICnpjValidator } from "../../../src/presentation/protocols";
 
 interface ISutTypes {
   sut: ICnpjValidator;

@@ -1,21 +1,21 @@
-import { CnpjValidatorAdapter } from "../../../../infra/validators/cnpj.validator.adapter";
+import { CnpjValidatorAdapter } from "../../../../src/infra/validators/cnpj.validator.adapter";
+import { makeSignUpValidation } from "../../../../src/main/factory/controllers/signup/signup.validation.factory";
 import {
   IEmailValidator,
   IPasswordValidator,
-} from "../../../../presentation/protocols";
-import { IValidation } from "../../../../presentation/protocols/validation";
+} from "../../../../src/presentation/protocols";
+import { IValidation } from "../../../../src/presentation/protocols/validation";
 import {
-  CnpjValidation,
+  RequiredFieldValidation,
+  CompareFieldsValidation,
   PasswordValidation,
-} from "../../../../validation/validators";
-import { CompareFieldsValidation } from "../../../../validation/validators/compare.passwords.validation";
-import { EmailValidation } from "../../../../validation/validators/email.validation";
-import { RequiredFieldValidation } from "../../../../validation/validators/required.fields.validation";
-import { ValidationComposite } from "../../../../validation/validators/validation.composite";
-import { makeSignUpValidation } from "./signup.validation.factory";
+  EmailValidation,
+  CnpjValidation,
+  ValidationComposite,
+} from "../../../../src/validation/validators";
 
 // remove the module's default behavior
-jest.mock("../../../../validation/validators/validation.composite.ts");
+jest.mock("../../../../src/validation/validators/validation.composite.ts");
 
 function makeEmailValidator(): IEmailValidator {
   class EmailValidatorStub implements IEmailValidator {

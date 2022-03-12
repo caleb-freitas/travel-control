@@ -1,13 +1,13 @@
+import { ICheckAccountByCnpjRepository } from "../../../src/data/protocols/database/check.account.by.cnpj.repository";
+import { ICheckAccountByEmailRepository } from "../../../src/data/protocols/database/check.account.by.email.repository";
 import {
   IAccountModel,
   IAddAccount,
   IAddAccountModel,
   IAddAccountRepository,
   IHasher,
-} from ".";
-import { ICheckAccountByCnpjRepository } from "../protocols/database/check.account.by.cnpj.repository";
-import { ICheckAccountByEmailRepository } from "../protocols/database/check.account.by.email.repository";
-import { DbAddAccount } from "./db.add.account";
+} from "../../../src/data/usecases";
+import { DbAddAccount } from "../../../src/data/usecases/db.add.account";
 
 function makeFakeAccountData(): IAddAccountModel {
   return {

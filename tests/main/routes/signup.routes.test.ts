@@ -1,6 +1,6 @@
 import request from "supertest";
 
-import app from "../config/app";
+import app from "../../../src/main/config/app";
 
 describe("POST /api/company/signup", () => {
   test("should return 200 on signup", async () => {

@@ -1,18 +1,22 @@
-import { IAccountModel } from "../../domain/models/account.model";
+import { IAccountModel } from "../../../src/domain/models/account.model";
 import {
   IAddAccount,
   IAddAccountModel,
-} from "../../domain/usecases/add.account";
+} from "../../../src/domain/usecases/add.account";
+import { CompanySignUpController } from "../../../src/presentation/controllers/company.signup.controller";
 import {
   FieldInUseError,
-  InvalidParamError,
   MissingParamError,
-} from "../errors";
-import { ServerError } from "../errors/server.error";
-import { badRequest, forbidden, ok, serverError } from "../helpers/http.helper";
-import { IHttpRequest } from "../protocols";
-import { IValidation } from "../protocols/validation";
-import { CompanySignUpController } from "./company.signup.controller";
+} from "../../../src/presentation/errors";
+import { ServerError } from "../../../src/presentation/errors/server.error";
+import {
+  badRequest,
+  forbidden,
+  ok,
+  serverError,
+} from "../../../src/presentation/helpers/http.helper";
+import { IHttpRequest } from "../../../src/presentation/protocols";
+import { IValidation } from "../../../src/presentation/protocols/validation";
 
 function makeFakeAccount(): IAccountModel {
   return {

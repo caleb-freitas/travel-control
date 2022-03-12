@@ -1,7 +1,7 @@
-import { ICheckAccountByCnpjRepository } from "../../../../data/protocols/database/check.account.by.cnpj.repository";
-import { prisma } from "../prisma.client";
-import { AccountPrismaRepository } from "./account.prisma.repository";
-import { CheckAccountByCnpjRepository } from "./check.account.by.cnpj.repository";
+import { ICheckAccountByCnpjRepository } from "../../../../../src/data/protocols/database/check.account.by.cnpj.repository";
+import { AccountPrismaRepository } from "../../../../../src/infra/database/prisma/account/account.prisma.repository";
+import { CheckAccountByCnpjRepository } from "../../../../../src/infra/database/prisma/account/check.account.by.cnpj.repository";
+import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 
 function makeAccountPrismaRepository(): AccountPrismaRepository {
   return new AccountPrismaRepository();
