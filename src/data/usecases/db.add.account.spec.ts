@@ -5,6 +5,7 @@ import {
   IAddAccountRepository,
   IHasher,
 } from ".";
+import { ICheckAccountByEmailRepository } from "../protocols/database/check.account.by.email.repository";
 import { DbAddAccount } from "./db.add.account";
 
 function makeFakeAccountData(): IAddAccountModel {
@@ -46,20 +47,38 @@ function makeAddAccountRepository(): IAddAccountRepository {
   return new AddAccountRepositoryStub();
 }
 
+function makeCheckAccountByEmailRepository(): ICheckAccountByEmailRepository {
+  class CheckAccountByEmailRepositoryStub
+    // eslint-disable-next-line prettier/prettier
+    implements ICheckAccountByEmailRepository {
+    checkEmail(email: string): Promise<boolean> {
+      return new Promise((resolve) => resolve(true));
+    }
+  }
+  return new CheckAccountByEmailRepositoryStub();
+}
+
 interface ISutTypes {
   sut: IAddAccount;
   hasherStub: IHasher;
   addAccountRepositoryStub: IAddAccountRepository;
+  checkAccountByEmailRepositoryStub: ICheckAccountByEmailRepository;
 }
 
 function makeSut(): ISutTypes {
   const hasherStub = makeHasher();
   const addAccountRepositoryStub = makeAddAccountRepository();
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub);
+  const checkAccountByEmailRepositoryStub = makeCheckAccountByEmailRepository();
+  const sut = new DbAddAccount(
+    hasherStub,
+    addAccountRepositoryStub,
+    checkAccountByEmailRepositoryStub
+  );
   return {
     sut,
     hasherStub,
     addAccountRepositoryStub,
+    checkAccountByEmailRepositoryStub,
   };
 }
 
@@ -103,6 +122,16 @@ describe("DbAddAccount", () => {
       );
     const promise = sut.add(makeFakeAccountData());
     expect(promise).rejects.toThrow();
+  });
+
+  test("should call CheckAccountByEmailRepository with correct email", async () => {
+    const { sut, checkAccountByEmailRepositoryStub } = makeSut();
+    const checkEmailSpy = jest.spyOn(
+      checkAccountByEmailRepositoryStub,
+      "checkEmail"
+    );
+    await sut.add(makeFakeAccountData());
+    expect(checkEmailSpy).toHaveBeenCalledWith("valid@email.com");
   });
 
   test("should return an account on success", async () => {
