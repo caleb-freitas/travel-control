@@ -32,4 +32,10 @@ describe("CheckAccountByEmailRepository", () => {
     const response = await sut.checkEmail("registered@email.com");
     expect(response).toBe(true);
   });
+
+  test("should return false if an email was not registered", async () => {
+    const sut = makeSut();
+    const response = await sut.checkEmail("non-registered@email.com");
+    expect(response).toBe(false);
+  });
 });
