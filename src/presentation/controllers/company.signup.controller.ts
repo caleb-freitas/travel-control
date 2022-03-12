@@ -1,3 +1,4 @@
+import { IAddAccount } from "../../domain/usecases/add.account";
 import { InvalidParamError } from "../errors";
 import { MissingParamError } from "../errors/missing.param.error";
 import { badRequest, serverError } from "../helpers/http.helper";
@@ -14,12 +15,14 @@ export class CompanySignUpController implements IController {
   constructor(
     private readonly passwordValidator: IPasswordValidator,
     private readonly emailValidator: IEmailValidator,
-    private readonly cnpjValidator: ICnpjValidator
+    private readonly cnpjValidator: ICnpjValidator,
+    private readonly addAccount: IAddAccount
   ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { password, passwordConfirmation, email, cnpj } = httpRequest.body;
+      const { name, password, passwordConfirmation, email, cnpj } =
+        httpRequest.body;
       const requiredFields: string[] = [
         "name",
         "email",
@@ -47,6 +50,12 @@ export class CompanySignUpController implements IController {
       if (!validCnpj) {
         return badRequest(new InvalidParamError("cnpj"));
       }
+      await this.addAccount.add({
+        name,
+        email,
+        password,
+        cnpj,
+      });
       return {
         statusCode: 200,
         body: "",
