@@ -4,6 +4,7 @@ import {
   IAddAccountModel,
 } from "../../domain/usecases/add.account";
 import { InvalidParamError, MissingParamError } from "../errors";
+import { ServerError } from "../errors/server.error";
 import { badRequest, serverError } from "../helpers/http.helper";
 import {
   IPasswordValidator,
@@ -282,11 +283,20 @@ describe("CompanySignUpController", () => {
     });
   });
 
-  describe("Success", () => {
-    // test("should return 200 in success", async () => {
-    //   const { sut } = makeSut();
-    //   const response = await sut.handle(makeFakeRequest());
-    //   expect(response.statusCode).toBe(200);
-    // });
+  test("should return 500 if AddAccount throw", async () => {
+    const { sut, addAccountStub } = makeSut();
+    jest.spyOn(addAccountStub, "add").mockImplementationOnce(async () => {
+      return new Promise((resolve, rejects) => rejects(new Error()));
+    });
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(serverError(new ServerError("email")));
   });
+});
+
+describe("Success", () => {
+  // test("should return 200 in success", async () => {
+  //   const { sut } = makeSut();
+  //   const response = await sut.handle(makeFakeRequest());
+  //   expect(response.statusCode).toBe(200);
+  // });
 });
