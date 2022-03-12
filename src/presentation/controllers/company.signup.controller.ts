@@ -26,7 +26,7 @@ export class CompanySignUpController implements IController {
       if (account) {
         return ok(account);
       }
-      return forbidden(new FieldInUseError("email"));
+      return forbidden(new FieldInUseError());
     } catch (error) {
       return serverError(error);
     }

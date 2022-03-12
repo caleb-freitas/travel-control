@@ -100,7 +100,7 @@ describe("CompanySignUpController", () => {
       .spyOn(addAccountStub, "add")
       .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
     const response = await sut.handle(makeFakeRequest());
-    expect(response).toEqual(forbidden(new FieldInUseError("email")));
+    expect(response).toEqual(forbidden(new FieldInUseError()));
   });
 
   test("should call Validation with correct values", async () => {
