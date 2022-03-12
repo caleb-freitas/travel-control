@@ -2,7 +2,7 @@
 
 ## Success Case
 
-- [ ] Receives a POST request on the route `/api/company/signup`
+- [x] Receives a POST request on the route `/api/company/signup`
 
 - [x] Validate the required fields: `name`, `email`, `cnpj`, `password` and `passwordConfirmation`
 
@@ -22,11 +22,11 @@
 
 - [x] Create an account for the company with the entered data, replacing the password with the encrypted password
 
-- [ ] Should return **200** with the account data
+- [x] Should return **200** with the account data
 
 ## Exception Case
 
-- [ ] Should return **400** if the API does not exists
+- [x] Should return **400** if the API does not exists
 
 - [x] Should return **400** if `name`, `email`, `cnpj`, `password` and `passwordConfirmation` are not provided
 
@@ -44,4 +44,4 @@
 
 - [x] Should return **500** if there is an error when generating an encrypted password
 
-- [ ] Should return **500** if there is an error when creating a company account
+- [x] Should return **500** if there is an error when creating a company account
