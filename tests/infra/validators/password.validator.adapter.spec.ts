@@ -1,6 +1,6 @@
 import {} from "password-validator";
-import { IPasswordValidator } from "../../presentation/protocols";
-import { PasswordValidatorAdapter } from "./password.validator.adapter";
+import { PasswordValidatorAdapter } from "../../../src/infra/validators/password.validator.adapter";
+import { IPasswordValidator } from "../../../src/presentation/protocols";
 
 interface ISutTypes {
   sut: IPasswordValidator;

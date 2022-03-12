@@ -14,9 +14,9 @@
 
 - [x] Ensure that the `cnpj` field is a valid cnpj
 
-- [ ] Validates if already exists a company with the provided `email` 
+- [x] Validates if already exists a company with the provided `email` 
 
-- [ ] Validates if already exists a company with the provided `cnpj`
+- [x] Validates if already exists a company with the provided `cnpj`
 
 - [x] Generates an encrypted password
 
@@ -38,9 +38,9 @@
 
 - [x] Should return **400** if the provided `cnpj` are invalid
 
-- [ ] Should return **403** if the provided `email` are already in use
+- [x] Should return **403** if the provided `email` are already in use
 
-- [ ] Should return **403** if the provided `cnpj` are already in use
+- [x] Should return **403** if the provided `cnpj` are already in use
 
 - [x] Should return **500** if there is an error when generating an encrypted password
 

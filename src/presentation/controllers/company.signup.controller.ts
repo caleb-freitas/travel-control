@@ -1,53 +1,21 @@
 import { IAddAccount } from "../../domain/usecases/add.account";
-import { InvalidParamError, MissingParamError } from "../errors";
-import { badRequest, ok, serverError } from "../helpers/http.helper";
-import {
-  ICnpjValidator,
-  IController,
-  IEmailValidator,
-  IHttpRequest,
-  IHttpResponse,
-  IPasswordValidator,
-} from "../protocols";
+import { FieldInUseError } from "../errors";
+import { badRequest, forbidden, ok, serverError } from "../helpers/http.helper";
+import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import { IValidation } from "../protocols/validation";
 
 export class CompanySignUpController implements IController {
   constructor(
-    private readonly passwordValidator: IPasswordValidator,
-    private readonly emailValidator: IEmailValidator,
-    private readonly cnpjValidator: ICnpjValidator,
-    private readonly addAccount: IAddAccount
+    private readonly addAccount: IAddAccount,
+    private readonly validation: IValidation
   ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { name, password, passwordConfirmation, email, cnpj } =
-        httpRequest.body;
-      const requiredFields: string[] = [
-        "name",
-        "email",
-        "cnpj",
-        "password",
-        "passwordConfirmation",
-      ];
-      for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field));
-        }
-      }
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError("passwordConfirmation"));
-      }
-      const validPassword = this.passwordValidator.isValid(password);
-      if (!validPassword) {
-        return badRequest(new InvalidParamError("password"));
-      }
-      const validEmail = this.emailValidator.isValid(email);
-      if (!validEmail) {
-        return badRequest(new InvalidParamError("email"));
-      }
-      const validCnpj = this.cnpjValidator.isCnpj(cnpj);
-      if (!validCnpj) {
-        return badRequest(new InvalidParamError("cnpj"));
+      const { name, password, email, cnpj } = httpRequest.body;
+      const error = this.validation.validate(httpRequest.body);
+      if (error) {
+        return badRequest(error);
       }
       const account = await this.addAccount.add({
         name,
@@ -55,7 +23,10 @@ export class CompanySignUpController implements IController {
         password,
         cnpj,
       });
-      return ok(account);
+      if (account) {
+        return ok(account);
+      }
+      return forbidden(new FieldInUseError());
     } catch (error) {
       return serverError(error);
     }

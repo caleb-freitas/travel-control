@@ -1,12 +1,13 @@
 module.exports = {
-  roots: ["<rootDir>/src"],
+  roots: ["<rootDir>/tests"],
   collectCoverage: true,
   collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
   coveragePathIgnorePatterns: [
     "protocols",
     "domain",
     "index.ts",
-    "<rootDir>/src/main/server.ts"
+    "<rootDir>/src/main/server.ts",
+    "<rootDir>/src/main/adapter"
   ],
   coverageDirectory: "coverage",
   bail: true,

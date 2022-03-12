@@ -1,4 +1,4 @@
-import { IAccountModel } from "../../domain/models/account.model";
+import { IAccountModel } from "../../data/usecases";
 import { ServerError } from "../errors/server.error";
 import { IHttpResponse } from "../protocols/http";
 
@@ -20,5 +20,12 @@ export function ok(data: any): IHttpResponse {
   return {
     statusCode: 200,
     body: data,
+  };
+}
+
+export function forbidden(error: Error): IHttpResponse {
+  return {
+    statusCode: 403,
+    body: error,
   };
 }
