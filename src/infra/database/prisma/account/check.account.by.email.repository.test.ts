@@ -1,6 +1,6 @@
 import { prisma } from "../prisma.client";
 import { AccountPrismaRepository } from "./account.prisma.repository";
-import { CheckAccountByEmailRepository } from "./check.account.by.emai.repository";
+import { CheckAccountByEmailRepository } from "./check.account.by.email.repository";
 
 function makeAccountPrismaRepository(): AccountPrismaRepository {
   return new AccountPrismaRepository();

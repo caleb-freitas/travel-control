@@ -2,7 +2,7 @@ import { DbAddAccount } from "../../../data/usecases/db.add.account";
 import { IAddAccount } from "../../../domain/usecases/add.account";
 import { BcryptAdapter } from "../../../infra/cryptography/bcrypt.adapter/bcrypt.adapter";
 import { AccountPrismaRepository } from "../../../infra/database/prisma/account/account.prisma.repository";
-import { CheckAccountByEmailRepository } from "../../../infra/database/prisma/account/check.account.by.emai.repository";
+import { CheckAccountByEmailRepository } from "../../../infra/database/prisma/account/check.account.by.email.repository";
 
 export const makeDbAddAccount = (): IAddAccount => {
   const salt = 12;
