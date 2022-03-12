@@ -5,6 +5,7 @@ import {
   IAddAccountRepository,
   IHasher,
 } from ".";
+import { FieldInUseError } from "../../presentation/errors";
 import { ICheckAccountByEmailRepository } from "../protocols/database/check.account.by.email.repository";
 
 export class DbAddAccount implements IAddAccount {
@@ -13,18 +14,18 @@ export class DbAddAccount implements IAddAccount {
     private readonly addAccountRepository: IAddAccountRepository,
     private readonly checkAccountByEmailRepository: ICheckAccountByEmailRepository
   ) {}
-  async add(accountData: IAddAccountModel): Promise<IAccountModel> {
+  async add(accountData: IAddAccountModel): Promise<IAccountModel | Error> {
     const emailExists = await this.checkAccountByEmailRepository.checkEmail(
       accountData.email
     );
-    if (!emailExists) {
-      const hashedPassword = await this.hasher.hash(accountData.password);
-      const account = await this.addAccountRepository.add({
-        ...accountData,
-        password: hashedPassword,
-      });
-      return account;
+    if (emailExists) {
+      return new FieldInUseError("email");
     }
-    return null;
+    const hashedPassword = await this.hasher.hash(accountData.password);
+    const account = await this.addAccountRepository.add({
+      ...accountData,
+      password: hashedPassword,
+    });
+    return account;
   }
 }

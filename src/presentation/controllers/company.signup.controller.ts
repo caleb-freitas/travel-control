@@ -1,5 +1,5 @@
 import { IAddAccount } from "../../domain/usecases/add.account";
-import { badRequest, ok, serverError } from "../helpers/http.helper";
+import { badRequest, forbidden, ok, serverError } from "../helpers/http.helper";
 import { IController, IHttpRequest, IHttpResponse } from "../protocols";
 import { IValidation } from "../protocols/validation";
 
@@ -22,6 +22,9 @@ export class CompanySignUpController implements IController {
         password,
         cnpj,
       });
+      if (!account) {
+        return forbidden(account);
+      }
       return ok(account);
     } catch (error) {
       return serverError(error);

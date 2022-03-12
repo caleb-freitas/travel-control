@@ -10,7 +10,6 @@ export class CheckAccountByEmailRepository
         email,
       },
     });
-    console.log(emailExists);
     if (emailExists) {
       return true;
     }
