@@ -5,7 +5,7 @@ import {
 } from "../../domain/usecases/add.account";
 import { InvalidParamError, MissingParamError } from "../errors";
 import { ServerError } from "../errors/server.error";
-import { badRequest, serverError } from "../helpers/http.helper";
+import { badRequest, ok, serverError } from "../helpers/http.helper";
 import {
   IPasswordValidator,
   IEmailValidator,
@@ -294,9 +294,9 @@ describe("CompanySignUpController", () => {
 });
 
 describe("Success", () => {
-  // test("should return 200 in success", async () => {
-  //   const { sut } = makeSut();
-  //   const response = await sut.handle(makeFakeRequest());
-  //   expect(response.statusCode).toBe(200);
-  // });
+  test("should return 200 in success", async () => {
+    const { sut } = makeSut();
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(ok(makeFakeAccount()));
+  });
 });

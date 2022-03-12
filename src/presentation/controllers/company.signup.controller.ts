@@ -1,7 +1,6 @@
 import { IAddAccount } from "../../domain/usecases/add.account";
-import { InvalidParamError } from "../errors";
-import { MissingParamError } from "../errors/missing.param.error";
-import { badRequest, serverError } from "../helpers/http.helper";
+import { InvalidParamError, MissingParamError } from "../errors";
+import { badRequest, ok, serverError } from "../helpers/http.helper";
 import {
   ICnpjValidator,
   IController,
@@ -50,16 +49,13 @@ export class CompanySignUpController implements IController {
       if (!validCnpj) {
         return badRequest(new InvalidParamError("cnpj"));
       }
-      await this.addAccount.add({
+      const account = await this.addAccount.add({
         name,
         email,
         password,
         cnpj,
       });
-      return {
-        statusCode: 200,
-        body: "",
-      };
+      return ok(account);
     } catch (error) {
       return serverError(error);
     }
