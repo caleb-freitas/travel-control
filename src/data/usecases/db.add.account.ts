@@ -5,7 +5,6 @@ import {
   IAddAccountRepository,
   IHasher,
 } from ".";
-import { FieldInUseError } from "../../presentation/errors";
 import { ICheckAccountByEmailRepository } from "../protocols/database/check.account.by.email.repository";
 
 export class DbAddAccount implements IAddAccount {
