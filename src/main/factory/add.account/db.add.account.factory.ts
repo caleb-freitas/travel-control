@@ -8,9 +8,10 @@ export const makeDbAddAccount = (): IAddAccount => {
   const salt = 12;
   const bcryptAdapter = new BcryptAdapter(salt);
   const accountPrismaRepository = new AccountPrismaRepository();
+  const checkAccountByEmailRepository = new CheckAccountByEmailRepository();
   return new DbAddAccount(
     bcryptAdapter,
     accountPrismaRepository,
-    new CheckAccountByEmailRepository()
+    checkAccountByEmailRepository
   );
 };

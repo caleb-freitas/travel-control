@@ -14,12 +14,17 @@ export class DbAddAccount implements IAddAccount {
     private readonly checkAccountByEmailRepository: ICheckAccountByEmailRepository
   ) {}
   async add(accountData: IAddAccountModel): Promise<IAccountModel> {
-    await this.checkAccountByEmailRepository.checkEmail(accountData.email);
-    const hashedPassword = await this.hasher.hash(accountData.password);
-    const account = await this.addAccountRepository.add({
-      ...accountData,
-      password: hashedPassword,
-    });
-    return account;
+    const emailExists = await this.checkAccountByEmailRepository.checkEmail(
+      accountData.email
+    );
+    if (!emailExists) {
+      const hashedPassword = await this.hasher.hash(accountData.password);
+      const account = await this.addAccountRepository.add({
+        ...accountData,
+        password: hashedPassword,
+      });
+      return account;
+    }
+    return null;
   }
 }

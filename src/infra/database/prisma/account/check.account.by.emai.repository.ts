@@ -1,9 +1,19 @@
 import { ICheckAccountByEmailRepository } from "../../../../data/protocols/database/check.account.by.email.repository";
+import { prisma } from "../prisma.client";
 
 export class CheckAccountByEmailRepository
   // eslint-disable-next-line prettier/prettier
   implements ICheckAccountByEmailRepository {
-  checkEmail(email: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async checkEmail(email: string): Promise<boolean> {
+    const emailExists = await prisma.company.findFirst({
+      where: {
+        email,
+      },
+    });
+    console.log(emailExists);
+    if (emailExists) {
+      return true;
+    }
+    return false;
   }
 }
