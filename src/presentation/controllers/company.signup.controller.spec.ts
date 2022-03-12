@@ -1,3 +1,8 @@
+import { IAccountModel } from "../../domain/models/account.model";
+import {
+  IAddAccount,
+  IAddAccountModel,
+} from "../../domain/usecases/add.account";
 import { InvalidParamError, MissingParamError } from "../errors";
 import { badRequest, serverError } from "../helpers/http.helper";
 import {
@@ -35,6 +40,25 @@ function makeCnpjValidator(): ICnpjValidator {
   return new CnpjValidatorStub();
 }
 
+function makeFakeAccount(): IAccountModel {
+  return {
+    id: "valid_id",
+    name: "valid_name",
+    email: "valid_email@mail.com",
+    password: "valid_password",
+    cnpj: "valid_cnpj",
+    created_at: new Date("1995-12-17T03:24:00"),
+  };
+}
+
+function makeAddAccount(): IAddAccount {
+  class AddAccountStub implements IAddAccount {
+    async add(account: IAddAccountModel): Promise<IAccountModel> {
+      return new Promise((resolve) => resolve(makeFakeAccount()));
+    }
+  }
+  return new AddAccountStub();
+}
 function makeFakeRequest(): IHttpRequest {
   return {
     body: {
@@ -52,18 +76,27 @@ interface ISutTypes {
   passwordValidatorStub: IPasswordValidator;
   emailValidatorStub: IEmailValidator;
   cnpjValidatorStub: ICnpjValidator;
+  addAccountStub: IAddAccount;
 }
 
 function makeSut(): ISutTypes {
   const passwordValidatorStub = makePasswordValidator();
   const emailValidatorStub = makeEmailValidator();
   const cnpjValidatorStub = makeCnpjValidator();
+  const addAccountStub = makeAddAccount();
   const sut = new CompanySignUpController(
     passwordValidatorStub,
     emailValidatorStub,
-    cnpjValidatorStub
+    cnpjValidatorStub,
+    addAccountStub
   );
-  return { sut, passwordValidatorStub, emailValidatorStub, cnpjValidatorStub };
+  return {
+    sut,
+    passwordValidatorStub,
+    emailValidatorStub,
+    cnpjValidatorStub,
+    addAccountStub,
+  };
 }
 
 describe("CompanySignUpController", () => {
@@ -233,5 +266,27 @@ describe("CompanySignUpController", () => {
       const response = await sut.handle(makeFakeRequest());
       expect(response).toEqual(serverError(new Error()));
     });
+  });
+
+  describe("AddAccount", () => {
+    test("should call add account with correct values", async () => {
+      const { sut, addAccountStub } = makeSut();
+      const addSpy = jest.spyOn(addAccountStub, "add");
+      await sut.handle(makeFakeRequest());
+      expect(addSpy).toHaveBeenCalledWith({
+        name: "any_name",
+        email: "any@mail.com",
+        password: "any_password",
+        cnpj: "any_cnpj",
+      });
+    });
+  });
+
+  describe("Success", () => {
+    // test("should return 200 in success", async () => {
+    //   const { sut } = makeSut();
+    //   const response = await sut.handle(makeFakeRequest());
+    //   expect(response.statusCode).toBe(200);
+    // });
   });
 });
