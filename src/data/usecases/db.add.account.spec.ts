@@ -84,25 +84,21 @@ function makeSut(): ISutTypes {
 
 describe("DbAddAccount", () => {
   test("should call Hasher with correct password", async () => {
-    const { sut, hasherStub } = makeSut();
+    const { sut, hasherStub, checkAccountByEmailRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkAccountByEmailRepositoryStub, "checkEmail")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
     const hashSpy = jest.spyOn(hasherStub, "hash");
     await sut.add(makeFakeAccountData());
     expect(hashSpy).toHaveBeenCalledWith("valid_password");
   });
 
-  test("should throw if Hasher throw", async () => {
-    const { sut, hasherStub } = makeSut();
-    jest
-      .spyOn(hasherStub, "hash")
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      );
-    const promise = sut.add(makeFakeAccountData());
-    expect(promise).rejects.toThrow();
-  });
-
   test("should call AddAccountRepository with correct values", async () => {
-    const { sut, addAccountRepositoryStub } = makeSut();
+    const { sut, addAccountRepositoryStub, checkAccountByEmailRepositoryStub } =
+      makeSut();
+    jest
+      .spyOn(checkAccountByEmailRepositoryStub, "checkEmail")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
     const addSpy = jest.spyOn(addAccountRepositoryStub, "add");
     await sut.add(makeFakeAccountData());
     expect(addSpy).toHaveBeenCalledWith({
@@ -111,17 +107,6 @@ describe("DbAddAccount", () => {
       password: "hashed_password",
       cnpj: "valid_cnpj",
     });
-  });
-
-  test("should throw if Hasher throw", async () => {
-    const { sut, addAccountRepositoryStub } = makeSut();
-    jest
-      .spyOn(addAccountRepositoryStub, "add")
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      );
-    const promise = sut.add(makeFakeAccountData());
-    expect(promise).rejects.toThrow();
   });
 
   test("should call CheckAccountByEmailRepository with correct email", async () => {
@@ -134,19 +119,11 @@ describe("DbAddAccount", () => {
     expect(checkEmailSpy).toHaveBeenCalledWith("valid@email.com");
   });
 
-  test("should throw if CheckAccountByEmailRepository throw", async () => {
+  test("should return an account on success", async () => {
     const { sut, checkAccountByEmailRepositoryStub } = makeSut();
     jest
       .spyOn(checkAccountByEmailRepositoryStub, "checkEmail")
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      );
-    const promise = sut.add(makeFakeAccountData());
-    expect(promise).rejects.toThrow();
-  });
-
-  test("should return an account on success", async () => {
-    const { sut } = makeSut();
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
     const account = await sut.add(makeFakeAccountData());
     expect(account).toEqual(makeFakeAccount());
   });
