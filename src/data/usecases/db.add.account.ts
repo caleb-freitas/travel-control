@@ -5,13 +5,15 @@ import {
   IAddAccountRepository,
   IHasher,
 } from ".";
+import { ICheckAccountByCnpjRepository } from "../protocols/database/check.account.by.cnpj.repository";
 import { ICheckAccountByEmailRepository } from "../protocols/database/check.account.by.email.repository";
 
 export class DbAddAccount implements IAddAccount {
   constructor(
     private readonly hasher: IHasher,
     private readonly addAccountRepository: IAddAccountRepository,
-    private readonly checkAccountByEmailRepository: ICheckAccountByEmailRepository
+    private readonly checkAccountByEmailRepository: ICheckAccountByEmailRepository,
+    private readonly checkAccountByCnpjRepository: ICheckAccountByCnpjRepository
   ) {}
   async add(accountData: IAddAccountModel): Promise<IAccountModel | boolean> {
     const emailExists = await this.checkAccountByEmailRepository.checkEmail(
@@ -20,6 +22,7 @@ export class DbAddAccount implements IAddAccount {
     if (emailExists) {
       return false;
     }
+    await this.checkAccountByCnpjRepository.checkCnpj(accountData.cnpj);
     const hashedPassword = await this.hasher.hash(accountData.password);
     const account = await this.addAccountRepository.add({
       ...accountData,
