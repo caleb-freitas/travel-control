@@ -6,7 +6,8 @@ module.exports = {
     "protocols",
     "domain",
     "index.ts",
-    "<rootDir>/src/main/server.ts"
+    "<rootDir>/src/main/server.ts",
+    "<rootDir>/src/main/adapter"
   ],
   coverageDirectory: "coverage",
   bail: true,
