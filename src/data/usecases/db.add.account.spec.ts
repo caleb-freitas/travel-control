@@ -134,6 +134,17 @@ describe("DbAddAccount", () => {
     expect(checkEmailSpy).toHaveBeenCalledWith("valid@email.com");
   });
 
+  test("should throw if CheckAccountByEmailRepository throw", async () => {
+    const { sut, checkAccountByEmailRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkAccountByEmailRepositoryStub, "checkEmail")
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      );
+    const promise = sut.add(makeFakeAccountData());
+    expect(promise).rejects.toThrow();
+  });
+
   test("should return an account on success", async () => {
     const { sut } = makeSut();
     const account = await sut.add(makeFakeAccountData());
