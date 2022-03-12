@@ -3,9 +3,13 @@ import {
   IAddAccount,
   IAddAccountModel,
 } from "../../domain/usecases/add.account";
-import { InvalidParamError, MissingParamError } from "../errors";
+import {
+  FieldInUseError,
+  InvalidParamError,
+  MissingParamError,
+} from "../errors";
 import { ServerError } from "../errors/server.error";
-import { badRequest, ok, serverError } from "../helpers/http.helper";
+import { badRequest, forbidden, ok, serverError } from "../helpers/http.helper";
 import { IHttpRequest } from "../protocols";
 import { IValidation } from "../protocols/validation";
 import { CompanySignUpController } from "./company.signup.controller";
@@ -69,7 +73,7 @@ function makeSut(): ISutTypes {
 }
 
 describe("CompanySignUpController", () => {
-  test("should call add account with correct values", async () => {
+  test("should call AddAccount with correct values", async () => {
     const { sut, addAccountStub } = makeSut();
     const addSpy = jest.spyOn(addAccountStub, "add");
     await sut.handle(makeFakeRequest());
@@ -90,6 +94,15 @@ describe("CompanySignUpController", () => {
     expect(httpResponse).toEqual(serverError(new ServerError("email")));
   });
 
+  test("should return 403 if AddAccount return an false", async () => {
+    const { sut, addAccountStub } = makeSut();
+    jest
+      .spyOn(addAccountStub, "add")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(forbidden(new FieldInUseError("email")));
+  });
+
   test("should call Validation with correct values", async () => {
     const { sut, validationStub } = makeSut();
     const validateSpy = jest.spyOn(validationStub, "validate");
@@ -106,7 +119,7 @@ describe("CompanySignUpController", () => {
     expect(httpResponse).toEqual(serverError(new ServerError("email")));
   });
 
-  test("should return 400 if validation returns an error", async () => {
+  test("should return 400 if Validation returns an error", async () => {
     const { sut, validationStub } = makeSut();
     jest
       .spyOn(validationStub, "validate")
