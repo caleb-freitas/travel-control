@@ -1,3 +1,4 @@
+import { IAccountModel } from "../../domain/models/account.model";
 import { ServerError } from "../errors/server.error";
 import { IHttpResponse } from "../protocols/http";
 
@@ -12,5 +13,12 @@ export function serverError(error: any): IHttpResponse {
   return {
     statusCode: 500,
     body: new ServerError(error.stack),
+  };
+}
+
+export function ok(data: any): IHttpResponse {
+  return {
+    statusCode: 200,
+    body: data,
   };
 }
