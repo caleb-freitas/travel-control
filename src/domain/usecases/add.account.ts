@@ -8,5 +8,5 @@ export interface IAddAccountModel {
 }
 
 export interface IAddAccount {
-  add(account: IAddAccountModel): Promise<IAccountModel | Error>;
+  add(account: IAddAccountModel): Promise<IAccountModel | boolean>;
 }

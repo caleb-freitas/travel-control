@@ -1,4 +1,5 @@
 import { IAddAccount } from "../../domain/usecases/add.account";
+import { FieldInUseError } from "../errors";
 import { badRequest, forbidden, ok, serverError } from "../helpers/http.helper";
 import { IController, IHttpRequest, IHttpResponse } from "../protocols";
 import { IValidation } from "../protocols/validation";
@@ -22,10 +23,10 @@ export class CompanySignUpController implements IController {
         password,
         cnpj,
       });
-      if (!account) {
-        return forbidden(account);
+      if (account) {
+        return ok(account);
       }
-      return ok(account);
+      return forbidden(new FieldInUseError("email"));
     } catch (error) {
       return serverError(error);
     }

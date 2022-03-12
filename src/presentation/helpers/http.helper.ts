@@ -23,7 +23,7 @@ export function ok(data: any): IHttpResponse {
   };
 }
 
-export function forbidden(error: Error | IAccountModel): IHttpResponse {
+export function forbidden(error: Error): IHttpResponse {
   return {
     statusCode: 403,
     body: error,
