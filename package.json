@@ -4,7 +4,7 @@
   "description": "typescript project setup",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/index.ts",
+    "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --coverage=false --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
@@ -28,6 +28,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.13",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.9",
     "@types/validator": "^13.7.1",
@@ -52,9 +53,12 @@
   },
   "dependencies": {
     "@prisma/client": "^3.10.0",
+    "@types/supertest": "^2.0.11",
     "bcrypt": "^5.0.1",
     "cpf-cnpj-validator": "^1.0.3",
+    "express": "^4.17.3",
     "password-validator": "^5.2.1",
+    "supertest": "^6.2.2",
     "validator": "^13.7.0"
   }
 }
