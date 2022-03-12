@@ -4,7 +4,7 @@ import {
   IAddAccountModel,
   IAddAccountRepository,
   IHasher,
-} from "./db.add.account.protocols";
+} from ".";
 
 export class DbAddAccount implements IAddAccount {
   constructor(

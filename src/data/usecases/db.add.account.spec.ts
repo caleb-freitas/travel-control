@@ -1,11 +1,11 @@
-import { DbAddAccount } from "./db.add.account";
 import {
   IAccountModel,
   IAddAccount,
   IAddAccountModel,
   IAddAccountRepository,
   IHasher,
-} from "./db.add.account.protocols";
+} from ".";
+import { DbAddAccount } from "./db.add.account";
 
 function makeFakeAccountData(): IAddAccountModel {
   return {
