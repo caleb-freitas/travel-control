@@ -106,6 +106,15 @@ describe("CompanySignUpController", () => {
     expect(httpResponse).toEqual(serverError(new ServerError("email")));
   });
 
+  test("should return 400 if validation returns an error", async () => {
+    const { sut, validationStub } = makeSut();
+    jest
+      .spyOn(validationStub, "validate")
+      .mockReturnValueOnce(new MissingParamError("any_field"));
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(badRequest(new MissingParamError("any_field")));
+  });
+
   test("should return 200 in success", async () => {
     const { sut } = makeSut();
     const response = await sut.handle(makeFakeRequest());
