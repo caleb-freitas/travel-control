@@ -1,4 +1,4 @@
-import { DbAddAccount } from "../../../data/usecases/add.account/db.add.account";
+import { DbAddAccount } from "../../../data/usecases/db.add.account";
 import { IAddAccount } from "../../../domain/usecases/add.account";
 import { BcryptAdapter } from "../../../infra/cryptography/bcrypt.adapter/bcrypt.adapter";
 import { AccountPrismaRepository } from "../../../infra/database/prisma/account/account.prisma.repository";
