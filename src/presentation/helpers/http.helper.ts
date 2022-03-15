@@ -1,4 +1,3 @@
-import { IAccountModel } from "../../data/usecases";
 import { ServerError } from "../errors/server.error";
 import { IHttpResponse } from "../protocols/http";
 
