@@ -1,4 +1,4 @@
-import { IAddAccountModel } from "../../../../../src/data/usecases";
+import { IAddAccountModel } from "../../../../../src/data/usecases/db.add.account.protocols";
 import { AccountPrismaRepository } from "../../../../../src/infra/database/prisma/account/account.prisma.repository";
 import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 

@@ -1,12 +1,12 @@
+import { ICheckAccountByCnpjRepository } from "../protocols/database/check.account.by.cnpj.repository";
+import { ICheckAccountByEmailRepository } from "../protocols/database/check.account.by.email.repository";
 import {
   IAccountModel,
   IAddAccount,
   IAddAccountModel,
   IAddAccountRepository,
   IHasher,
-} from ".";
-import { ICheckAccountByCnpjRepository } from "../protocols/database/check.account.by.cnpj.repository";
-import { ICheckAccountByEmailRepository } from "../protocols/database/check.account.by.email.repository";
+} from "./db.add.account.protocols";
 
 export class DbAddAccount implements IAddAccount {
   constructor(
