@@ -5,11 +5,14 @@ import {
 } from "../../../../src/domain/usecases/add.driver";
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
 import {
+  FieldInUseError,
+  InvalidParamError,
   MissingParamError,
   ServerError,
 } from "../../../../src/presentation/errors";
 import {
   badRequest,
+  forbidden,
   serverError,
 } from "../../../../src/presentation/helpers/http.helper";
 import {
@@ -113,5 +116,14 @@ describe("DriverSignUpController", () => {
     });
     const response = await sut.handle(makeFakeRequest());
     expect(response).toEqual(serverError(new ServerError()));
+  });
+
+  test("should return 403 if AddDriver return false", async () => {
+    const { sut, addDriverStub } = makeSut();
+    jest
+      .spyOn(addDriverStub, "add")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(forbidden(new FieldInUseError()));
   });
 });
