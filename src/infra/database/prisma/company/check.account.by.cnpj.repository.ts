@@ -1,4 +1,4 @@
-import { ICheckCompanyByCnpjRepository } from "../../../../data/protocols/database/check.company.by.cnpj.repository";
+import { ICheckCompanyByCnpjRepository } from "../../../../data/protocols/database/company/check.company.by.cnpj.repository";
 import { prisma } from "../prisma.client";
 
 export class CheckCompanyByCnpjRepository

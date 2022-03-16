@@ -1,4 +1,4 @@
-import { ICheckCompanyByEmailRepository } from "../../../../data/protocols/database/check.company.by.email.repository";
+import { ICheckCompanyByEmailRepository } from "../../../../data/protocols/database/company/check.company.by.email.repository";
 import { prisma } from "../prisma.client";
 
 export class CheckCompanyByEmailRepository

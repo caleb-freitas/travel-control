@@ -1,13 +1,13 @@
-import { ICheckCompanyByCnpjRepository } from "../../../src/data/protocols/database/check.company.by.cnpj.repository";
-import { ICheckCompanyByEmailRepository } from "../../../src/data/protocols/database/check.company.by.email.repository";
-import { DbAddCompany } from "../../../src/data/usecases/db.add.company";
+import { ICheckCompanyByCnpjRepository } from "../../../../src/data/protocols/database/company/check.company.by.cnpj.repository";
+import { ICheckCompanyByEmailRepository } from "../../../../src/data/protocols/database/company/check.company.by.email.repository";
+import { DbAddCompany } from "../../../../src/data/usecases/db.add.company";
 import {
   ICompanyModel,
   IAddCompany,
   IAddCompanyModel,
-  IAddCompanyRepository,
   IHasher,
-} from "../../../src/data/usecases/db.add.company.protocols";
+  IAddCompanyRepository,
+} from "../../../../src/data/usecases/db.add.company.protocols";
 
 function makeFakeAccountData(): IAddCompanyModel {
   return {
