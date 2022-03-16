@@ -1,19 +1,19 @@
-import { AccountPrismaRepository } from "../../../../../src/infra/database/prisma/account/account.prisma.repository";
-import { CheckAccountByEmailRepository } from "../../../../../src/infra/database/prisma/account/check.account.by.email.repository";
+import { CheckCompanyByEmailRepository } from "../../../../../src/infra/database/prisma/company/check.company.by.email.repository";
+import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
 import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 
-function makeAccountPrismaRepository(): AccountPrismaRepository {
-  return new AccountPrismaRepository();
+function makeCompanyRepository(): CompanyRepository {
+  return new CompanyRepository();
 }
 
-function makeSut(): CheckAccountByEmailRepository {
-  return new CheckAccountByEmailRepository();
+function makeSut(): CheckCompanyByEmailRepository {
+  return new CheckCompanyByEmailRepository();
 }
 
-describe("CheckAccountByEmailRepository", () => {
+describe("CheckCompanyByEmailRepository", () => {
   beforeAll(async () => {
-    const accountPrismaRepository = makeAccountPrismaRepository();
-    await accountPrismaRepository.add({
+    const CompanyRepository = makeCompanyRepository();
+    await CompanyRepository.add({
       name: "any_name",
       email: "registered@email.com",
       password: "ValidPass1234",

@@ -1,5 +1,5 @@
 import { CnpjValidatorAdapter } from "../../../../src/infra/validators/cnpj.validator.adapter";
-import { makeSignUpValidation } from "../../../../src/main/factory/controllers/signup/signup.validation.factory";
+import { makeCompanySignUpValidation } from "../../../../src/main/factory/controllers/signup/company.signup.validation.factory";
 import {
   IEmailValidator,
   IPasswordValidator,
@@ -37,7 +37,7 @@ function makePasswordValidator(): IPasswordValidator {
 
 describe("SignUpValidationFactory", () => {
   test("should call validation composite with all validation", () => {
-    makeSignUpValidation();
+    makeCompanySignUpValidation();
     const validations: IValidation[] = [];
     const requiredFields = [
       "name",

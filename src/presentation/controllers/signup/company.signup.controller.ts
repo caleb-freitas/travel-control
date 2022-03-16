@@ -1,12 +1,17 @@
-import { IAddAccount } from "../../domain/usecases/add.account";
-import { FieldInUseError } from "../errors";
-import { badRequest, forbidden, ok, serverError } from "../helpers/http.helper";
-import { IController, IHttpRequest, IHttpResponse } from "../protocols";
-import { IValidation } from "../protocols/validation";
+import { IAddCompany } from "../../../domain/usecases/add.company";
+import { FieldInUseError } from "../../errors";
+import {
+  badRequest,
+  forbidden,
+  ok,
+  serverError,
+} from "../../helpers/http.helper";
+import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
+import { IValidation } from "../../protocols/validation";
 
 export class CompanySignUpController implements IController {
   constructor(
-    private readonly addAccount: IAddAccount,
+    private readonly addAccount: IAddCompany,
     private readonly validation: IValidation
   ) {}
 

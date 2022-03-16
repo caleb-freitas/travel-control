@@ -1,12 +1,12 @@
-import { IAddAccountModel } from "../../../../../src/data/usecases/db.add.account.protocols";
-import { AccountPrismaRepository } from "../../../../../src/infra/database/prisma/account/account.prisma.repository";
+import { IAddCompanyModel } from "../../../../../src/data/usecases/db.add.company.protocols";
+import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
 import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 
-function makeSut(): AccountPrismaRepository {
-  return new AccountPrismaRepository();
+function makeSut(): CompanyRepository {
+  return new CompanyRepository();
 }
 
-describe("AccountPrismaRepository", () => {
+describe("CompanyRepository", () => {
   afterAll(async () => {
     const deleteCompanies = prisma.company.deleteMany();
     await prisma.$transaction([deleteCompanies]);
@@ -15,7 +15,7 @@ describe("AccountPrismaRepository", () => {
 
   test("should create a new company account", async () => {
     const sut = makeSut();
-    const account: IAddAccountModel = {
+    const account: IAddCompanyModel = {
       name: "company",
       email: "company@email.com",
       password: "password",

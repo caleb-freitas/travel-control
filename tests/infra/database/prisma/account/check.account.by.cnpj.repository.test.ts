@@ -1,20 +1,20 @@
-import { ICheckAccountByCnpjRepository } from "../../../../../src/data/protocols/database/check.account.by.cnpj.repository";
-import { AccountPrismaRepository } from "../../../../../src/infra/database/prisma/account/account.prisma.repository";
-import { CheckAccountByCnpjRepository } from "../../../../../src/infra/database/prisma/account/check.account.by.cnpj.repository";
+import { ICheckCompanyByCnpjRepository } from "../../../../../src/data/protocols/database/check.company.by.cnpj.repository";
+import { CheckCompanyByCnpjRepository } from "../../../../../src/infra/database/prisma/company/check.account.by.cnpj.repository";
+import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
 import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 
-function makeAccountPrismaRepository(): AccountPrismaRepository {
-  return new AccountPrismaRepository();
+function makeCompanyRepository(): CompanyRepository {
+  return new CompanyRepository();
 }
 
-function makeSut(): ICheckAccountByCnpjRepository {
-  return new CheckAccountByCnpjRepository();
+function makeSut(): ICheckCompanyByCnpjRepository {
+  return new CheckCompanyByCnpjRepository();
 }
 
-describe("CheckAccountByEmailRepository", () => {
+describe("CheckCompanyByEmailRepository", () => {
   beforeAll(async () => {
-    const accountPrismaRepository = makeAccountPrismaRepository();
-    await accountPrismaRepository.add({
+    const CompanyRepository = makeCompanyRepository();
+    await CompanyRepository.add({
       name: "any_name",
       email: "registered@email.com",
       password: "ValidPass1234",
