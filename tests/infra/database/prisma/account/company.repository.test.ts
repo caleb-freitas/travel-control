@@ -1,4 +1,4 @@
-import { IAddCompanyModel } from "../../../../../src/data/usecases/db.add.company.protocols";
+import { IAddCompanyModel } from "../../../../../src/data/usecases/company/db.add.company.protocols";
 import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
 import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
 

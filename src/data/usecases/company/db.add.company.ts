@@ -1,5 +1,5 @@
-import { ICheckCompanyByCnpjRepository } from "../protocols/database/company/check.company.by.cnpj.repository";
-import { ICheckCompanyByEmailRepository } from "../protocols/database/company/check.company.by.email.repository";
+import { ICheckCompanyByCnpjRepository } from "../../protocols/database/company/check.company.by.cnpj.repository";
+import { ICheckCompanyByEmailRepository } from "../../protocols/database/company/check.company.by.email.repository";
 import {
   ICompanyModel,
   IAddCompany,
