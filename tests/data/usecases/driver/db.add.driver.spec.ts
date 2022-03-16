@@ -1,6 +1,19 @@
 import { IHasher } from "../../../../src/data/protocols/cryptography/hasher";
 import { DbAddDriver } from "../../../../src/data/usecases/driver/db.add.driver";
-import { IAddDriver } from "../../../../src/domain/usecases/add.driver";
+import {
+  IAddDriver,
+  IAddDriverModel,
+} from "../../../../src/domain/usecases/add.driver";
+
+function makeFakeAccountData(): IAddDriverModel {
+  return {
+    company_id: "valid_id",
+    name: "valid_name",
+    email: "valid@email.com",
+    password: "valid_password",
+    driversLicense: "valid_password",
+  };
+}
 
 function makeHasher(): IHasher {
   class HasherStub implements IHasher {
@@ -29,13 +42,7 @@ describe("DbAddDriver", () => {
   test("should call Hasher with correct password", async () => {
     const { sut, hasherStub } = makeSut();
     const hashSpy = jest.spyOn(hasherStub, "hash");
-    await sut.add({
-      company_id: "valid_id",
-      name: "valid_name",
-      email: "valid@email.com",
-      password: "valid_password",
-      driversLicense: "valid_password",
-    });
+    await sut.add(makeFakeAccountData());
     expect(hashSpy).toHaveBeenCalledWith("valid_password");
   });
 });
