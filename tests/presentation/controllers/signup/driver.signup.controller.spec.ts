@@ -6,7 +6,6 @@ import {
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
 import {
   FieldInUseError,
-  InvalidParamError,
   MissingParamError,
   ServerError,
 } from "../../../../src/presentation/errors";
@@ -14,6 +13,7 @@ import {
   badRequest,
   forbidden,
   serverError,
+  ok,
 } from "../../../../src/presentation/helpers/http.helper";
 import {
   IController,
@@ -35,6 +35,19 @@ function makeFakeRequest(): IHttpRequest {
   };
 }
 
+function makeFakeAccount(): IDriverModel {
+  return {
+    id: "valid_id",
+    company_id: "valid_id",
+    name: "valid_name",
+    email: "valid_email@mail.com",
+    password: "valid_password",
+    passwordConfirmation: "valid_password",
+    driversLicense: "drivers_license",
+    created_at: new Date("1995-12-17T03:24:00"),
+  };
+}
+
 function makeValidation(): IValidation {
   class ValidationStub implements IValidation {
     validate(input: any): Error {
@@ -47,7 +60,7 @@ function makeValidation(): IValidation {
 function makeAddDriver(): IAddDriver {
   class AddDriverStub implements IAddDriver {
     async add(account: IAddDriverModel): Promise<IDriverModel> {
-      return null;
+      return new Promise((resolve) => resolve(makeFakeAccount()));
     }
   }
   return new AddDriverStub();
@@ -62,7 +75,7 @@ interface ISutTypes {
 function makeSut(): ISutTypes {
   const validationStub = makeValidation();
   const addDriverStub = makeAddDriver();
-  const sut = new DriverSignUpController(validationStub, addDriverStub);
+  const sut = new DriverSignUpController(addDriverStub, validationStub);
   return {
     sut,
     validationStub,
@@ -125,5 +138,11 @@ describe("DriverSignUpController", () => {
       .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
     const response = await sut.handle(makeFakeRequest());
     expect(response).toEqual(forbidden(new FieldInUseError()));
+  });
+
+  test("should return an account on success", async () => {
+    const { sut } = makeSut();
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(ok(makeFakeAccount()));
   });
 });
