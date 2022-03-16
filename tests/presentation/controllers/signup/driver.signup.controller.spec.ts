@@ -1,4 +1,6 @@
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
+import { ServerError } from "../../../../src/presentation/errors";
+import { serverError } from "../../../../src/presentation/helpers/http.helper";
 import {
   IController,
   IHttpRequest,
@@ -48,5 +50,14 @@ describe("DriverSignUpController", () => {
     const validateSpy = jest.spyOn(validationStub, "validate");
     await sut.handle(makeFakeRequest());
     expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body);
+  });
+
+  test("should return 500 if Validation throw", async () => {
+    const { sut, validationStub } = makeSut();
+    jest.spyOn(validationStub, "validate").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(serverError(new ServerError()));
   });
 });
