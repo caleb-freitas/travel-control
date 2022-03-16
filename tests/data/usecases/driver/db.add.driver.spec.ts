@@ -1,9 +1,24 @@
 import { IHasher } from "../../../../src/data/protocols/cryptography/hasher";
+import { IAddDriverRepository } from "../../../../src/data/protocols/database/driver/add.driver.repository";
 import { DbAddDriver } from "../../../../src/data/usecases/driver/db.add.driver";
+import { IDriverModel } from "../../../../src/domain/models/driver.model";
 import {
   IAddDriver,
   IAddDriverModel,
 } from "../../../../src/domain/usecases/add.driver";
+
+function makeFakeAccount(): IDriverModel {
+  return {
+    id: "valid_id",
+    company_id: "valid_id",
+    name: "valid_name",
+    email: "valid_email@mail.com",
+    password: "valid_password",
+    passwordConfirmation: "valid_password",
+    driversLicense: "drivers_license",
+    created_at: new Date("1995-12-17T03:24:00"),
+  };
+}
 
 function makeFakeAccountData(): IAddDriverModel {
   return {
@@ -24,17 +39,29 @@ function makeHasher(): IHasher {
   return new HasherStub();
 }
 
+function makeAddDriverRepository(): IAddDriverRepository {
+  class AddDriverRepositoryStub implements IAddDriverRepository {
+    add(accountData: IAddDriverModel): Promise<IDriverModel> {
+      return new Promise((resolve) => resolve(makeFakeAccount()));
+    }
+  }
+  return new AddDriverRepositoryStub();
+}
+
 interface ISutTypes {
   sut: IAddDriver;
   hasherStub: IHasher;
+  addDriverRepositoryStub: IAddDriverRepository;
 }
 
 function makeSut(): ISutTypes {
   const hasherStub = makeHasher();
-  const sut = new DbAddDriver(hasherStub);
+  const addDriverRepositoryStub = makeAddDriverRepository();
+  const sut = new DbAddDriver(hasherStub, addDriverRepositoryStub);
   return {
     sut,
     hasherStub,
+    addDriverRepositoryStub,
   };
 }
 
@@ -44,5 +71,12 @@ describe("DbAddDriver", () => {
     const hashSpy = jest.spyOn(hasherStub, "hash");
     await sut.add(makeFakeAccountData());
     expect(hashSpy).toHaveBeenCalledWith("valid_password");
+  });
+
+  test("should call AddDriverRepository with correct values", async () => {
+    const { sut, addDriverRepositoryStub } = makeSut();
+    const addSpy = jest.spyOn(addDriverRepositoryStub, "add");
+    await sut.add(makeFakeAccountData());
+    expect(addSpy).toHaveBeenCalledWith(makeFakeAccountData());
   });
 });
