@@ -1,3 +1,8 @@
+import { IDriverModel } from "../../../../src/domain/models/driver.model";
+import {
+  IAddDriver,
+  IAddDriverModel,
+} from "../../../../src/domain/usecases/add.driver";
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
 import {
   MissingParamError,
@@ -21,7 +26,7 @@ function makeFakeRequest(): IHttpRequest {
       email: "any@email.com",
       password: "any_password",
       passwordConfirmation: "any_password",
-      driverLicense: "any_driver_license",
+      driversLicense: "any_driver_license",
       created_at: "any_date",
     },
   };
@@ -36,17 +41,29 @@ function makeValidation(): IValidation {
   return new ValidationStub();
 }
 
+function makeAddDriver(): IAddDriver {
+  class AddDriverStub implements IAddDriver {
+    async add(account: IAddDriverModel): Promise<IDriverModel> {
+      return null;
+    }
+  }
+  return new AddDriverStub();
+}
+
 interface ISutTypes {
   sut: IController;
   validationStub: IValidation;
+  addDriverStub: IAddDriver;
 }
 
 function makeSut(): ISutTypes {
   const validationStub = makeValidation();
-  const sut = new DriverSignUpController(validationStub);
+  const addDriverStub = makeAddDriver();
+  const sut = new DriverSignUpController(validationStub, addDriverStub);
   return {
     sut,
     validationStub,
+    addDriverStub,
   };
 }
 
@@ -74,5 +91,18 @@ describe("DriverSignUpController", () => {
       .mockReturnValueOnce(new MissingParamError("field"));
     const response = await sut.handle(makeFakeRequest());
     expect(response).toEqual(badRequest(new MissingParamError("field")));
+  });
+
+  test("should call AddDriver with correct values", async () => {
+    const { sut, addDriverStub } = makeSut();
+    const addSpy = jest.spyOn(addDriverStub, "add");
+    await sut.handle(makeFakeRequest());
+    expect(addSpy).toHaveBeenCalledWith({
+      company_id: "company_id",
+      name: "any_name",
+      email: "any@email.com",
+      password: "any_password",
+      driversLicense: "any_driver_license",
+    });
   });
 });
