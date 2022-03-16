@@ -1,5 +1,6 @@
 import { IAddDriver } from "../../../domain/usecases/add.driver";
-import { badRequest, serverError } from "../../helpers/http.helper";
+import { FieldInUseError } from "../../errors";
+import { badRequest, forbidden, serverError } from "../../helpers/http.helper";
 import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
 import { IValidation } from "../../protocols/validation";
 
@@ -16,13 +17,16 @@ export class DriverSignUpController implements IController {
       if (error) {
         return badRequest(error);
       }
-      await this.addDriver.add({
+      const account = await this.addDriver.add({
         company_id,
         name,
         email,
         password,
         driversLicense,
       });
+      if (!account) {
+        return forbidden(new FieldInUseError());
+      }
       return {
         statusCode: 200,
         body: {},

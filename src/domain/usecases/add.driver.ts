@@ -9,5 +9,5 @@ export interface IAddDriverModel {
 }
 
 export interface IAddDriver {
-  add(account: IAddDriverModel): Promise<IDriverModel>;
+  add(account: IAddDriverModel): Promise<IDriverModel | boolean>;
 }
