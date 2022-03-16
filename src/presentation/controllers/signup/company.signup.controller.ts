@@ -11,7 +11,7 @@ import { IValidation } from "../../protocols/validation";
 
 export class CompanySignUpController implements IController {
   constructor(
-    private readonly addAccount: IAddCompany,
+    private readonly addCompany: IAddCompany,
     private readonly validation: IValidation
   ) {}
 
@@ -22,7 +22,7 @@ export class CompanySignUpController implements IController {
       if (error) {
         return badRequest(error);
       }
-      const account = await this.addAccount.add({
+      const account = await this.addCompany.add({
         name,
         email,
         password,
