@@ -1,3 +1,6 @@
 /*.js
 node_modules
 dist
+docs
+coverage
+prisma
