@@ -13,8 +13,7 @@ function makeFakeAccount(): IDriverModel {
     company_id: "valid_id",
     name: "valid_name",
     email: "valid_email@mail.com",
-    password: "valid_password",
-    passwordConfirmation: "valid_password",
+    password: "hashed_password",
     driversLicense: "drivers_license",
     created_at: new Date("1995-12-17T03:24:00"),
   };
@@ -26,14 +25,14 @@ function makeFakeAccountData(): IAddDriverModel {
     name: "valid_name",
     email: "valid@email.com",
     password: "valid_password",
-    driversLicense: "valid_password",
+    driversLicense: "drivers_license",
   };
 }
 
 function makeHasher(): IHasher {
   class HasherStub implements IHasher {
     async hash(value: string): Promise<string> {
-      return new Promise((resolve) => resolve("hashed_string"));
+      return new Promise((resolve) => resolve("hashed_password"));
     }
   }
   return new HasherStub();
@@ -77,6 +76,18 @@ describe("DbAddDriver", () => {
     const { sut, addDriverRepositoryStub } = makeSut();
     const addSpy = jest.spyOn(addDriverRepositoryStub, "add");
     await sut.add(makeFakeAccountData());
-    expect(addSpy).toHaveBeenCalledWith(makeFakeAccountData());
+    expect(addSpy).toHaveBeenCalledWith({
+      company_id: "valid_id",
+      name: "valid_name",
+      email: "valid@email.com",
+      password: "hashed_password",
+      driversLicense: "drivers_license",
+    });
+  });
+
+  test("should return a driver account on success", async () => {
+    const { sut } = makeSut();
+    const response = await sut.add(makeFakeAccountData());
+    expect(response).toEqual(makeFakeAccount());
   });
 });

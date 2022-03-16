@@ -12,8 +12,11 @@ export class DbAddDriver implements IAddDriver {
     private readonly addDriverRepository: IAddDriverRepository
   ) {}
   async add(account: IAddDriverModel): Promise<IDriverModel | boolean> {
-    await this.hasher.hash(account.password);
-    await this.addDriverRepository.add(account);
-    return true;
+    const hashedPassword = await this.hasher.hash(account.password);
+    const driverAccount = await this.addDriverRepository.add({
+      ...account,
+      password: hashedPassword,
+    });
+    return driverAccount;
   }
 }
