@@ -5,7 +5,7 @@ export interface IDriverModel {
   email: string;
   password: string;
   passwordConfirmation: string;
-  driverLicense: string;
+  driversLicense: string;
   created_at: Date;
   updated_at?: Date;
 }

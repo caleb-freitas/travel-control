@@ -1,14 +1,20 @@
 import { IAddDriver } from "../../../domain/usecases/add.driver";
 import { FieldInUseError } from "../../errors";
-import { badRequest, forbidden, serverError } from "../../helpers/http.helper";
+import {
+  badRequest,
+  forbidden,
+  ok,
+  serverError,
+} from "../../helpers/http.helper";
 import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
 import { IValidation } from "../../protocols/validation";
 
 export class DriverSignUpController implements IController {
   constructor(
-    private readonly validation: IValidation,
-    private readonly addDriver: IAddDriver
+    private readonly addDriver: IAddDriver,
+    private readonly validation: IValidation
   ) {}
+
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const { company_id, name, email, password, driversLicense } =
@@ -24,13 +30,10 @@ export class DriverSignUpController implements IController {
         password,
         driversLicense,
       });
-      if (!account) {
-        return forbidden(new FieldInUseError());
+      if (account) {
+        return ok(account);
       }
-      return {
-        statusCode: 200,
-        body: {},
-      };
+      return forbidden(new FieldInUseError());
     } catch (error) {
       return serverError(error);
     }
