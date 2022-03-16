@@ -105,4 +105,13 @@ describe("DriverSignUpController", () => {
       driversLicense: "any_driver_license",
     });
   });
+
+  test("should return 500 if AddDriver throw", async () => {
+    const { sut, addDriverStub } = makeSut();
+    jest.spyOn(addDriverStub, "add").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(serverError(new ServerError()));
+  });
 });
