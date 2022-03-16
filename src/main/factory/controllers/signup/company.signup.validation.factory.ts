@@ -11,7 +11,7 @@ import { EmailValidation } from "../../../../validation/validators/email.validat
 import { RequiredFieldValidation } from "../../../../validation/validators/required.fields.validation";
 import { ValidationComposite } from "../../../../validation/validators/validation.composite";
 
-export const makeSignUpValidation = (): ValidationComposite => {
+export const makeCompanySignUpValidation = (): ValidationComposite => {
   const validations: IValidation[] = [];
   const requiredFields = [
     "name",

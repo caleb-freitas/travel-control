@@ -1,9 +1,9 @@
-import { IAccountModel } from "../../../src/domain/models/account.model";
+import { ICompanyModel } from "../../../src/domain/models/company.model";
 import {
-  IAddAccount,
-  IAddAccountModel,
-} from "../../../src/domain/usecases/add.account";
-import { CompanySignUpController } from "../../../src/presentation/controllers/company.signup.controller";
+  IAddCompany,
+  IAddCompanyModel,
+} from "../../../src/domain/usecases/add.company";
+import { CompanySignUpController } from "../../../src/presentation/controllers/signup/company.signup.controller";
 import {
   FieldInUseError,
   MissingParamError,
@@ -18,7 +18,7 @@ import {
 import { IHttpRequest } from "../../../src/presentation/protocols";
 import { IValidation } from "../../../src/presentation/protocols/validation";
 
-function makeFakeAccount(): IAccountModel {
+function makeFakeAccount(): ICompanyModel {
   return {
     id: "valid_id",
     name: "valid_name",
@@ -29,9 +29,9 @@ function makeFakeAccount(): IAccountModel {
   };
 }
 
-function makeAddAccount(): IAddAccount {
-  class AddAccountStub implements IAddAccount {
-    async add(account: IAddAccountModel): Promise<IAccountModel> {
+function makeAddAccount(): IAddCompany {
+  class AddAccountStub implements IAddCompany {
+    async add(account: IAddCompanyModel): Promise<ICompanyModel> {
       return new Promise((resolve) => resolve(makeFakeAccount()));
     }
   }
@@ -61,7 +61,7 @@ function makeFakeRequest(): IHttpRequest {
 
 interface ISutTypes {
   sut: CompanySignUpController;
-  addAccountStub: IAddAccount;
+  addAccountStub: IAddCompany;
   validationStub: IValidation;
 }
 
