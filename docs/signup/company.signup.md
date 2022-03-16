@@ -1,4 +1,4 @@
-# Signup API
+# Company Signup API
 
 ## Success Case
 
