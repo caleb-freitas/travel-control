@@ -1,6 +1,12 @@
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
-import { ServerError } from "../../../../src/presentation/errors";
-import { serverError } from "../../../../src/presentation/helpers/http.helper";
+import {
+  MissingParamError,
+  ServerError,
+} from "../../../../src/presentation/errors";
+import {
+  badRequest,
+  serverError,
+} from "../../../../src/presentation/helpers/http.helper";
 import {
   IController,
   IHttpRequest,
@@ -59,5 +65,14 @@ describe("DriverSignUpController", () => {
     });
     const response = await sut.handle(makeFakeRequest());
     expect(response).toEqual(serverError(new ServerError()));
+  });
+
+  test("should return 400 if Validation return an error", async () => {
+    const { sut, validationStub } = makeSut();
+    jest
+      .spyOn(validationStub, "validate")
+      .mockReturnValueOnce(new MissingParamError("field"));
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(badRequest(new MissingParamError("field")));
   });
 });
