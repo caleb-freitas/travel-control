@@ -1,4 +1,4 @@
-import { IAddCompany } from "../../../domain/usecases/add.company";
+import { IAddDriver } from "../../../domain/usecases/add.driver";
 import { FieldInUseError } from "../../errors";
 import {
   badRequest,
@@ -9,24 +9,26 @@ import {
 import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
 import { IValidation } from "../../protocols/validation";
 
-export class CompanySignUpController implements IController {
+export class DriverSignUpController implements IController {
   constructor(
-    private readonly addCompany: IAddCompany,
+    private readonly addDriver: IAddDriver,
     private readonly validation: IValidation
   ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { name, password, email, cnpj } = httpRequest.body;
+      const { company_id, name, email, password, driversLicense } =
+        httpRequest.body;
       const error = this.validation.validate(httpRequest.body);
       if (error) {
         return badRequest(error);
       }
-      const account = await this.addCompany.add({
+      const account = await this.addDriver.add({
+        company_id,
         name,
         email,
         password,
-        cnpj,
+        driversLicense,
       });
       if (account) {
         return ok(account);

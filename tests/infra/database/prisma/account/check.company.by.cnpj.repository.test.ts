@@ -1,4 +1,4 @@
-import { ICheckCompanyByCnpjRepository } from "../../../../../src/data/protocols/database/check.company.by.cnpj.repository";
+import { ICheckCompanyByCnpjRepository } from "../../../../../src/data/protocols/database/company/check.company.by.cnpj.repository";
 import { CheckCompanyByCnpjRepository } from "../../../../../src/infra/database/prisma/company/check.account.by.cnpj.repository";
 import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
 import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
