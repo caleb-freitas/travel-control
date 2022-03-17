@@ -42,7 +42,6 @@ function makeFakeAccount(): IDriverModel {
     name: "valid_name",
     email: "valid_email@mail.com",
     password: "valid_password",
-    passwordConfirmation: "valid_password",
     driversLicense: "drivers_license",
     created_at: new Date("1995-12-17T03:24:00"),
   };
