@@ -24,7 +24,7 @@
 
 - [ ] Should return **400** if the API does not exists
 
-- [ ] Should return **400** if `name`, `email`, `driversLicense`, `company_id`, `password` and `passwordConfirmation` are not provided
+- [ ] Should return **400** if `name`, `email`, `drivers_license`, `company_id`, `password` and `passwordConfirmation` are not provided
 
 - [ ] Should return **400** if `password` and `passwordConfirmation` are not equals
 

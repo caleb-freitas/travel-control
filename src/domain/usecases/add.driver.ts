@@ -5,7 +5,7 @@ export interface IAddDriverModel {
   name: string;
   email: string;
   password: string;
-  driversLicense: string;
+  drivers_license: string;
 }
 
 export interface IAddDriver {

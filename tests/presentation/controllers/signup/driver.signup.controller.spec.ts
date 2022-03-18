@@ -29,7 +29,7 @@ function makeFakeRequest(): IHttpRequest {
       email: "any@email.com",
       password: "any_password",
       passwordConfirmation: "any_password",
-      driversLicense: "any_driver_license",
+      drivers_license: "any_driver_license",
       created_at: "any_date",
     },
   };
@@ -42,7 +42,7 @@ function makeFakeAccount(): IDriverModel {
     name: "valid_name",
     email: "valid_email@mail.com",
     password: "valid_password",
-    driversLicense: "drivers_license",
+    drivers_license: "drivers_license",
     created_at: new Date("1995-12-17T03:24:00"),
   };
 }
@@ -117,7 +117,7 @@ describe("DriverSignUpController", () => {
       name: "any_name",
       email: "any@email.com",
       password: "any_password",
-      driversLicense: "any_driver_license",
+      drivers_license: "any_driver_license",
     });
   });
 
