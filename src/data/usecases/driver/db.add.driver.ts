@@ -9,11 +9,11 @@ import { IHasher } from "../company/db.add.company.protocols";
 export class DbAddDriver implements IAddDriver {
   constructor(
     private readonly hasher: IHasher,
-    private readonly addDriverRepository: IAddDriverRepository
+    private readonly driverRepository: IAddDriverRepository
   ) {}
   async add(account: IAddDriverModel): Promise<IDriverModel | boolean> {
     const hashedPassword = await this.hasher.hash(account.password);
-    const driverAccount = await this.addDriverRepository.add({
+    const driverAccount = await this.driverRepository.add({
       ...account,
       password: hashedPassword,
     });
