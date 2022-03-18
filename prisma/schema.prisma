@@ -20,6 +20,8 @@ model Company {
   updated_at DateTime?
 
   Driver Driver[]
+
+  @@map("companies")
 }
 
 model Driver {
@@ -33,4 +35,6 @@ model Driver {
 
   Company    Company @relation(fields: [company_id], references: [id])
   company_id String
+
+  @@map("drivers")
 }
