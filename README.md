@@ -18,8 +18,8 @@ The application will be available on `http://localhost:5050`
 
 ## APIs
 
-[Company Signup](docs/signup/company.signup.md)
-[Driver Signup](docs/signup/driver.signup.md)
+- [Company Signup](docs/signup/company.signup.md)
+- [Driver Signup](docs/signup/driver.signup.md)
 
 ## Technologies
 
@@ -29,4 +29,3 @@ The application will be available on `http://localhost:5050`
 - [Prisma](https://www.prisma.io/)
 - [Jest](https://jestjs.io/)
 - [PostgreSQL](https://www.postgresql.org/)
-
