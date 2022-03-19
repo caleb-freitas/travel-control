@@ -17,7 +17,7 @@ export class DriverSignUpController implements IController {
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { company_id, name, email, password, driversLicense } =
+      const { company_id, name, email, password, drivers_license } =
         httpRequest.body;
       const error = this.validation.validate(httpRequest.body);
       if (error) {
@@ -28,7 +28,7 @@ export class DriverSignUpController implements IController {
         name,
         email,
         password,
-        driversLicense,
+        drivers_license,
       });
       if (account) {
         return ok(account);

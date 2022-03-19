@@ -17,7 +17,24 @@ model Company {
   password   String
   cnpj       String
   created_at DateTime  @default(now())
-  update_ad  DateTime?
+  updated_at DateTime?
+
+  Driver Driver[]
 
   @@map("companies")
+}
+
+model Driver {
+  id              String    @id @default(uuid())
+  name            String
+  email           String
+  password        String
+  drivers_license String
+  created_at      DateTime  @default(now())
+  updated_at      DateTime?
+
+  Company    Company @relation(fields: [company_id], references: [id])
+  company_id String
+
+  @@map("drivers")
 }

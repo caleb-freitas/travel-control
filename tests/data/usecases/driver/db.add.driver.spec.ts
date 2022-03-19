@@ -14,7 +14,7 @@ function makeFakeAccount(): IDriverModel {
     name: "valid_name",
     email: "valid_email@mail.com",
     password: "hashed_password",
-    driversLicense: "drivers_license",
+    drivers_license: "drivers_license",
     created_at: new Date("1995-12-17T03:24:00"),
   };
 }
@@ -25,7 +25,7 @@ function makeFakeAccountData(): IAddDriverModel {
     name: "valid_name",
     email: "valid@email.com",
     password: "valid_password",
-    driversLicense: "drivers_license",
+    drivers_license: "drivers_license",
   };
 }
 
@@ -81,7 +81,7 @@ describe("DbAddDriver", () => {
       name: "valid_name",
       email: "valid@email.com",
       password: "hashed_password",
-      driversLicense: "drivers_license",
+      drivers_license: "drivers_license",
     });
   });
 
