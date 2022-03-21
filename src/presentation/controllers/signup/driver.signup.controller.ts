@@ -30,9 +30,10 @@ export class DriverSignUpController implements IController {
         password,
         drivers_license,
       });
-      if (account) {
-        return ok(account);
+      if (account instanceof FieldInUseError) {
+        return forbidden(account);
       }
+      return ok(account);
     } catch (error) {
       return serverError(error);
     }
