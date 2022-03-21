@@ -11,5 +11,6 @@ export class CheckCompanyIdRepository implements ICheckCompanyIdRepository {
     if (!company) {
       return false
     }
+    return true
   }
 }
