@@ -3,4 +3,3 @@ coverage
 dist
 .env
 prisma/migrations/
-docker-compose.yml
