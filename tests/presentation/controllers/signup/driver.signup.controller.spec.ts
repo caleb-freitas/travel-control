@@ -6,6 +6,7 @@ import {
 } from "../../../../src/domain/usecases/add.driver";
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
 import {
+  FieldInUseError,
   MissingParamError,
   ServerError,
 } from "../../../../src/presentation/errors";
@@ -13,6 +14,7 @@ import {
   badRequest,
   serverError,
   ok,
+  forbidden,
 } from "../../../../src/presentation/helpers/http.helper";
 import {
   IController,
@@ -133,5 +135,16 @@ describe("DriverSignUpController", () => {
     const { sut } = makeSut();
     const response = await sut.handle(makeFakeRequest());
     expect(response).toEqual(ok(makeFakeAccount()));
+  });
+
+  test("should return 403 if DbAddDriver return a FieldInUseError", async () => {
+    const { sut, addDriverStub } = makeSut();
+    jest
+      .spyOn(addDriverStub, "add")
+      .mockReturnValueOnce(
+        new Promise((resolve) => resolve(new FieldInUseError("field")))
+      );
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(forbidden(new FieldInUseError("field")));
   });
 });
