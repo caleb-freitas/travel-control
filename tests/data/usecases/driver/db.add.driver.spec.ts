@@ -1,4 +1,5 @@
 import { IHasher } from "../../../../src/data/protocols/cryptography/hasher";
+import { ICheckCompanyIdRepository } from "../../../../src/data/protocols/database/company/check.company.id.repository";
 import { IAddDriverRepository } from "../../../../src/data/protocols/database/driver/add.driver.repository";
 import { ICheckDriverByEmailRepository } from "../../../../src/data/protocols/database/driver/check.driver.by.email.repository";
 import { DbAddDriver } from "../../../../src/data/usecases/driver/db.add.driver";
@@ -58,27 +59,40 @@ function makeCheckByEmailRepository(): ICheckDriverByEmailRepository {
   return new CheckByEmailRepositoryStub();
 }
 
+function makeCheckCompanyIdRepository(): ICheckCompanyIdRepository {
+  class CheckCompanyIdRepositoryStub implements ICheckCompanyIdRepository {
+    async checkId(id: string): Promise<boolean> {
+      return new Promise((resolve) => resolve(false));
+    }
+  }
+  return new CheckCompanyIdRepositoryStub();
+}
+
 interface ISutTypes {
   sut: IAddDriver;
   hasherStub: IHasher;
   addDriverRepositoryStub: IAddDriverRepository;
   checkByEmailRepositoryStub: ICheckDriverByEmailRepository;
+  checkCompanyIdRepositoryStub: ICheckCompanyIdRepository;
 }
 
 function makeSut(): ISutTypes {
   const hasherStub = makeHasher();
   const addDriverRepositoryStub = makeAddDriverRepository();
   const checkByEmailRepositoryStub = makeCheckByEmailRepository();
+  const checkCompanyIdRepositoryStub = makeCheckCompanyIdRepository();
   const sut = new DbAddDriver(
     hasherStub,
     addDriverRepositoryStub,
-    checkByEmailRepositoryStub
+    checkByEmailRepositoryStub,
+    checkCompanyIdRepositoryStub
   );
   return {
     sut,
     hasherStub,
     addDriverRepositoryStub,
     checkByEmailRepositoryStub,
+    checkCompanyIdRepositoryStub,
   };
 }
 
@@ -123,5 +137,12 @@ describe("DbAddDriver", () => {
       .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
     const error = await sut.add(makeFakeAccount());
     expect(error).toEqual(new FieldInUseError("email"));
+  });
+
+  test("should call CheckCompanyIdRepository with correct id", async () => {
+    const { sut, checkCompanyIdRepositoryStub } = makeSut();
+    const addSpy = jest.spyOn(checkCompanyIdRepositoryStub, "checkId");
+    await sut.add(makeFakeAccountData());
+    expect(addSpy).toHaveBeenCalledWith("valid_id");
   });
 });
