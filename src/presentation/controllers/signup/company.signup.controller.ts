@@ -1,3 +1,4 @@
+import { ICompanyModel } from "../../../domain/models/company.model";
 import { IAddCompany } from "../../../domain/usecases/add.company";
 import { FieldInUseError } from "../../errors";
 import {
@@ -28,10 +29,10 @@ export class CompanySignUpController implements IController {
         password,
         cnpj,
       });
-      if (account) {
-        return ok(account);
+      if (account instanceof FieldInUseError) {
+        return forbidden(account);
       }
-      return forbidden(new FieldInUseError());
+      return ok(account);
     } catch (error) {
       return serverError(error);
     }

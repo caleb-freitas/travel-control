@@ -33,7 +33,6 @@ export class DriverSignUpController implements IController {
       if (account) {
         return ok(account);
       }
-      return forbidden(new FieldInUseError());
     } catch (error) {
       return serverError(error);
     }

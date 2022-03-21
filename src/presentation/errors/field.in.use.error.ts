@@ -1,6 +1,6 @@
 export class FieldInUseError extends Error {
-  constructor() {
-    super(`Field already in use: email or cnpj`);
+  constructor(parameterName: string) {
+    super(`Field already in use: ${parameterName}`);
     this.name = "FieldInUseError";
   }
 }

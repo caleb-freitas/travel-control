@@ -130,15 +130,6 @@ describe("DriverSignUpController", () => {
     expect(response).toEqual(serverError(new ServerError()));
   });
 
-  test("should return 403 if AddDriver return false", async () => {
-    const { sut, addDriverStub } = makeSut();
-    jest
-      .spyOn(addDriverStub, "add")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
-    const response = await sut.handle(makeFakeRequest());
-    expect(response).toEqual(forbidden(new FieldInUseError()));
-  });
-
   test("should return an account on success", async () => {
     const { sut } = makeSut();
     const response = await sut.handle(makeFakeRequest());

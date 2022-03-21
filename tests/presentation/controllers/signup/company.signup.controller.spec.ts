@@ -98,13 +98,15 @@ describe("CompanySignUpController", () => {
     expect(httpResponse).toEqual(serverError(new ServerError("email")));
   });
 
-  test("should return 403 if AddAccount return an false", async () => {
+  test("should return 403 if AddAccount return a FieldInUseError", async () => {
     const { sut, addAccountStub } = makeSut();
     jest
       .spyOn(addAccountStub, "add")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+      .mockReturnValueOnce(
+        new Promise((resolve) => resolve(new FieldInUseError("field")))
+      );
     const response = await sut.handle(makeFakeRequest());
-    expect(response).toEqual(forbidden(new FieldInUseError()));
+    expect(response).toEqual(forbidden(new FieldInUseError("field")));
   });
 
   test("should call Validation with correct values", async () => {
