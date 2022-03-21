@@ -12,11 +12,11 @@ export class DbAddCompany implements IAddCompany {
   constructor(
     private readonly hasher: IHasher,
     private readonly addAccountRepository: IAddCompanyRepository,
-    private readonly CheckCompanyByEmailRepository: ICheckCompanyByEmailRepository,
+    private readonly checkCompanyByEmailRepository: ICheckCompanyByEmailRepository,
     private readonly checkAccountByCnpjRepository: ICheckCompanyByCnpjRepository
   ) {}
   async add(accountData: IAddCompanyModel): Promise<ICompanyModel | boolean> {
-    const emailExists = await this.CheckCompanyByEmailRepository.checkEmail(
+    const emailExists = await this.checkCompanyByEmailRepository.checkEmail(
       accountData.email
     );
     const cnpjExists = await this.checkAccountByCnpjRepository.checkCnpj(
