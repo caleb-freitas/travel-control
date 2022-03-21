@@ -8,7 +8,10 @@ import {
   IAddDriver,
   IAddDriverModel,
 } from "../../../../src/domain/usecases/add.driver";
-import { FieldInUseError } from "../../../../src/presentation/errors";
+import {
+  FieldInUseError,
+  InvalidParamError,
+} from "../../../../src/presentation/errors";
 
 function makeFakeAccount(): IDriverModel {
   return {
@@ -62,7 +65,7 @@ function makeCheckByEmailRepository(): ICheckDriverByEmailRepository {
 function makeCheckCompanyIdRepository(): ICheckCompanyIdRepository {
   class CheckCompanyIdRepositoryStub implements ICheckCompanyIdRepository {
     async checkId(id: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(false));
+      return new Promise((resolve) => resolve(true));
     }
   }
   return new CheckCompanyIdRepositoryStub();
@@ -144,5 +147,14 @@ describe("DbAddDriver", () => {
     const addSpy = jest.spyOn(checkCompanyIdRepositoryStub, "checkId");
     await sut.add(makeFakeAccountData());
     expect(addSpy).toHaveBeenCalledWith("valid_id");
+  });
+
+  test("should return a InvalidParamError if CheckByEmailRepository return false", async () => {
+    const { sut, checkCompanyIdRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkCompanyIdRepositoryStub, "checkId")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const error = await sut.add(makeFakeAccount());
+    expect(error).toEqual(new InvalidParamError("company_id"));
   });
 });
