@@ -7,6 +7,7 @@ import {
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
 import {
   FieldInUseError,
+  InvalidParamError,
   MissingParamError,
   ServerError,
 } from "../../../../src/presentation/errors";
@@ -15,6 +16,7 @@ import {
   serverError,
   ok,
   forbidden,
+  notFound,
 } from "../../../../src/presentation/helpers/http.helper";
 import {
   IController,
@@ -146,5 +148,16 @@ describe("DriverSignUpController", () => {
       );
     const response = await sut.handle(makeFakeRequest());
     expect(response).toEqual(forbidden(new FieldInUseError("field")));
+  });
+
+  test("should return 404 if DbAddDriver return an InvalidParamError", async () => {
+    const { sut, addDriverStub } = makeSut();
+    jest
+      .spyOn(addDriverStub, "add")
+      .mockReturnValueOnce(
+        new Promise((resolve) => resolve(new InvalidParamError("field")))
+      );
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(notFound(new InvalidParamError("field")));
   });
 });
