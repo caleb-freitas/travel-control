@@ -7,6 +7,7 @@ import {
   IAddDriver,
   IAddDriverModel,
 } from "../../../../src/domain/usecases/add.driver";
+import { FieldInUseError } from "../../../../src/presentation/errors";
 
 function makeFakeAccount(): IDriverModel {
   return {
@@ -113,5 +114,14 @@ describe("DbAddDriver", () => {
     const addSpy = jest.spyOn(checkByEmailRepositoryStub, "checkEmail");
     await sut.add(makeFakeAccount());
     expect(addSpy).toHaveBeenCalledWith("valid_email@mail.com");
+  });
+
+  test("should return a FieldInUseError if CheckByEmailRepository return true", async () => {
+    const { sut, checkByEmailRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkByEmailRepositoryStub, "checkEmail")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
+    const error = await sut.add(makeFakeAccount());
+    expect(error).toEqual(new FieldInUseError("email"));
   });
 });
