@@ -1,5 +1,6 @@
 import { IHasher } from "../../../../src/data/protocols/cryptography/hasher";
 import { IAddDriverRepository } from "../../../../src/data/protocols/database/driver/add.driver.repository";
+import { ICheckDriverByEmailRepository } from "../../../../src/data/protocols/database/driver/check.driver.by.email.repository";
 import { DbAddDriver } from "../../../../src/data/usecases/driver/db.add.driver";
 import { IDriverModel } from "../../../../src/domain/models/driver.model";
 import {
@@ -47,20 +48,36 @@ function makeAddDriverRepository(): IAddDriverRepository {
   return new AddDriverRepositoryStub();
 }
 
+function makeCheckByEmailRepository(): ICheckDriverByEmailRepository {
+  class CheckByEmailRepositoryStub implements ICheckDriverByEmailRepository {
+    async checkEmail(email: string): Promise<boolean> {
+      return new Promise((resolve) => resolve(false));
+    }
+  }
+  return new CheckByEmailRepositoryStub();
+}
+
 interface ISutTypes {
   sut: IAddDriver;
   hasherStub: IHasher;
   addDriverRepositoryStub: IAddDriverRepository;
+  checkByEmailRepositoryStub: ICheckDriverByEmailRepository;
 }
 
 function makeSut(): ISutTypes {
   const hasherStub = makeHasher();
   const addDriverRepositoryStub = makeAddDriverRepository();
-  const sut = new DbAddDriver(hasherStub, addDriverRepositoryStub);
+  const checkByEmailRepositoryStub = makeCheckByEmailRepository();
+  const sut = new DbAddDriver(
+    hasherStub,
+    addDriverRepositoryStub,
+    checkByEmailRepositoryStub
+  );
   return {
     sut,
     hasherStub,
     addDriverRepositoryStub,
+    checkByEmailRepositoryStub,
   };
 }
 
@@ -89,5 +106,12 @@ describe("DbAddDriver", () => {
     const { sut } = makeSut();
     const response = await sut.add(makeFakeAccountData());
     expect(response).toEqual(makeFakeAccount());
+  });
+
+  test("should call CheckByEmailRepository with correct email", async () => {
+    const { sut, checkByEmailRepositoryStub } = makeSut();
+    const addSpy = jest.spyOn(checkByEmailRepositoryStub, "checkEmail");
+    await sut.add(makeFakeAccount());
+    expect(addSpy).toHaveBeenCalledWith("valid_email@mail.com");
   });
 });

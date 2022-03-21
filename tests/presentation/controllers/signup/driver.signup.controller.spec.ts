@@ -1,3 +1,4 @@
+import { ICheckDriverByEmailRepository } from "../../../../src/data/protocols/database/driver/check.driver.by.email.repository";
 import { IDriverModel } from "../../../../src/domain/models/driver.model";
 import {
   IAddDriver,
@@ -5,13 +6,11 @@ import {
 } from "../../../../src/domain/usecases/add.driver";
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
 import {
-  FieldInUseError,
   MissingParamError,
   ServerError,
 } from "../../../../src/presentation/errors";
 import {
   badRequest,
-  forbidden,
   serverError,
   ok,
 } from "../../../../src/presentation/helpers/http.helper";
