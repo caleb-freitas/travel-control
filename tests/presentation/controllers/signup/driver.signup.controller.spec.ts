@@ -1,3 +1,4 @@
+import { ICheckDriverByEmailRepository } from "../../../../src/data/protocols/database/driver/check.driver.by.email.repository";
 import { IDriverModel } from "../../../../src/domain/models/driver.model";
 import {
   IAddDriver,
@@ -6,14 +7,16 @@ import {
 import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
 import {
   FieldInUseError,
+  InvalidParamError,
   MissingParamError,
   ServerError,
 } from "../../../../src/presentation/errors";
 import {
   badRequest,
-  forbidden,
   serverError,
   ok,
+  forbidden,
+  notFound,
 } from "../../../../src/presentation/helpers/http.helper";
 import {
   IController,
@@ -130,18 +133,31 @@ describe("DriverSignUpController", () => {
     expect(response).toEqual(serverError(new ServerError()));
   });
 
-  test("should return 403 if AddDriver return false", async () => {
-    const { sut, addDriverStub } = makeSut();
-    jest
-      .spyOn(addDriverStub, "add")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
-    const response = await sut.handle(makeFakeRequest());
-    expect(response).toEqual(forbidden(new FieldInUseError()));
-  });
-
   test("should return an account on success", async () => {
     const { sut } = makeSut();
     const response = await sut.handle(makeFakeRequest());
     expect(response).toEqual(ok(makeFakeAccount()));
+  });
+
+  test("should return 403 if DbAddDriver return a FieldInUseError", async () => {
+    const { sut, addDriverStub } = makeSut();
+    jest
+      .spyOn(addDriverStub, "add")
+      .mockReturnValueOnce(
+        new Promise((resolve) => resolve(new FieldInUseError("field")))
+      );
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(forbidden(new FieldInUseError("field")));
+  });
+
+  test("should return 404 if DbAddDriver return an InvalidParamError", async () => {
+    const { sut, addDriverStub } = makeSut();
+    jest
+      .spyOn(addDriverStub, "add")
+      .mockReturnValueOnce(
+        new Promise((resolve) => resolve(new InvalidParamError("field")))
+      );
+    const response = await sut.handle(makeFakeRequest());
+    expect(response).toEqual(notFound(new InvalidParamError("field")));
   });
 });

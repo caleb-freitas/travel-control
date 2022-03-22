@@ -1,11 +1,17 @@
 import { IHasher } from "../../../../src/data/protocols/cryptography/hasher";
+import { ICheckCompanyIdRepository } from "../../../../src/data/protocols/database/company/check.company.id.repository";
 import { IAddDriverRepository } from "../../../../src/data/protocols/database/driver/add.driver.repository";
+import { ICheckDriverByEmailRepository } from "../../../../src/data/protocols/database/driver/check.driver.by.email.repository";
 import { DbAddDriver } from "../../../../src/data/usecases/driver/db.add.driver";
 import { IDriverModel } from "../../../../src/domain/models/driver.model";
 import {
   IAddDriver,
   IAddDriverModel,
 } from "../../../../src/domain/usecases/add.driver";
+import {
+  FieldInUseError,
+  InvalidParamError,
+} from "../../../../src/presentation/errors";
 
 function makeFakeAccount(): IDriverModel {
   return {
@@ -47,20 +53,49 @@ function makeAddDriverRepository(): IAddDriverRepository {
   return new AddDriverRepositoryStub();
 }
 
+function makeCheckByEmailRepository(): ICheckDriverByEmailRepository {
+  class CheckByEmailRepositoryStub implements ICheckDriverByEmailRepository {
+    async checkEmail(email: string): Promise<boolean> {
+      return new Promise((resolve) => resolve(false));
+    }
+  }
+  return new CheckByEmailRepositoryStub();
+}
+
+function makeCheckCompanyIdRepository(): ICheckCompanyIdRepository {
+  class CheckCompanyIdRepositoryStub implements ICheckCompanyIdRepository {
+    async checkId(id: string): Promise<boolean> {
+      return new Promise((resolve) => resolve(true));
+    }
+  }
+  return new CheckCompanyIdRepositoryStub();
+}
+
 interface ISutTypes {
   sut: IAddDriver;
   hasherStub: IHasher;
   addDriverRepositoryStub: IAddDriverRepository;
+  checkByEmailRepositoryStub: ICheckDriverByEmailRepository;
+  checkCompanyIdRepositoryStub: ICheckCompanyIdRepository;
 }
 
 function makeSut(): ISutTypes {
   const hasherStub = makeHasher();
   const addDriverRepositoryStub = makeAddDriverRepository();
-  const sut = new DbAddDriver(hasherStub, addDriverRepositoryStub);
+  const checkByEmailRepositoryStub = makeCheckByEmailRepository();
+  const checkCompanyIdRepositoryStub = makeCheckCompanyIdRepository();
+  const sut = new DbAddDriver(
+    hasherStub,
+    addDriverRepositoryStub,
+    checkByEmailRepositoryStub,
+    checkCompanyIdRepositoryStub
+  );
   return {
     sut,
     hasherStub,
     addDriverRepositoryStub,
+    checkByEmailRepositoryStub,
+    checkCompanyIdRepositoryStub,
   };
 }
 
@@ -89,5 +124,37 @@ describe("DbAddDriver", () => {
     const { sut } = makeSut();
     const response = await sut.add(makeFakeAccountData());
     expect(response).toEqual(makeFakeAccount());
+  });
+
+  test("should call CheckByEmailRepository with correct email", async () => {
+    const { sut, checkByEmailRepositoryStub } = makeSut();
+    const addSpy = jest.spyOn(checkByEmailRepositoryStub, "checkEmail");
+    await sut.add(makeFakeAccount());
+    expect(addSpy).toHaveBeenCalledWith("valid_email@mail.com");
+  });
+
+  test("should return a FieldInUseError if CheckByEmailRepository return true", async () => {
+    const { sut, checkByEmailRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkByEmailRepositoryStub, "checkEmail")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
+    const error = await sut.add(makeFakeAccount());
+    expect(error).toEqual(new FieldInUseError("email"));
+  });
+
+  test("should call CheckCompanyIdRepository with correct id", async () => {
+    const { sut, checkCompanyIdRepositoryStub } = makeSut();
+    const addSpy = jest.spyOn(checkCompanyIdRepositoryStub, "checkId");
+    await sut.add(makeFakeAccountData());
+    expect(addSpy).toHaveBeenCalledWith("valid_id");
+  });
+
+  test("should return a InvalidParamError if CheckByEmailRepository return false", async () => {
+    const { sut, checkCompanyIdRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkCompanyIdRepositoryStub, "checkId")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const error = await sut.add(makeFakeAccount());
+    expect(error).toEqual(new InvalidParamError("company_id"));
   });
 });

@@ -1,8 +1,9 @@
 import { IAddDriver } from "../../../domain/usecases/add.driver";
-import { FieldInUseError } from "../../errors";
+import { FieldInUseError, InvalidParamError } from "../../errors";
 import {
   badRequest,
   forbidden,
+  notFound,
   ok,
   serverError,
 } from "../../helpers/http.helper";
@@ -30,10 +31,13 @@ export class DriverSignUpController implements IController {
         password,
         drivers_license,
       });
-      if (account) {
-        return ok(account);
+      if (account instanceof FieldInUseError) {
+        return forbidden(account);
       }
-      return forbidden(new FieldInUseError());
+      if (account instanceof InvalidParamError) {
+        return notFound(account);
+      }
+      return ok(account);
     } catch (error) {
       return serverError(error);
     }

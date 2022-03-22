@@ -31,7 +31,6 @@ describe("DriverRepository", () => {
       password: "any_password",
       drivers_license: "any_drivers_license",
     })
-    console.log(driverAccount)
     expect(driverAccount).toHaveProperty("id")
     expect(driverAccount).toHaveProperty("company_id")
   });

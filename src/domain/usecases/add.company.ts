@@ -1,3 +1,4 @@
+import { FieldInUseError } from "../../presentation/errors";
 import { ICompanyModel } from "../models/company.model";
 
 export interface IAddCompanyModel {
@@ -8,5 +9,5 @@ export interface IAddCompanyModel {
 }
 
 export interface IAddCompany {
-  add(account: IAddCompanyModel): Promise<ICompanyModel | boolean>;
+  add(account: IAddCompanyModel): Promise<ICompanyModel | FieldInUseError>;
 }
