@@ -1,6 +1,6 @@
-import { IAddDriverRepository } from "../../../../data/protocols/database/driver/add.driver.repository";
-import { IDriverModel } from "../../../../domain/models/driver.model";
-import { IAddDriverModel } from "../../../../domain/usecases/add.driver";
+import { IAddDriverRepository } from "@/data/protocols";
+import { IDriverModel } from "@/domain/models";
+import { IAddDriverModel } from "@/domain/usecases";
 import { prisma } from "../prisma.client";
 
 export class DriverRepository implements IAddDriverRepository {

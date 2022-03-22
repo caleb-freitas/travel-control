@@ -1,6 +1,6 @@
-import { IAddCompanyModel } from "../../../../../src/data/usecases/company/db.add.company.protocols";
-import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
-import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
+import { IAddCompanyModel } from "@/domain/usecases";
+import { CompanyRepository, prisma } from "@/infra/database";
+
 
 function makeSut(): CompanyRepository {
   return new CompanyRepository();

@@ -1,14 +1,12 @@
-import { ICompanyModel } from "../../../domain/models/company.model";
-import { IAddCompany } from "../../../domain/usecases/add.company";
-import { FieldInUseError } from "../../errors";
+import { IAddCompany } from "@/domain/usecases";
+import { FieldInUseError } from "@/presentation/errors";
+import { badRequest, forbidden, ok, serverError } from "@/presentation/helpers";
 import {
-  badRequest,
-  forbidden,
-  ok,
-  serverError,
-} from "../../helpers/http.helper";
-import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
-import { IValidation } from "../../protocols/validation";
+  IController,
+  IHttpRequest,
+  IHttpResponse,
+  IValidation,
+} from "@/presentation/protocols";
 
 export class CompanySignUpController implements IController {
   constructor(

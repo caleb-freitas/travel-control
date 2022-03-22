@@ -1,16 +1,16 @@
-import { makeDriverSignUpValidation } from "../../../../src/main/factory/controllers/signup/driver.signup.validation.factory";
+import { makeDriverSignUpValidation } from "@/main/factory";
 import {
   IEmailValidator,
   IPasswordValidator,
-} from "../../../../src/presentation/protocols";
-import { IValidation } from "../../../../src/presentation/protocols/validation";
+  IValidation,
+} from "@/presentation/protocols";
 import {
   CompareFieldsValidation,
   EmailValidation,
   PasswordValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from "../../../../src/validation/validators";
+} from "@/validation/validators";
 
 function makeEmailValidator(): IEmailValidator {
   class EmailValidatorStub implements IEmailValidator {

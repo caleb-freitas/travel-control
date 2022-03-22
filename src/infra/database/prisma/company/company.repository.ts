@@ -1,6 +1,7 @@
-import { IAddCompanyRepository } from "../../../../data/usecases/company/db.add.company.protocols";
-import { ICompanyModel } from "../../../../domain/models/company.model";
-import { IAddCompanyModel } from "../../../../domain/usecases/add.company";
+import { IAddCompanyRepository } from "@/data/protocols";
+import { ICompanyModel } from "@/domain/models";
+import { IAddCompanyModel } from "@/domain/usecases";
+
 import { prisma } from "../prisma.client";
 
 export class CompanyRepository implements IAddCompanyRepository {

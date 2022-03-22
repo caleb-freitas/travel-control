@@ -1,14 +1,18 @@
-import { IAddDriver } from "../../../domain/usecases/add.driver";
-import { FieldInUseError, InvalidParamError } from "../../errors";
+import { IAddDriver } from "@/domain/usecases";
+import { FieldInUseError, InvalidParamError } from "@/presentation/errors";
 import {
   badRequest,
   forbidden,
   notFound,
   ok,
   serverError,
-} from "../../helpers/http.helper";
-import { IController, IHttpRequest, IHttpResponse } from "../../protocols";
-import { IValidation } from "../../protocols/validation";
+} from "@/presentation/helpers";
+import {
+  IController,
+  IHttpRequest,
+  IHttpResponse,
+  IValidation,
+} from "@/presentation/protocols";
 
 export class DriverSignUpController implements IController {
   constructor(

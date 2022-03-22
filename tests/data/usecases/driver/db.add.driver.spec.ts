@@ -1,17 +1,13 @@
-import { IHasher } from "../../../../src/data/protocols/cryptography/hasher";
-import { ICheckCompanyIdRepository } from "../../../../src/data/protocols/database/company/check.company.id.repository";
-import { IAddDriverRepository } from "../../../../src/data/protocols/database/driver/add.driver.repository";
-import { ICheckDriverByEmailRepository } from "../../../../src/data/protocols/database/driver/check.driver.by.email.repository";
-import { DbAddDriver } from "../../../../src/data/usecases/driver/db.add.driver";
-import { IDriverModel } from "../../../../src/domain/models/driver.model";
 import {
-  IAddDriver,
-  IAddDriverModel,
-} from "../../../../src/domain/usecases/add.driver";
-import {
-  FieldInUseError,
-  InvalidParamError,
-} from "../../../../src/presentation/errors";
+  IAddDriverRepository,
+  ICheckCompanyIdRepository,
+  ICheckDriverByEmailRepository,
+  IHasher,
+} from "@/data/protocols";
+import { DbAddDriver } from "@/data/usecases";
+import { IDriverModel } from "@/domain/models";
+import { IAddDriver, IAddDriverModel } from "@/domain/usecases";
+import { FieldInUseError, InvalidParamError } from "@/presentation/errors";
 
 function makeFakeAccount(): IDriverModel {
   return {

@@ -7,14 +7,14 @@ This is an application created to control the travels of an ore transport compan
 ## How to execute
 
 - Clone the repository
-- Go to the folder that was cloned `travel-control`
+- Go to the folder that was cloned: `travel-control`
 - Add database credentials to `.env.example` file and rename it to `.env`
 - Run `npm install` to install the dependencies
 - Start a database on `localhost:5432`
 - Run `npx prisma migrate dev` to create the tables on the database
-- Run `npm start`
+- Run `npm start` to start the application
 
-The application will be available on `http://localhost:5050`
+> The api documentation will be available on `http://localhost:5050/api-docs`
 
 ## APIs
 

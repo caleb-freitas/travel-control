@@ -1,6 +1,5 @@
-import { CheckCompanyByEmailRepository } from "../../../../../src/infra/database/prisma/company/check.company.by.email.repository";
-import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
-import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
+import { CheckCompanyByEmailRepository, CompanyRepository, prisma } from "@/infra/database";
+
 
 function makeCompanyRepository(): CompanyRepository {
   return new CompanyRepository();

@@ -1,13 +1,12 @@
-import { FieldInUseError } from "../../../presentation/errors";
-import { ICheckCompanyByCnpjRepository } from "../../protocols/database/company/check.company.by.cnpj.repository";
-import { ICheckCompanyByEmailRepository } from "../../protocols/database/company/check.company.by.email.repository";
 import {
-  ICompanyModel,
-  IAddCompany,
-  IAddCompanyModel,
-  IHasher,
   IAddCompanyRepository,
-} from "./db.add.company.protocols";
+  ICheckCompanyByCnpjRepository,
+  ICheckCompanyByEmailRepository,
+  IHasher,
+} from "@/data/protocols";
+import { ICompanyModel } from "@/domain/models";
+import { IAddCompany, IAddCompanyModel } from "@/domain/usecases";
+import { FieldInUseError } from "@/presentation/errors";
 
 export class DbAddCompany implements IAddCompany {
   constructor(

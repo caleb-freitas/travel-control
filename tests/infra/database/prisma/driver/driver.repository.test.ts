@@ -1,8 +1,7 @@
-import { IAddDriverRepository } from "../../../../../src/data/protocols/database/driver/add.driver.repository";
-import { IAddDriverModel } from "../../../../../src/domain/usecases/add.driver";
-import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
-import { DriverRepository } from "../../../../../src/infra/database/prisma/driver/driver.repository";
-import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
+import { IAddDriverRepository } from "@/data/protocols";
+import { IAddDriverModel } from "@/domain/usecases";
+import { CompanyRepository, DriverRepository, prisma } from "@/infra/database";
+
 
 function makeSut(): IAddDriverRepository {
   return new DriverRepository();

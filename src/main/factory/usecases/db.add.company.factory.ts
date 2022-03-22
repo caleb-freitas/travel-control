@@ -1,9 +1,11 @@
-import { DbAddCompany } from "../../../data/usecases/company/db.add.company";
-import { IAddCompany } from "../../../domain/usecases/add.company";
-import { BcryptAdapter } from "../../../infra/cryptography/bcrypt.adapter/bcrypt.adapter";
-import { CheckCompanyByCnpjRepository } from "../../../infra/database/prisma/company/check.account.by.cnpj.repository";
-import { CheckCompanyByEmailRepository } from "../../../infra/database/prisma/company/check.company.by.email.repository";
-import { CompanyRepository } from "../../../infra/database/prisma/company/company.repository";
+import { DbAddCompany } from "@/data/usecases";
+import { IAddCompany } from "@/domain/usecases";
+import { BcryptAdapter } from "@/infra/cryptography";
+import {
+  CheckCompanyByCnpjRepository,
+  CheckCompanyByEmailRepository,
+  CompanyRepository,
+} from "@/infra/database";
 
 export const makeDbAddCompany = (): IAddCompany => {
   const salt = 12;

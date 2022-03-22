@@ -1,6 +1,5 @@
-import { InvalidParamError } from "../../presentation/errors";
-import { ICnpjValidator } from "../../presentation/protocols";
-import { IValidation } from "../../presentation/protocols/validation";
+import { InvalidParamError } from "@/presentation/errors";
+import { ICnpjValidator, IValidation } from "@/presentation/protocols";
 
 export class CnpjValidation implements IValidation {
   constructor(

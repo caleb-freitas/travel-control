@@ -1,22 +1,13 @@
-import { ICompanyModel } from "../../../../src/domain/models/company.model";
-import {
-  IAddCompany,
-  IAddCompanyModel,
-} from "../../../../src/domain/usecases/add.company";
-import { CompanySignUpController } from "../../../../src/presentation/controllers/signup/company.signup.controller";
+import { ICompanyModel } from "@/domain/models";
+import { IAddCompany, IAddCompanyModel } from "@/domain/usecases";
+import { CompanySignUpController } from "@/presentation/controllers";
 import {
   FieldInUseError,
   MissingParamError,
-} from "../../../../src/presentation/errors";
-import { ServerError } from "../../../../src/presentation/errors/server.error";
-import {
-  badRequest,
-  forbidden,
-  ok,
-  serverError,
-} from "../../../../src/presentation/helpers/http.helper";
-import { IHttpRequest } from "../../../../src/presentation/protocols";
-import { IValidation } from "../../../../src/presentation/protocols/validation";
+  ServerError,
+} from "@/presentation/errors";
+import { badRequest, forbidden, ok, serverError } from "@/presentation/helpers";
+import { IHttpRequest, IValidation } from "@/presentation/protocols";
 
 function makeFakeAccount(): ICompanyModel {
   return {
