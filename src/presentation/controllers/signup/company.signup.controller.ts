@@ -1,4 +1,3 @@
-import { ICompanyModel } from "../../../domain/models/company.model";
 import { IAddCompany } from "../../../domain/usecases/add.company";
 import { FieldInUseError } from "../../errors";
 import {
