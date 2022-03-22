@@ -1,6 +1,6 @@
-import { InvalidParamError } from "../../../src/presentation/errors";
-import { IPasswordValidator } from "../../../src/presentation/protocols";
-import { PasswordValidation } from "../../../src/validation/validators";
+import { InvalidParamError } from "@/presentation/errors";
+import { IPasswordValidator } from "@/presentation/protocols";
+import { PasswordValidation } from "@/validation/validators";
 
 function makePasswordValidator(): IPasswordValidator {
   class PasswordValidatorStub implements IPasswordValidator {

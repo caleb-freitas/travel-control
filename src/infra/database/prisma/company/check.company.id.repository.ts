@@ -1,4 +1,4 @@
-import { ICheckCompanyIdRepository } from "../../../../data/protocols/database/company/check.company.id.repository";
+import { ICheckCompanyIdRepository } from "@/data/protocols";
 import { prisma } from "../prisma.client";
 
 export class CheckCompanyIdRepository implements ICheckCompanyIdRepository {

@@ -1,9 +1,7 @@
-import { ICheckDriverByEmailRepository } from "../../../../data/protocols/database/driver/check.driver.by.email.repository";
+import { ICheckDriverByEmailRepository } from "@/data/protocols";
 import { prisma } from "../prisma.client";
 
-export class CheckDriverByEmailRepository
-  // eslint-disable-next-line prettier/prettier
-  implements ICheckDriverByEmailRepository {
+export class CheckDriverByEmailRepository implements ICheckDriverByEmailRepository {
   async checkEmail(email: string): Promise<boolean> {
     const emailExists = await prisma.driver.findFirst({
       where: {

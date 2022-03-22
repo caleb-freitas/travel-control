@@ -1,7 +1,6 @@
-import { CompanySignUpController } from "../../../../presentation/controllers/signup/company.signup.controller";
-import { IController } from "../../../../presentation/protocols";
-import { makeDbAddCompany } from "../../usecases/db.add.company.factory";
-import { makeCompanySignUpValidation } from "./company.signup.validation.factory";
+import { makeCompanySignUpValidation, makeDbAddCompany } from "@/main/factory";
+import { CompanySignUpController } from "@/presentation/controllers";
+import { IController } from "@/presentation/protocols";
 
 export const makeCompanySignUpController = (): IController => {
   return new CompanySignUpController(

@@ -1,7 +1,6 @@
+import { prisma } from "@/infra/database/prisma/prisma.client";
+import app from "@/main/config/app";
 import request from "supertest";
-
-import { prisma } from "../../../src/infra/database/prisma/prisma.client";
-import app from "../../../src/main/config/app";
 
 describe("POST /api/company/signup", () => {
   afterAll(async () => {

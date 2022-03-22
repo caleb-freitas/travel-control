@@ -1,7 +1,5 @@
-import { CompanyRepository } from "../../../../../src/infra/database/prisma/company/company.repository";
-import { CheckDriverByEmailRepository } from "../../../../../src/infra/database/prisma/driver/check.driver.by.email.repository";
-import { DriverRepository } from "../../../../../src/infra/database/prisma/driver/driver.repository";
-import { prisma } from "../../../../../src/infra/database/prisma/prisma.client";
+import { CheckDriverByEmailRepository, CompanyRepository, DriverRepository, prisma } from "@/infra/database";
+
 
 function makeDriverRepository(): DriverRepository {
   return new DriverRepository();

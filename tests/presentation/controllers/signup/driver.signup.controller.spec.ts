@@ -1,28 +1,24 @@
-import { ICheckDriverByEmailRepository } from "../../../../src/data/protocols/database/driver/check.driver.by.email.repository";
-import { IDriverModel } from "../../../../src/domain/models/driver.model";
-import {
-  IAddDriver,
-  IAddDriverModel,
-} from "../../../../src/domain/usecases/add.driver";
-import { DriverSignUpController } from "../../../../src/presentation/controllers/signup/driver.signup.controller";
+import { IDriverModel } from "@/domain/models";
+import { IAddDriver, IAddDriverModel } from "@/domain/usecases";
+import { DriverSignUpController } from "@/presentation/controllers";
 import {
   FieldInUseError,
   InvalidParamError,
   MissingParamError,
   ServerError,
-} from "../../../../src/presentation/errors";
+} from "@/presentation/errors";
 import {
   badRequest,
-  serverError,
-  ok,
   forbidden,
   notFound,
-} from "../../../../src/presentation/helpers/http.helper";
+  ok,
+  serverError,
+} from "@/presentation/helpers";
 import {
   IController,
   IHttpRequest,
-} from "../../../../src/presentation/protocols";
-import { IValidation } from "../../../../src/presentation/protocols/validation";
+  IValidation,
+} from "@/presentation/protocols";
 
 function makeFakeRequest(): IHttpRequest {
   return {

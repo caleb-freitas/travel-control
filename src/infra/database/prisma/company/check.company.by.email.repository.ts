@@ -1,9 +1,8 @@
-import { ICheckCompanyByEmailRepository } from "../../../../data/protocols/database/company/check.company.by.email.repository";
+
+import { ICheckCompanyByEmailRepository } from "@/data/protocols";
 import { prisma } from "../prisma.client";
 
-export class CheckCompanyByEmailRepository
-  // eslint-disable-next-line prettier/prettier
-  implements ICheckCompanyByEmailRepository {
+export class CheckCompanyByEmailRepository implements ICheckCompanyByEmailRepository {
   async checkEmail(email: string): Promise<boolean> {
     const emailExists = await prisma.company.findFirst({
       where: {

@@ -1,20 +1,19 @@
-import { CnpjValidatorAdapter } from "../../../../src/infra/validators/cnpj.validator.adapter";
-import { makeCompanySignUpValidation } from "../../../../src/main/factory/controllers/signup/company.signup.validation.factory";
+import { CnpjValidatorAdapter } from "@/infra/validators";
+import { makeCompanySignUpValidation } from "@/main/factory";
 import {
   IEmailValidator,
   IPasswordValidator,
-} from "../../../../src/presentation/protocols";
-import { IValidation } from "../../../../src/presentation/protocols/validation";
+  IValidation,
+} from "@/presentation/protocols";
 import {
-  RequiredFieldValidation,
-  CompareFieldsValidation,
-  PasswordValidation,
-  EmailValidation,
   CnpjValidation,
+  CompareFieldsValidation,
+  EmailValidation,
+  PasswordValidation,
+  RequiredFieldValidation,
   ValidationComposite,
-} from "../../../../src/validation/validators";
+} from "@/validation/validators";
 
-// remove the module's default behavior
 jest.mock("../../../../src/validation/validators/validation.composite.ts");
 
 function makeEmailValidator(): IEmailValidator {

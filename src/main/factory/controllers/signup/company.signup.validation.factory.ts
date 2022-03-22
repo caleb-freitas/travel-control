@@ -1,15 +1,17 @@
-import { CnpjValidatorAdapter } from "../../../../infra/validators/cnpj.validator.adapter";
-import { EmailValidatorAdapter } from "../../../../infra/validators/email.validator.adapter";
-import { PasswordValidatorAdapter } from "../../../../infra/validators/password.validator.adapter";
-import { IValidation } from "../../../../presentation/protocols/validation";
+import {
+  CnpjValidatorAdapter,
+  EmailValidatorAdapter,
+  PasswordValidatorAdapter,
+} from "@/infra/validators";
+import { IValidation } from "@/presentation/protocols";
 import {
   CnpjValidation,
+  CompareFieldsValidation,
+  EmailValidation,
   PasswordValidation,
-} from "../../../../validation/validators";
-import { CompareFieldsValidation } from "../../../../validation/validators/compare.passwords.validation";
-import { EmailValidation } from "../../../../validation/validators/email.validation";
-import { RequiredFieldValidation } from "../../../../validation/validators/required.fields.validation";
-import { ValidationComposite } from "../../../../validation/validators/validation.composite";
+  RequiredFieldValidation,
+  ValidationComposite,
+} from "@/validation/validators";
 
 export const makeCompanySignUpValidation = (): ValidationComposite => {
   const validations: IValidation[] = [];

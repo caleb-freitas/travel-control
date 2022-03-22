@@ -1,13 +1,15 @@
-import { EmailValidatorAdapter } from "../../../../infra/validators/email.validator.adapter";
-import { PasswordValidatorAdapter } from "../../../../infra/validators/password.validator.adapter";
-import { IValidation } from "../../../../presentation/protocols/validation";
+import {
+  EmailValidatorAdapter,
+  PasswordValidatorAdapter,
+} from "@/infra/validators";
+import { IValidation } from "@/presentation/protocols";
 import {
   CompareFieldsValidation,
   EmailValidation,
   PasswordValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from "../../../../validation/validators";
+} from "@/validation/validators";
 
 export function makeDriverSignUpValidation(): ValidationComposite {
   const validations: IValidation[] = [];

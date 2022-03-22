@@ -1,16 +1,12 @@
-import { IDriverModel } from "../../../domain/models/driver.model";
 import {
-  IAddDriver,
-  IAddDriverModel,
-} from "../../../domain/usecases/add.driver";
-import {
-  FieldInUseError,
-  InvalidParamError,
-} from "../../../presentation/errors";
-import { ICheckCompanyIdRepository } from "../../protocols/database/company/check.company.id.repository";
-import { IAddDriverRepository } from "../../protocols/database/driver/add.driver.repository";
-import { ICheckDriverByEmailRepository } from "../../protocols/database/driver/check.driver.by.email.repository";
-import { IHasher } from "../company/db.add.company.protocols";
+  IAddDriverRepository,
+  ICheckCompanyIdRepository,
+  ICheckDriverByEmailRepository,
+  IHasher,
+} from "@/data/protocols/";
+import { IDriverModel } from "@/domain/models";
+import { IAddDriver, IAddDriverModel } from "@/domain/usecases";
+import { FieldInUseError, InvalidParamError } from "@/presentation/errors";
 
 export class DbAddDriver implements IAddDriver {
   constructor(
@@ -19,6 +15,7 @@ export class DbAddDriver implements IAddDriver {
     private readonly checkDriverByEmailRepository: ICheckDriverByEmailRepository,
     private readonly checkCompanyIdRepository: ICheckCompanyIdRepository
   ) {}
+
   async add(account: IAddDriverModel): Promise<IDriverModel | Error> {
     const companyIdExists = await this.checkCompanyIdRepository.checkId(
       account.company_id
