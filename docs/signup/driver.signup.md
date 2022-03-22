@@ -2,40 +2,42 @@
 
 ## Success Case
 
-- [ ] Receives a POST request on the route `/api/driver/signup`
+- [x] Receives a POST request on the route `/api/driver/signup`
 
-- [ ] Validate the required fields: `name`, `email`, `password` and `passwordConfirmation`
+- [x] Validate the required fields: `name`, `email`, `password` and `passwordConfirmation`
 
-- [ ] Ensure that `password` and `passwordConfirmation` are equals
+- [x] Ensure that `password` and `passwordConfirmation` are equals
 
-- [ ] Validates if the `password` contains at least 8 characters including letters and numbers
+- [x] Validates if the `password` contains at least 8 characters including letters and numbers
 
-- [ ] Ensure that the `email` field is a valid email
+- [x] Ensure that the `email` field is a valid email
 
-- [ ] Validates if already exists a driver with the provided `email` 
+- [x] Validates if already exists a driver with the provided `email` 
 
-- [ ] Generates an encrypted password
+- [x] Validates if the provided `company_id` exist
 
-- [ ] Create an account for the driver with the entered data, replacing the password with the encrypted password
+- [x] Generates an encrypted password
 
-- [ ] Should return **200** with the account data
+- [x] Create an account for the driver with the entered data, replacing the password with the encrypted password
+
+- [x] Should return **200** with the account data
 
 ## Exception Case
 
-- [ ] Should return **400** if the API does not exists
+- [x] Should return **400** if the API does not exists
 
-- [ ] Should return **400** if `name`, `email`, `drivers_license`, `company_id`, `password` and `passwordConfirmation` are not provided
+- [x] Should return **400** if `name`, `email`, `drivers_license`, `company_id`, `password` and `passwordConfirmation` are not provided
 
-- [ ] Should return **400** if `password` and `passwordConfirmation` are not equals
+- [x] Should return **400** if `password` and `passwordConfirmation` are not equals
 
-- [ ] Should return **400** if the provided `password` does not meet the requirements
+- [x] Should return **400** if the provided `password` does not meet the requirements
 
-- [ ] Should return **400** if the provided `email` is invalid
+- [x] Should return **400** if the provided `email` is invalid
 
-- [ ] Should return **400** if the provided `company_id` is invalid
+- [x] Should return **404** if the provided `company_id` does not exist
 
-- [ ] Should return **403** if the provided `email` is already in use
+- [x] Should return **403** if the provided `email` is already in use
 
-- [ ] Should return **500** if there is an error when generating an encrypted password
+- [x] Should return **500** if there is an error when generating an encrypted password
 
-- [ ] Should return **500** if there is an error when creating a company account
+- [x] Should return **500** if there is an error when creating a company account
