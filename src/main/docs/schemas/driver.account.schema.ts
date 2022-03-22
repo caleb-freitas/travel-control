@@ -1,7 +1,10 @@
-export const companySchema = {
+export const driverSchema = {
   type: 'object',
   properties: {
     id: {
+      type: 'string'
+    },
+    company_id: {
       type: 'string'
     },
     name: {
@@ -13,7 +16,7 @@ export const companySchema = {
     password: {
       type: 'string'
     },
-    cnpj: {
+    drivers_license: {
       type: "string"
     },
     created_at: {
@@ -24,11 +27,12 @@ export const companySchema = {
     }
   },
   example: {
-    id: "a0757de1-bb7e-4c8e-838d-fb637cb1e169",
-    name: "Company",
-    email: "company@email.com",
+    id: "1f0cd01c-bb2d-44f8-a56e-608999a1f2d0",
+    company_id: "3ac83e6d-36c4-4235-b269-ba6db80505d9",
+    name: "Driver",
+    email: "driver@email.com",
     password: "HashedPass123",
-    cnpj: "76.802.560/0001-21",
+    drivers_license: "000.000-01",
     created_at: "2022-03-22T13:35:56.204Z",
     updated_at: "NULL",
   }

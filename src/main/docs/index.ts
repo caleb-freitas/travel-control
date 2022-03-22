@@ -8,7 +8,7 @@ export const swaggerDocument = {
     version: "1.0.0",
     title: "Travel Control",
     description:
-      "This is an API created to control the travels of an ore ore transport company",
+      "This is an API created to control the travels of an ore transport company",
     contact: {
       name: "Caleb Freitas",
       email: "calebfreitas@tutanota.com",

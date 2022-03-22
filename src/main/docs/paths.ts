@@ -1,5 +1,6 @@
-import { companyAccountPath } from "./paths/";
+import { companyAccountPath, driverAccountPath } from "./paths/";
 
 export default {
-  "/company/signup": companyAccountPath
+  "/company/signup": companyAccountPath,
+  "/driver/signup": driverAccountPath
 }
