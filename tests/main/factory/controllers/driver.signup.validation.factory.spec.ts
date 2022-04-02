@@ -37,7 +37,6 @@ describe("DriverSignUpValidationFactory", () => {
     makeDriverSignUpValidation();
     const validations: IValidation[] = [];
     const requiredFields = [
-      "company_id",
       "name",
       "email",
       "password",
