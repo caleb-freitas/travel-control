@@ -14,7 +14,6 @@ import {
 export function makeDriverSignUpValidation(): ValidationComposite {
   const validations: IValidation[] = [];
   const requiredFields = [
-    "company_id",
     "name",
     "email",
     "password",

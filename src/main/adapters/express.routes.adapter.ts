@@ -5,6 +5,7 @@ export const adaptRoute = (controller: IController) => {
   return async (request: Request, response: Response) => {
     const httpRequest: IHttpRequest = {
       body: request.body,
+      params: request.params,
     };
     const httpResponse = await controller.handle(httpRequest);
     if (httpResponse.statusCode === 200) {
