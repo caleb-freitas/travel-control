@@ -1,6 +1,6 @@
 export const companyAccountPath = {
   post: {
-    tags: ["Sign Up"],
+    tags: ["Sign up"],
     summary: "Create a new company",
     description: "Create a new company",
     requestBody: {
@@ -8,7 +8,7 @@ export const companyAccountPath = {
       content: {
         "application/json": {
           schema: {
-            $ref: "#/schemas/companyAccount"
+            $ref: "#/schemas/companyParams"
           },
         },
       },
@@ -19,7 +19,7 @@ export const companyAccountPath = {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/schemas/companyModel",
+              $ref: "#/schemas/companyResult",
             }
           }
         }

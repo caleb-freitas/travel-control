@@ -1,10 +1,19 @@
 export const badRequest = {
-  description: 'Invalid request',
+  description: "Bad request",
   content: {
-    'application/json': {
+    "application/json": {
       schema: {
-        $ref: '#/schemas/error'
-      }
-    }
+        type: "object",
+        properties: {
+          error: {
+            type: "string",
+          },
+        },
+        example: {
+          error: "Missing param error: {param}",
+        },
+        required: ["error"],
+      },
+    },
   },
-}
+};

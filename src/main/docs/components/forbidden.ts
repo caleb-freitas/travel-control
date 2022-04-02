@@ -1,10 +1,19 @@
 export const forbidden = {
-  description: 'Not authorized',
+  description: "Forbidden",
   content: {
-    'application/json': {
+    "application/json": {
       schema: {
-        $ref: '#/schemas/error'
-      }
-    }
+        type: "object",
+        properties: {
+          error: {
+            type: "string",
+          },
+        },
+        example: {
+          error: "Invalid param error: {param}",
+        },
+        required: ["error"],
+      },
+    },
   },
-}
+};

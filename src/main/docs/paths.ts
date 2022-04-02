@@ -1,6 +1,6 @@
 import { companyAccountPath, driverAccountPath } from "./paths/";
 
 export default {
-  "/company/signup": companyAccountPath,
-  "/driver/signup": driverAccountPath
+  "/signup/company": companyAccountPath,
+  "/signup/driver/{company_id}": driverAccountPath
 }

@@ -1,4 +1,4 @@
-export const driverSchema = {
+export const driverResultSchema = {
   type: 'object',
   properties: {
     id: {
