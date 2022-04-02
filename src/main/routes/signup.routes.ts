@@ -5,7 +5,9 @@ import { makeCompanySignUpController } from "../factory/controllers/signup/compa
 import { makeDriverSignUpController } from "../factory/controllers/signup/driver.signup.controller.factory";
 
 export default (router: Router): void => {
-  router.post("/company/signup", adaptRoute(makeCompanySignUpController()));
-
-  router.post("/driver/signup", adaptRoute(makeDriverSignUpController()));
+  router.post("/signup/company", adaptRoute(makeCompanySignUpController()));
+  router.post(
+    "/signup/driver/:company_id",
+    adaptRoute(makeDriverSignUpController())
+  );
 };

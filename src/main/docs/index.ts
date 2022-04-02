@@ -27,7 +27,7 @@ export const swaggerDocument = {
   ],
   tags: [
     {
-      name: "Sign Up",
+      name: "Sign up",
       description: "Sign up related APIs"
     }
   ],

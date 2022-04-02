@@ -11,7 +11,7 @@ describe("POST /api/company/signup", () => {
 
   test("should return 200 on signup", async () => {
     await request(app)
-      .post("/api/company/signup")
+      .post("/api/signup/company")
       .send({
         name: "Company Name",
         email: "company@email.com",

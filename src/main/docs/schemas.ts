@@ -1,11 +1,15 @@
-import { companyAccountSchema, companySchema, errorSchema } from "./schemas/";
-import { driverSchema } from "./schemas/driver.account.schema";
-import { driverAccountSchema } from "./schemas/driver.signup.schema";
+import {
+  companyParamsSchema,
+  companyResultSchema,
+  driverParamsSchema,
+  driverResultSchema,
+  errorSchema
+} from "./schemas/"
 
 export default {
-  companyAccount: companyAccountSchema,
-  companyModel: companySchema,
-  driverAccount: driverAccountSchema,
-  driverModel: driverSchema,
+  companyParams: companyParamsSchema,
+  companyResult: companyResultSchema,
+  driverParams: driverParamsSchema,
+  driverResult: driverResultSchema,
   error: errorSchema,
 }

@@ -1,14 +1,25 @@
 export const driverAccountPath = {
   post: {
-    tags: ["Sign Up"],
+    tags: ["Sign up"],
     summary: "Create a new driver",
     description: "Create a new driver",
+    parameters: [
+      {
+        name: "company_id",
+        in: "path",
+        description: "Company id",
+        required: true,
+        schema: {
+          type: "string",
+        },
+      },
+    ],
     requestBody: {
       required: true,
       content: {
         "application/json": {
           schema: {
-            $ref: "#/schemas/driverAccount"
+            $ref: "#/schemas/driverParams"
           },
         },
       },
@@ -19,7 +30,7 @@ export const driverAccountPath = {
         content: {
           "application/json": {
             schema: {
-              $ref: "#/schemas/driverModel",
+              $ref: "#/schemas/driverResult",
             }
           }
         }

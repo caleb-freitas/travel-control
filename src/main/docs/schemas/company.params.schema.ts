@@ -1,4 +1,4 @@
-export const companyAccountSchema = {
+export const companyParamsSchema = {
   type: "object",
   properties: {
     name: {

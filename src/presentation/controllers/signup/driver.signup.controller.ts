@@ -22,8 +22,8 @@ export class DriverSignUpController implements IController {
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { company_id, name, email, password, drivers_license } =
-        httpRequest.body;
+      const { company_id } = httpRequest.params;
+      const { name, email, password, drivers_license } = httpRequest.body;
       const error = this.validation.validate(httpRequest.body);
       if (error) {
         return badRequest(error);
