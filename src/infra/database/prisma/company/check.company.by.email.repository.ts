@@ -1,6 +1,5 @@
-
 import { ICheckCompanyByEmailRepository } from "@/data/protocols";
-import { prisma } from "../prisma.client";
+import { prisma } from "@/infra/database";
 
 export class CheckCompanyByEmailRepository implements ICheckCompanyByEmailRepository {
   async checkEmail(email: string): Promise<boolean> {
@@ -9,9 +8,6 @@ export class CheckCompanyByEmailRepository implements ICheckCompanyByEmailReposi
         email,
       },
     });
-    if (emailExists) {
-      return true;
-    }
-    return false;
+    return emailExists ? true : false
   }
 }

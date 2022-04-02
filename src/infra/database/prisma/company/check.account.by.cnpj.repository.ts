@@ -1,5 +1,5 @@
 import { ICheckCompanyByCnpjRepository } from "@/data/protocols";
-import { prisma } from "../prisma.client";
+import { prisma } from "@/infra/database";
 
 export class CheckCompanyByCnpjRepository implements ICheckCompanyByCnpjRepository {
   async checkCnpj(cnpj: string): Promise<boolean> {
@@ -8,9 +8,6 @@ export class CheckCompanyByCnpjRepository implements ICheckCompanyByCnpjReposito
         cnpj,
       },
     });
-    if (cnpjExists) {
-      return true;
-    }
-    return false;
+    return cnpjExists ? true : false
   }
 }
