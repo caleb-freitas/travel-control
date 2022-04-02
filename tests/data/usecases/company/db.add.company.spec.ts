@@ -52,7 +52,7 @@ function makeCheckCompanyByEmailRepository(): ICheckCompanyByEmailRepository {
     // eslint-disable-next-line prettier/prettier
     implements ICheckCompanyByEmailRepository {
     async checkEmail(email: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(true));
+      return new Promise((resolve) => resolve(false));
     }
   }
   return new CheckCompanyByEmailRepositoryStub();
@@ -63,7 +63,7 @@ function makeCheckCompanyByCnpjRepository(): ICheckCompanyByCnpjRepository {
     // eslint-disable-next-line prettier/prettier
     implements ICheckCompanyByCnpjRepository {
     async checkCnpj(cnpj: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(true));
+      return new Promise((resolve) => resolve(false));
     }
   }
   return new CheckCompanyByCnpjRepositoryStub();
@@ -99,36 +99,14 @@ function makeSut(): ISutTypes {
 
 describe("DbAddCompany", () => {
   test("should call Hasher with correct password", async () => {
-    const {
-      sut,
-      hasherStub,
-      CheckCompanyByEmailRepositoryStub,
-      checkAccountByCnpjRepositoryStub,
-    } = makeSut();
-    jest
-      .spyOn(CheckCompanyByEmailRepositoryStub, "checkEmail")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
-    jest
-      .spyOn(checkAccountByCnpjRepositoryStub, "checkCnpj")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const { sut, hasherStub } = makeSut();
     const hashSpy = jest.spyOn(hasherStub, "hash");
     await sut.add(makeFakeAccountData());
     expect(hashSpy).toHaveBeenCalledWith("valid_password");
   });
 
   test("should call AddAccountRepository with correct values", async () => {
-    const {
-      sut,
-      addAccountRepositoryStub,
-      CheckCompanyByEmailRepositoryStub,
-      checkAccountByCnpjRepositoryStub,
-    } = makeSut();
-    jest
-      .spyOn(CheckCompanyByEmailRepositoryStub, "checkEmail")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
-    jest
-      .spyOn(checkAccountByCnpjRepositoryStub, "checkCnpj")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const { sut, addAccountRepositoryStub } = makeSut();
     const addSpy = jest.spyOn(addAccountRepositoryStub, "add");
     await sut.add(makeFakeAccountData());
     expect(addSpy).toHaveBeenCalledWith({
@@ -150,17 +128,7 @@ describe("DbAddCompany", () => {
   });
 
   test("should call CheckCompanyByCnpjRepository with correct cnpj", async () => {
-    const {
-      sut,
-      checkAccountByCnpjRepositoryStub,
-      CheckCompanyByEmailRepositoryStub,
-    } = makeSut();
-    jest
-      .spyOn(CheckCompanyByEmailRepositoryStub, "checkEmail")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
-    jest
-      .spyOn(checkAccountByCnpjRepositoryStub, "checkCnpj")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const { sut, checkAccountByCnpjRepositoryStub } = makeSut();
     const checkCnpjSpy = jest.spyOn(
       checkAccountByCnpjRepositoryStub,
       "checkCnpj"
@@ -170,17 +138,7 @@ describe("DbAddCompany", () => {
   });
 
   test("should return an account on success", async () => {
-    const {
-      sut,
-      CheckCompanyByEmailRepositoryStub,
-      checkAccountByCnpjRepositoryStub,
-    } = makeSut();
-    jest
-      .spyOn(CheckCompanyByEmailRepositoryStub, "checkEmail")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
-    jest
-      .spyOn(checkAccountByCnpjRepositoryStub, "checkCnpj")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const { sut } = makeSut();
     const account = await sut.add(makeFakeAccountData());
     expect(account).toEqual(makeFakeAccount());
   });
