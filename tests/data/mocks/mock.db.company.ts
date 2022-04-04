@@ -1,5 +1,8 @@
 import { ILoadCompanyByEmailRepository, IHashComparer } from "@/data/protocols";
-import { LoadAccountByEmailRepository } from "@/data/protocols/database";
+import {
+  IUpdateCompanyTokenRepository,
+  LoadAccountByEmailRepository,
+} from "@/data/protocols/database";
 import { Authentication, IAuthentication } from "@/domain/usecases";
 import { mockCompanyAuthenticationResult } from "@/tests/domain/mocks";
 import { mockCompanyResult } from "@/tests/domain/mocks/mock.company";
@@ -20,5 +23,13 @@ export class LoadCompanyByEmailRepositorySpy
     email: string
   ): Promise<LoadAccountByEmailRepository.Result> {
     return this.result;
+  }
+}
+
+export class UpdateCompanyTokenRepositorySpy
+  // eslint-disable-next-line prettier/prettier
+  implements IUpdateCompanyTokenRepository {
+  async updateAccessToken(id: string, token: string): Promise<void> {
+    return null;
   }
 }

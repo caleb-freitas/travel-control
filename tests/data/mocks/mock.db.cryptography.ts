@@ -1,4 +1,4 @@
-import { IHashComparer } from "@/data/protocols/cryptography";
+import { IEncrypter, IHashComparer } from "@/data/protocols/cryptography";
 
 export class HashComparerSpy implements IHashComparer {
   plaintext: string;
@@ -9,5 +9,15 @@ export class HashComparerSpy implements IHashComparer {
     this.plaintext = plaintext;
     this.digest = digest;
     return this.isValid;
+  }
+}
+
+export class EncrypterSpy implements IEncrypter {
+  plaintext: string;
+  result: string;
+
+  async encrypt(plaintext: string): Promise<string> {
+    this.plaintext = plaintext;
+    return this.result;
   }
 }
