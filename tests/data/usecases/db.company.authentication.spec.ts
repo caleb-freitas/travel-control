@@ -62,6 +62,16 @@ describe("DbCompanyAuthentication", () => {
     await expect(promise).rejects.toThrow();
   });
 
+  test("should return null if LoadCompanyByEmailRepository return null", async () => {
+    const { sut, loadCompanyByEmailRepositorySpy } = makeSut();
+    jest
+      .spyOn(loadCompanyByEmailRepositorySpy, "loadByEmail")
+      .mockReturnValueOnce(null);
+    const authenticationParams = mockCompanyAuthenticationParams();
+    const response = await sut.auth(authenticationParams);
+    expect(response).toBe(null);
+  });
+
   test("should call HashComparer with correct password", async () => {
     const { sut, hashComparerSpy } = makeSut();
     const compareSpy = jest.spyOn(hashComparerSpy, "compare");
