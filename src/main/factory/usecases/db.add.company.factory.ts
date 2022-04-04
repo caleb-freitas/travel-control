@@ -5,7 +5,7 @@ import {
   CheckCompanyByCnpjRepository,
   CheckCompanyByEmailRepository,
   CompanyRepository,
-} from "@/infra/database";
+} from "@/infra/repositories";
 
 export const makeDbAddCompany = (): IAddCompany => {
   const salt = 12;

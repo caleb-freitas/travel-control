@@ -1,4 +1,4 @@
-import { prisma } from "@/infra/database/prisma/prisma.client";
+import { prisma } from "@/infra/repositories";
 import app from "@/main/config/app";
 import request from "supertest";
 

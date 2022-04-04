@@ -1,6 +1,5 @@
 import { IAddCompanyModel } from "@/domain/usecases";
-import { CompanyRepository, prisma } from "@/infra/database";
-
+import { CompanyRepository, prisma } from "@/infra/repositories";
 
 function makeSut(): CompanyRepository {
   return new CompanyRepository();

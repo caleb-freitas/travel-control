@@ -1,7 +1,7 @@
 import { IAddCompanyRepository } from "@/data/protocols";
 import { ICompanyModel } from "@/domain/models";
 import { IAddCompanyModel } from "@/domain/usecases";
-import { prisma } from "@/infra/database";
+import { prisma } from "@/infra/repositories";
 
 export class CompanyRepository implements IAddCompanyRepository {
   async add(accountData: IAddCompanyModel): Promise<ICompanyModel> {

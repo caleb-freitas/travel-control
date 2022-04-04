@@ -1,6 +1,7 @@
 import { ICheckCompanyByCnpjRepository } from "@/data/protocols";
-import { prisma } from "@/infra/database";
+import { prisma } from "@/infra/repositories";
 
+// eslint-disable-next-line prettier/prettier
 export class CheckCompanyByCnpjRepository implements ICheckCompanyByCnpjRepository {
   async checkCnpj(cnpj: string): Promise<boolean> {
     const cnpjExists = await prisma.company.findFirst({
@@ -8,6 +9,6 @@ export class CheckCompanyByCnpjRepository implements ICheckCompanyByCnpjReposito
         cnpj,
       },
     });
-    return cnpjExists ? true : false
+    return !!cnpjExists;
   }
 }

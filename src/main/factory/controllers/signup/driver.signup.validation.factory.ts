@@ -9,7 +9,7 @@ import {
   PasswordValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from "@/validation/validators";
+} from "@/validation";
 
 export function makeDriverSignUpValidation(): ValidationComposite {
   const validations: IValidation[] = [];
