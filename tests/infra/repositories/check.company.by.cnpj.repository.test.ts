@@ -1,12 +1,16 @@
-import { CheckCompanyByEmailRepository, CompanyRepository, prisma } from "@/infra/database";
-
+import { ICheckCompanyByCnpjRepository } from "@/data/protocols/database";
+import {
+  CheckCompanyByCnpjRepository,
+  CompanyRepository,
+  prisma,
+} from "@/infra/repositories";
 
 function makeCompanyRepository(): CompanyRepository {
   return new CompanyRepository();
 }
 
-function makeSut(): CheckCompanyByEmailRepository {
-  return new CheckCompanyByEmailRepository();
+function makeSut(): ICheckCompanyByCnpjRepository {
+  return new CheckCompanyByCnpjRepository();
 }
 
 describe("CheckCompanyByEmailRepository", () => {
@@ -26,15 +30,15 @@ describe("CheckCompanyByEmailRepository", () => {
     await prisma.$disconnect();
   });
 
-  test("should return true if an email was registered", async () => {
+  test("should return true if an cnpj was registered", async () => {
     const sut = makeSut();
-    const response = await sut.checkEmail("registered@email.com");
+    const response = await sut.checkCnpj("30.270.488/0001-38");
     expect(response).toBe(true);
   });
 
-  test("should return false if an email was not registered", async () => {
+  test("should return false if an cnpj was not registered", async () => {
     const sut = makeSut();
-    const response = await sut.checkEmail("non-registered@email.com");
+    const response = await sut.checkCnpj("35.270.400/0001-30");
     expect(response).toBe(false);
   });
 });

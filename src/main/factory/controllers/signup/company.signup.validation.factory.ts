@@ -11,7 +11,7 @@ import {
   PasswordValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from "@/validation/validators";
+} from "@/validation";
 
 export const makeCompanySignUpValidation = (): ValidationComposite => {
   const validations: IValidation[] = [];

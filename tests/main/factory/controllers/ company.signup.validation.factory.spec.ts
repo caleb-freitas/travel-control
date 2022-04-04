@@ -12,9 +12,9 @@ import {
   PasswordValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from "@/validation/validators";
+} from "@/validation";
 
-jest.mock("../../../../src/validation/validators/validation.composite.ts");
+jest.mock("../../../../src/validation/validation.composite.ts");
 
 function makeEmailValidator(): IEmailValidator {
   class EmailValidatorStub implements IEmailValidator {

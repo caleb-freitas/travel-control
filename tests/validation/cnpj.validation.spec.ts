@@ -1,6 +1,6 @@
 import { InvalidParamError } from "@/presentation/errors";
 import { ICnpjValidator } from "@/presentation/protocols";
-import { CnpjValidation } from "@/validation/validators";
+import { CnpjValidation } from "@/validation";
 
 function makeCnpjValidator(): ICnpjValidator {
   class CnpjValidatorStub implements ICnpjValidator {

@@ -1,5 +1,9 @@
-import { CheckDriverByEmailRepository, CompanyRepository, DriverRepository, prisma } from "@/infra/database";
-
+import {
+  CheckDriverByEmailRepository,
+  CompanyRepository,
+  DriverRepository,
+  prisma,
+} from "@/infra/repositories";
 
 function makeDriverRepository(): DriverRepository {
   return new DriverRepository();
@@ -15,7 +19,7 @@ function makeSut(): CheckDriverByEmailRepository {
 
 describe("CheckDriverByEmailRepository", () => {
   beforeAll(async () => {
-    const companyRepository = makeCompanyRepository()
+    const companyRepository = makeCompanyRepository();
     const driverRepository = makeDriverRepository();
     const company = await companyRepository.add({
       name: "any_name",
@@ -51,4 +55,3 @@ describe("CheckDriverByEmailRepository", () => {
     expect(response).toBe(false);
   });
 });
-

@@ -5,7 +5,7 @@ import {
   CheckCompanyIdRepository,
   CheckDriverByEmailRepository,
   DriverRepository,
-} from "@/infra/database";
+} from "@/infra/repositories";
 
 export function makeDbAddDriver(): IAddDriver {
   const salt = 12;

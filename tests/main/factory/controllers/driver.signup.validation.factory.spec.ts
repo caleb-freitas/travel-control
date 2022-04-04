@@ -10,7 +10,7 @@ import {
   PasswordValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from "@/validation/validators";
+} from "@/validation";
 
 function makeEmailValidator(): IEmailValidator {
   class EmailValidatorStub implements IEmailValidator {
@@ -30,7 +30,7 @@ function makePasswordValidator(): IPasswordValidator {
   return new PasswordValidatorStub();
 }
 
-jest.mock("../../../../src/validation/validators/validation.composite.ts");
+jest.mock("../../../../src/validation/validation.composite.ts");
 
 describe("DriverSignUpValidationFactory", () => {
   test("should call ValidationComposite with correct validations", () => {
