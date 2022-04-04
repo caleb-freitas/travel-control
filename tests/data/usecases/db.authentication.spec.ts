@@ -1,47 +1,28 @@
 import { DbAuthentication } from "@/data/usecases";
-import { Authentication, IAuthentication } from "@/domain/usecases";
-
-function makeDbCompanyAuthentication(): IAuthentication {
-  class DbCompanyAuthentication implements IAuthentication {
-    result = {
-      accessToken: "access_token",
-      name: "name",
-    };
-
-    async auth(params: Authentication.Params): Promise<Authentication.Result> {
-      return new Promise((resolve) => resolve(this.result));
-    }
-  }
-  return new DbCompanyAuthentication();
-}
-
-function makeAuthParams() {
-  return {
-    email: "valid@email.com",
-    password: "ValidPass123",
-    role: "valid_role",
-  };
-}
+import { IAuthentication } from "@/domain/usecases";
+import { DbCompanyAuthenticationSpy } from "@/tests/data/mocks";
+import { mockAuthenticationParams } from "@/tests/domain/mocks";
 
 type Sut = {
   sut: IAuthentication;
-  dbCompanyAuthenticationStub: IAuthentication;
+  dbCompanyAuthenticationSpy: IAuthentication;
 };
 
 function makeSut(): Sut {
-  const dbCompanyAuthenticationStub = makeDbCompanyAuthentication();
-  const sut = new DbAuthentication(dbCompanyAuthenticationStub);
+  const dbCompanyAuthenticationSpy = new DbCompanyAuthenticationSpy();
+  const sut = new DbAuthentication(dbCompanyAuthenticationSpy);
   return {
     sut,
-    dbCompanyAuthenticationStub,
+    dbCompanyAuthenticationSpy,
   };
 }
 
 describe("DbAuthentication", () => {
   test("should call DbCompanyAuthentication with correct values", async () => {
-    const { sut, dbCompanyAuthenticationStub } = makeSut();
-    const authSpy = jest.spyOn(dbCompanyAuthenticationStub, "auth");
-    await sut.auth(makeAuthParams());
-    expect(authSpy).toHaveBeenCalledWith(makeAuthParams());
+    const { sut, dbCompanyAuthenticationSpy } = makeSut();
+    const authenticationParams = mockAuthenticationParams();
+    const authSpy = jest.spyOn(dbCompanyAuthenticationSpy, "auth");
+    await sut.auth(authenticationParams);
+    expect(authSpy).toHaveBeenCalledWith(authenticationParams);
   });
 });
