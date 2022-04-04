@@ -86,12 +86,10 @@ describe("DbCompanyAuthentication", () => {
   });
 
   test("should throw if Encrypter throw", async () => {
-    const { sut } = makeSut();
-    const response = await sut.auth(mockCompanyAuthenticationParams());
-    expect(response).toEqual({
-      accessToken: "access_token",
-      name: "company",
-    });
+    const { sut, encrypterSpy } = makeSut();
+    jest.spyOn(encrypterSpy, "encrypt").mockImplementationOnce(throwError);
+    const promise = sut.auth(mockCompanyAuthenticationParams());
+    await expect(promise).rejects.toThrow();
   });
 
   test("should return correct data on success", async () => {
@@ -110,5 +108,14 @@ describe("DbCompanyAuthentication", () => {
     const authenticationParams = mockCompanyAuthenticationParams();
     await sut.auth(authenticationParams);
     expect(loadSpy).toHaveBeenCalledWith("company_id", "access_token");
+  });
+
+  test("should throw if UpdateCompanyTokenRepository throw", async () => {
+    const { sut, updateCompanyTokenRepositorySpy } = makeSut();
+    jest
+      .spyOn(updateCompanyTokenRepositorySpy, "updateAccessToken")
+      .mockImplementationOnce(throwError);
+    const promise = sut.auth(mockCompanyAuthenticationParams());
+    await expect(promise).rejects.toThrow();
   });
 });
