@@ -14,7 +14,7 @@ export class HashComparerSpy implements IHashComparer {
 
 export class EncrypterSpy implements IEncrypter {
   plaintext: string;
-  result: "access_token";
+  result = "access_token";
 
   async encrypt(plaintext: string): Promise<string> {
     this.plaintext = plaintext;
