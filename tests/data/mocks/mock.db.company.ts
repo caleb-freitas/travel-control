@@ -1,10 +1,8 @@
 import { Authentication, IAuthentication } from "@/domain/usecases";
+import { mockAuthenticationResult } from "@/tests/domain/mocks";
 
 export class DbCompanyAuthenticationSpy implements IAuthentication {
-  result = {
-    accessToken: "access_token",
-    name: "name",
-  };
+  result = mockAuthenticationResult();
 
   async auth(params: Authentication.Params): Promise<Authentication.Result> {
     return this.result;

@@ -1,6 +1,10 @@
 import { DbAuthentication } from "@/data/usecases";
 import { DbCompanyAuthenticationSpy } from "@/tests/data/mocks";
-import { mockAuthenticationParams, throwError } from "@/tests/domain/mocks";
+import {
+  mockAuthenticationParams,
+  mockAuthenticationResult,
+  throwError,
+} from "@/tests/domain/mocks";
 
 type Sut = {
   sut: DbAuthentication;
@@ -32,6 +36,21 @@ describe("DbAuthentication", () => {
       .spyOn(dbCompanyAuthenticationSpy, "auth")
       .mockImplementationOnce(throwError);
     const promise = sut.auth(authenticationParams);
-    expect(promise).rejects.toThrow();
+    await expect(promise).rejects.toThrow();
+  });
+
+  test("should return an access token for the company if DbCompanyAuthentication succeeds", async () => {
+    const { sut } = makeSut();
+    const authenticationParams = mockAuthenticationParams();
+    const authResponse = await sut.auth(authenticationParams);
+    expect(authResponse).toEqual(mockAuthenticationResult());
+  });
+
+  test("should call DbDriverAuthentication with correct values", async () => {
+    const { sut, dbCompanyAuthenticationSpy } = makeSut();
+    const authenticationParams = mockAuthenticationParams();
+    const authSpy = jest.spyOn(dbCompanyAuthenticationSpy, "auth");
+    await sut.auth(authenticationParams);
+    expect(authSpy).toHaveBeenCalledWith(authenticationParams);
   });
 });
