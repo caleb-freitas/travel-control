@@ -76,4 +76,12 @@ describe("DbCompanyAuthentication", () => {
     const promise = sut.auth(mockCompanyAuthenticationParams());
     await expect(promise).rejects.toThrow();
   });
+
+  test("should call Encrypter with correct plaintext", async () => {
+    const { sut, encrypterSpy } = makeSut();
+    const encryptSpy = jest.spyOn(encrypterSpy, "encrypt");
+    const authenticationParams = mockCompanyAuthenticationParams();
+    await sut.auth(authenticationParams);
+    expect(encryptSpy).toHaveBeenCalledWith("company_id");
+  });
 });

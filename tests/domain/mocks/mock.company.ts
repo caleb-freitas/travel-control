@@ -1,14 +1,8 @@
 import { ICompanyModel } from "@/domain/models";
-import {
-  randEmail,
-  randPassword,
-  randUserName,
-  randWord,
-  randUuid,
-} from "@ngneat/falso";
+import { randEmail, randUserName, randWord } from "@ngneat/falso";
 
 export const mockCompanyResult = (): ICompanyModel => ({
-  id: randUuid(),
+  id: "company_id",
   cnpj: randWord(),
   created_at: new Date(),
   email: randEmail(),
