@@ -1,11 +1,16 @@
-import { IHashComparer } from "@/data/protocols/cryptography";
-import { ILoadCompanyByEmailRepository } from "@/data/protocols/database";
+import { IEncrypter, IHashComparer } from "@/data/protocols/cryptography";
+import {
+  ILoadCompanyByEmailRepository,
+  IUpdateCompanyTokenRepository,
+} from "@/data/protocols/database";
 import { Authentication, IAuthentication } from "@/domain/usecases";
 
 export class DbCompanyAuthentication implements IAuthentication {
   constructor(
     private readonly loadCompanyByEmail: ILoadCompanyByEmailRepository,
-    private readonly hashComparer: IHashComparer
+    private readonly hashComparer: IHashComparer,
+    private readonly encrypter: IEncrypter,
+    private readonly updateCompanyToken: IUpdateCompanyTokenRepository
   ) {}
 
   async auth(
@@ -19,6 +24,17 @@ export class DbCompanyAuthentication implements IAuthentication {
         authenticationParams.password,
         company.password
       );
+      if (validPassword) {
+        const accessToken = await this.encrypter.encrypt(company.id);
+        await this.updateCompanyToken.updateAccessToken(
+          company.id,
+          accessToken
+        );
+        return {
+          accessToken,
+          name: company.name,
+        };
+      }
     }
     return null;
   }
