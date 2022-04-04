@@ -69,4 +69,11 @@ describe("DbCompanyAuthentication", () => {
     await sut.auth(authenticationParams);
     expect(compareSpy).toHaveBeenCalledWith("password", "hashed_password");
   });
+
+  test("should throw if HashComparer throw", async () => {
+    const { sut, hashComparerSpy } = makeSut();
+    jest.spyOn(hashComparerSpy, "compare").mockImplementationOnce(throwError);
+    const promise = sut.auth(mockCompanyAuthenticationParams());
+    await expect(promise).rejects.toThrow();
+  });
 });
