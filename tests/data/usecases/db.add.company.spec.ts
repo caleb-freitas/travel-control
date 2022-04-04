@@ -7,6 +7,7 @@ import {
 import { DbAddCompany } from "@/data/usecases";
 import { ICompanyModel } from "@/domain/models";
 import { IAddCompany, IAddCompanyModel } from "@/domain/usecases";
+import { FieldInUseError } from "@/presentation/errors";
 
 function makeFakeAccountData(): IAddCompanyModel {
   return {
@@ -73,26 +74,26 @@ interface ISutTypes {
   sut: IAddCompany;
   hasherStub: IHasher;
   addAccountRepositoryStub: IAddCompanyRepository;
-  CheckCompanyByEmailRepositoryStub: ICheckCompanyByEmailRepository;
+  checkCompanyByEmailRepositoryStub: ICheckCompanyByEmailRepository;
   checkAccountByCnpjRepositoryStub: ICheckCompanyByCnpjRepository;
 }
 
 function makeSut(): ISutTypes {
   const hasherStub = makeHasher();
   const addAccountRepositoryStub = makeAddAccountRepository();
-  const CheckCompanyByEmailRepositoryStub = makeCheckCompanyByEmailRepository();
+  const checkCompanyByEmailRepositoryStub = makeCheckCompanyByEmailRepository();
   const checkAccountByCnpjRepositoryStub = makeCheckCompanyByCnpjRepository();
   const sut = new DbAddCompany(
     hasherStub,
     addAccountRepositoryStub,
-    CheckCompanyByEmailRepositoryStub,
+    checkCompanyByEmailRepositoryStub,
     checkAccountByCnpjRepositoryStub
   );
   return {
     sut,
     hasherStub,
     addAccountRepositoryStub,
-    CheckCompanyByEmailRepositoryStub,
+    checkCompanyByEmailRepositoryStub,
     checkAccountByCnpjRepositoryStub,
   };
 }
@@ -118,13 +119,31 @@ describe("DbAddCompany", () => {
   });
 
   test("should call CheckCompanyByEmailRepository with correct email", async () => {
-    const { sut, CheckCompanyByEmailRepositoryStub } = makeSut();
+    const { sut, checkCompanyByEmailRepositoryStub } = makeSut();
     const checkEmailSpy = jest.spyOn(
-      CheckCompanyByEmailRepositoryStub,
+      checkCompanyByEmailRepositoryStub,
       "checkEmail"
     );
     await sut.add(makeFakeAccountData());
     expect(checkEmailSpy).toHaveBeenCalledWith("valid@email.com");
+  });
+
+  test("should throw an error if CheckCompanyByEmailRepository return false", async () => {
+    const { sut, checkCompanyByEmailRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkCompanyByEmailRepositoryStub, "checkEmail")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
+    const error = await sut.add(makeFakeAccountData());
+    expect(error).toEqual(new FieldInUseError("email"));
+  });
+
+  test("should throw an error if CheckCompanyByCnpjRepository return false", async () => {
+    const { sut, checkAccountByCnpjRepositoryStub } = makeSut();
+    jest
+      .spyOn(checkAccountByCnpjRepositoryStub, "checkCnpj")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
+    const error = await sut.add(makeFakeAccountData());
+    expect(error).toEqual(new FieldInUseError("cnpj"));
   });
 
   test("should call CheckCompanyByCnpjRepository with correct cnpj", async () => {

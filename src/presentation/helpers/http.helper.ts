@@ -8,13 +8,6 @@ export function ok(data: any): IHttpResponse {
   };
 }
 
-export function created(data: any): IHttpResponse {
-  return {
-    statusCode: 201,
-    body: data,
-  };
-}
-
 export function badRequest(error: Error): IHttpResponse {
   return {
     statusCode: 400,
