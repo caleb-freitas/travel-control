@@ -1,7 +1,10 @@
 import { ILoadCompanyByEmailRepository } from "@/data/protocols";
 import { DbCompanyAuthentication } from "@/data/usecases";
 import { LoadCompanyByEmailRepositorySpy } from "@/tests/data/mocks";
-import { mockCompanyAuthenticationParams } from "@/tests/domain/mocks";
+import {
+  mockCompanyAuthenticationParams,
+  throwError,
+} from "@/tests/domain/mocks";
 
 type Sut = {
   sut: DbCompanyAuthentication;
@@ -24,5 +27,14 @@ describe("DbCompanyAuthentication", () => {
     const authenticationParams = mockCompanyAuthenticationParams();
     await sut.auth(authenticationParams);
     expect(loadSpy).toHaveBeenCalledWith(authenticationParams.email);
+  });
+
+  test("should throw if LoadCompanyByEmailRepository throw", async () => {
+    const { sut, loadCompanyByEmailRepositorySpy } = makeSut();
+    jest
+      .spyOn(loadCompanyByEmailRepositorySpy, "loadByEmail")
+      .mockImplementationOnce(throwError);
+    const promise = sut.auth(mockCompanyAuthenticationParams());
+    await expect(promise).rejects.toThrow();
   });
 });
