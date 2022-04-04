@@ -9,7 +9,13 @@ export class DbAuthentication implements IAuthentication {
   async auth(
     authenticationParams: Authentication.Params
   ): Promise<Authentication.Result> {
-    await this.dbCompanyAuthentication.auth(authenticationParams);
+    const { role } = authenticationParams;
+    if (role === "company") {
+      const accessToken = await this.dbCompanyAuthentication.auth(
+        authenticationParams
+      );
+      return accessToken;
+    }
     return null;
   }
 }
