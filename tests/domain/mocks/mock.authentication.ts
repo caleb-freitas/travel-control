@@ -3,7 +3,7 @@ import { randEmail, randPassword } from "@ngneat/falso";
 
 export const mockCompanyAuthenticationParams = (): Authentication.Params => ({
   email: randEmail(),
-  password: randPassword({ size: 16 }),
+  password: "password",
   role: "company",
 });
 

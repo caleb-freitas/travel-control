@@ -13,6 +13,6 @@ export const mockCompanyResult = (): ICompanyModel => ({
   created_at: new Date(),
   email: randEmail(),
   name: randUserName(),
-  password: randPassword(),
+  password: "hashed_password",
   updated_at: new Date(),
 });
