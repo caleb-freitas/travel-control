@@ -1,6 +1,9 @@
-import { ILoadCompanyByEmailRepository } from "@/data/protocols";
+import { IHashComparer, ILoadCompanyByEmailRepository } from "@/data/protocols";
 import { DbCompanyAuthentication } from "@/data/usecases";
-import { LoadCompanyByEmailRepositorySpy } from "@/tests/data/mocks";
+import {
+  HashComparerSpy,
+  LoadCompanyByEmailRepositorySpy,
+} from "@/tests/data/mocks";
 import {
   mockCompanyAuthenticationParams,
   throwError,
@@ -9,14 +12,20 @@ import {
 type Sut = {
   sut: DbCompanyAuthentication;
   loadCompanyByEmailRepositorySpy: ILoadCompanyByEmailRepository;
+  hashComparerSpy: IHashComparer;
 };
 
 function makeSut(): Sut {
   const loadCompanyByEmailRepositorySpy = new LoadCompanyByEmailRepositorySpy();
-  const sut = new DbCompanyAuthentication(loadCompanyByEmailRepositorySpy);
+  const hashComparerSpy = new HashComparerSpy();
+  const sut = new DbCompanyAuthentication(
+    loadCompanyByEmailRepositorySpy,
+    hashComparerSpy
+  );
   return {
     sut,
     loadCompanyByEmailRepositorySpy,
+    hashComparerSpy,
   };
 }
 
