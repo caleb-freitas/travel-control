@@ -1,7 +1,7 @@
 import { ILoadCompanyByEmailRepository, IHashComparer } from "@/data/protocols";
 import {
   IUpdateCompanyTokenRepository,
-  LoadAccountByEmailRepository,
+  LoadCompanyByEmailRepository,
 } from "@/data/protocols/database";
 import { Authentication, IAuthentication } from "@/domain/usecases";
 import { mockCompanyAuthenticationResult } from "@/tests/domain/mocks";
@@ -21,7 +21,7 @@ export class LoadCompanyByEmailRepositorySpy
   result = mockCompanyResult();
   async loadByEmail(
     email: string
-  ): Promise<LoadAccountByEmailRepository.Result> {
+  ): Promise<LoadCompanyByEmailRepository.Result> {
     return this.result;
   }
 }

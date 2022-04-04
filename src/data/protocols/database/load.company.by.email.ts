@@ -1,6 +1,4 @@
-import { ICompanyModel } from "@/domain/models";
-
-export namespace LoadAccountByEmailRepository {
+export namespace LoadCompanyByEmailRepository {
   export type Result = {
     id: string;
     name: string;
@@ -13,5 +11,5 @@ export namespace LoadAccountByEmailRepository {
 }
 
 export interface ILoadCompanyByEmailRepository {
-  loadByEmail(email: string): Promise<LoadAccountByEmailRepository.Result>;
+  loadByEmail(email: string): Promise<LoadCompanyByEmailRepository.Result>;
 }
