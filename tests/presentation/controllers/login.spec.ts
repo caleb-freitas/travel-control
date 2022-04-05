@@ -1,7 +1,7 @@
 import { IAuthentication } from "@/domain/usecases";
 import { LoginController } from "@/presentation/controllers";
 import { ServerError } from "@/presentation/errors";
-import { ok, serverError } from "@/presentation/helpers";
+import { ok, serverError, unauthorized } from "@/presentation/helpers";
 import { IHttpRequest, IValidation } from "@/presentation/protocols";
 import { throwError } from "@/tests/domain/mocks";
 import { ValidationSpy, DbAuthenticationSpy } from "@/tests/presentation/mocks";
@@ -60,6 +60,13 @@ describe("CompanyLoginController", () => {
     jest.spyOn(dbAuthenticationSpy, "auth").mockImplementationOnce(throwError);
     const response = await sut.handle(mockRequest());
     expect(response).toEqual(serverError(new ServerError()));
+  });
+
+  test("should return 401 if DbAuthentication fail", async () => {
+    const { sut, dbAuthenticationSpy } = makeSut();
+    jest.spyOn(dbAuthenticationSpy, "auth").mockImplementationOnce(null);
+    const response = await sut.handle(mockRequest());
+    expect(response).toEqual(unauthorized());
   });
 
   test("should return 200 on success", async () => {
