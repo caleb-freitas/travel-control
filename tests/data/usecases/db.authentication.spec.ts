@@ -76,6 +76,16 @@ describe("DbAuthentication", () => {
     await expect(promise).rejects.toThrow();
   });
 
+  test("should return null if authentication fail", async () => {
+    const { sut } = makeSut();
+    const response = await sut.auth({
+      email: "invalid@email.com",
+      password: "password",
+      role: "null",
+    });
+    expect(response).toBeNull();
+  });
+
   test("should return an access token for the company if DbDriverAuthentication succeeds", async () => {
     const { sut } = makeSut();
     const authenticationParams = mockDriverAuthenticationParams();
