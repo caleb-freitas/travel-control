@@ -1,7 +1,12 @@
 import { IAuthentication } from "@/domain/usecases";
 import { LoginController } from "@/presentation/controllers";
-import { ServerError } from "@/presentation/errors";
-import { ok, serverError, unauthorized } from "@/presentation/helpers";
+import { InvalidParamError, ServerError } from "@/presentation/errors";
+import {
+  badRequest,
+  ok,
+  serverError,
+  unauthorized,
+} from "@/presentation/helpers";
 import { IHttpRequest, IValidation } from "@/presentation/protocols";
 import { throwError } from "@/tests/domain/mocks";
 import { ValidationSpy, DbAuthenticationSpy } from "@/tests/presentation/mocks";
@@ -67,6 +72,15 @@ describe("CompanyLoginController", () => {
     jest.spyOn(dbAuthenticationSpy, "auth").mockImplementationOnce(null);
     const response = await sut.handle(mockRequest());
     expect(response).toEqual(unauthorized());
+  });
+
+  test("should return 403 if Validation fail", async () => {
+    const { sut, validationSpy } = makeSut();
+    jest
+      .spyOn(validationSpy, "validate")
+      .mockReturnValueOnce(new InvalidParamError("field"));
+    const response = await sut.handle(mockRequest());
+    expect(response).toEqual(badRequest(new InvalidParamError("field")));
   });
 
   test("should return 200 on success", async () => {

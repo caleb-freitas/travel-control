@@ -30,7 +30,6 @@ describe("JwtAdapter", () => {
   test("should return a token on success", async () => {
     const sut = makeSut();
     const token = await sut.encrypt("any_id");
-    console.log(token);
     expect(token).toBe("any_token");
   });
 });
