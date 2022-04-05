@@ -6,3 +6,4 @@ export * from "./add.company";
 export * from "./add.driver";
 export * from "./prisma.client";
 export * from "./load.company.by.email";
+export * from "./load.driver.by.email";

@@ -1,4 +1,4 @@
-export namespace LoadDriverByEmailRepository {
+export namespace LoadDriverByEmail {
   export type Result = {
     id: string;
     company_id: string;
@@ -12,5 +12,5 @@ export namespace LoadDriverByEmailRepository {
 }
 
 export interface ILoadDriverByEmailRepository {
-  loadByEmail(email: string): Promise<LoadDriverByEmailRepository.Result>;
+  loadByEmail(email: string): Promise<LoadDriverByEmail.Result>;
 }
