@@ -8,3 +8,4 @@ export * from "./prisma.client";
 export * from "./load.company.by.email";
 export * from "./load.driver.by.email";
 export * from "./update.company.token";
+export * from "./update.driver.token";
