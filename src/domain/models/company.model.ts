@@ -6,4 +6,5 @@ export interface ICompanyModel {
   cnpj: string;
   created_at: Date;
   updated_at?: Date;
+  access_token?: string;
 }

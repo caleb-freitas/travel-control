@@ -25,5 +25,6 @@ export class DbAuthentication implements IAuthentication {
       );
       return driverAccessToken;
     }
+    return null;
   }
 }

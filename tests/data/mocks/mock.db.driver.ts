@@ -1,7 +1,7 @@
 import {
   ILoadDriverByEmailRepository,
   IUpdateDriverTokenRepository,
-  LoadDriverByEmailRepository,
+  LoadDriverByEmail,
 } from "@/data/protocols/database";
 import { Authentication, IAuthentication } from "@/domain/usecases";
 import {
@@ -21,9 +21,7 @@ export class LoadDriverByEmailRepositorySpy
   // eslint-disable-next-line prettier/prettier
   implements ILoadDriverByEmailRepository {
   result = mockDriverResult();
-  async loadByEmail(
-    email: string
-  ): Promise<LoadDriverByEmailRepository.Result> {
+  async loadByEmail(email: string): Promise<LoadDriverByEmail.Result> {
     return this.result;
   }
 }

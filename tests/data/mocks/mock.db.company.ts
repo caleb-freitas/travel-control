@@ -1,7 +1,7 @@
 import { ILoadCompanyByEmailRepository, IHashComparer } from "@/data/protocols";
 import {
   IUpdateCompanyTokenRepository,
-  LoadCompanyByEmailRepository,
+  LoadCompanyByEmail,
 } from "@/data/protocols/database";
 import { Authentication, IAuthentication } from "@/domain/usecases";
 import { mockCompanyAuthenticationResult } from "@/tests/domain/mocks";
@@ -19,9 +19,7 @@ export class LoadCompanyByEmailRepositorySpy
   // eslint-disable-next-line prettier/prettier
   implements ILoadCompanyByEmailRepository {
   result = mockCompanyResult();
-  async loadByEmail(
-    email: string
-  ): Promise<LoadCompanyByEmailRepository.Result> {
+  async loadByEmail(email: string): Promise<LoadCompanyByEmail.Result> {
     return this.result;
   }
 }
