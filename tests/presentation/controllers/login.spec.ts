@@ -47,4 +47,18 @@ describe("CompanyLoginController", () => {
     const response = await sut.handle(mockRequest());
     expect(response).toEqual(serverError(new ServerError()));
   });
+
+  test("should call validation with correct values", async () => {
+    const { sut, dbAuthenticationSpy } = makeSut();
+    const validateSpy = jest.spyOn(dbAuthenticationSpy, "auth");
+    await sut.handle(mockRequest());
+    expect(validateSpy).toHaveBeenCalledWith(mockRequest().body);
+  });
+
+  test("should return 500 if validation throw", async () => {
+    const { sut, dbAuthenticationSpy } = makeSut();
+    jest.spyOn(dbAuthenticationSpy, "auth").mockImplementationOnce(throwError);
+    const response = await sut.handle(mockRequest());
+    expect(response).toEqual(serverError(new ServerError()));
+  });
 });
