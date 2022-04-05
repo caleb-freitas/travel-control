@@ -1,41 +1,40 @@
-import {
-  IController,
-  IHttpRequest,
-  IHttpResponse,
-  IValidation,
-} from "@/presentation/protocols";
+import { IAuthentication } from "@/domain/usecases";
+import { LoginController } from "@/presentation/controllers";
+import { IHttpRequest, IValidation } from "@/presentation/protocols";
+import { ValidationSpy, DbAuthenticationSpy } from "@/tests/presentation/mocks";
+
+function mockRequest(): IHttpRequest {
+  return {
+    body: {
+      email: "valid@email.com",
+      password: "valid_pass",
+      role: "role",
+    },
+  };
+}
+
+type Sut = {
+  sut: LoginController;
+  validationSpy: IValidation;
+  dbAuthenticationSpy: IAuthentication;
+};
+
+function makeSut(): Sut {
+  const validationSpy = new ValidationSpy();
+  const dbAuthenticationSpy = new DbAuthenticationSpy();
+  const sut = new LoginController(validationSpy, dbAuthenticationSpy);
+  return {
+    sut,
+    validationSpy,
+    dbAuthenticationSpy,
+  };
+}
 
 describe("CompanyLoginController", () => {
   test("should call validation with correct values", async () => {
-    class CompanyLoginController implements IController {
-      constructor(private readonly validation: IValidation) {}
-
-      async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-        await this.validation.validate(httpRequest.body);
-
-        return {
-          statusCode: 200,
-          body: {},
-        };
-      }
-    }
-    class ValidationStub implements IValidation {
-      validate(input: any): Error {
-        return null;
-      }
-    }
-    const validationStub = new ValidationStub();
-    const sut = new CompanyLoginController(validationStub);
-    const validateSpy = jest.spyOn(validationStub, "validate");
-    await sut.handle({
-      body: {
-        email: "valid@email.com",
-        password: "password",
-      },
-    });
-    expect(validateSpy).toHaveBeenCalledWith({
-      email: "valid@email.com",
-      password: "password",
-    });
+    const { sut, validationSpy } = makeSut();
+    const validateSpy = jest.spyOn(validationSpy, "validate");
+    await sut.handle(mockRequest());
+    expect(validateSpy).toHaveBeenCalledWith(mockRequest().body);
   });
 });
