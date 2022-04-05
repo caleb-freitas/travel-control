@@ -1,7 +1,7 @@
 import { IAuthentication } from "@/domain/usecases";
 import { LoginController } from "@/presentation/controllers";
 import { ServerError } from "@/presentation/errors";
-import { serverError } from "@/presentation/helpers";
+import { ok, serverError } from "@/presentation/helpers";
 import { IHttpRequest, IValidation } from "@/presentation/protocols";
 import { throwError } from "@/tests/domain/mocks";
 import { ValidationSpy, DbAuthenticationSpy } from "@/tests/presentation/mocks";
@@ -34,31 +34,37 @@ function makeSut(): Sut {
 }
 
 describe("CompanyLoginController", () => {
-  test("should call validation with correct values", async () => {
+  test("should call Validation with correct values", async () => {
     const { sut, validationSpy } = makeSut();
     const validateSpy = jest.spyOn(validationSpy, "validate");
     await sut.handle(mockRequest());
     expect(validateSpy).toHaveBeenCalledWith(mockRequest().body);
   });
 
-  test("should return 500 if validation throw", async () => {
+  test("should return 500 if Validation throw", async () => {
     const { sut, validationSpy } = makeSut();
     jest.spyOn(validationSpy, "validate").mockImplementationOnce(throwError);
     const response = await sut.handle(mockRequest());
     expect(response).toEqual(serverError(new ServerError()));
   });
 
-  test("should call validation with correct values", async () => {
+  test("should call DbAuthentication with correct values", async () => {
     const { sut, dbAuthenticationSpy } = makeSut();
     const validateSpy = jest.spyOn(dbAuthenticationSpy, "auth");
     await sut.handle(mockRequest());
     expect(validateSpy).toHaveBeenCalledWith(mockRequest().body);
   });
 
-  test("should return 500 if validation throw", async () => {
+  test("should return 500 if DbAuthentication throw", async () => {
     const { sut, dbAuthenticationSpy } = makeSut();
     jest.spyOn(dbAuthenticationSpy, "auth").mockImplementationOnce(throwError);
     const response = await sut.handle(mockRequest());
     expect(response).toEqual(serverError(new ServerError()));
+  });
+
+  test("should return 200 on success", async () => {
+    const { sut } = makeSut();
+    const response = await sut.handle(mockRequest());
+    expect(response).toEqual(ok({ accessToken: "access_token", name: "name" }));
   });
 });
