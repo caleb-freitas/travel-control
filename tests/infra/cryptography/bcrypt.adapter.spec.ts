@@ -50,4 +50,13 @@ describe("BcryptAdapter", () => {
     const isValid = await sut.compare("plaintext", "digest");
     expect(isValid).toBe(false);
   });
+
+  test("should throw if compare method throw", async () => {
+    const sut = new BcryptAdapter(salt);
+    jest.spyOn(bcrypt, "compare").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = sut.compare("plaintext", "digest");
+    expect(promise).rejects.toThrow();
+  });
 });
