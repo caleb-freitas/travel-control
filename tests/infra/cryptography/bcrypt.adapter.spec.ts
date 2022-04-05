@@ -1,9 +1,13 @@
 import { BcryptAdapter } from "@/infra/cryptography";
-import bcrypt from "bcrypt";
+import bcrypt, { compare } from "bcrypt";
+import { resolve } from "path";
 
 jest.mock("bcrypt", () => ({
   async hash(): Promise<string> {
     return new Promise((resolve) => resolve("hash"));
+  },
+  async compare(): Promise<boolean> {
+    return new Promise((resolve) => resolve(true));
   },
 }));
 
@@ -17,7 +21,7 @@ describe("BcryptAdapter", () => {
     expect(hashSpy).toHaveBeenCalledWith("any_value", salt);
   });
 
-  test("should throw if bcrypt throw", async () => {
+  test("should throw if hash method throw", async () => {
     const sut = new BcryptAdapter(salt);
     jest.spyOn(bcrypt, "hash").mockImplementationOnce(() => {
       throw new Error();
@@ -30,5 +34,20 @@ describe("BcryptAdapter", () => {
     const sut = new BcryptAdapter(salt);
     const hash = await sut.hash("any_value");
     expect(hash).toBe("hash");
+  });
+
+  test("should return true if compare return true", async () => {
+    const sut = new BcryptAdapter(salt);
+    const isValid = await sut.compare("plaintext", "digest");
+    expect(isValid).toBe(true);
+  });
+
+  test("should return false if compare return false", async () => {
+    const sut = new BcryptAdapter(salt);
+    jest.spyOn(bcrypt, "compare").mockImplementationOnce(() => {
+      return new Promise((resolve) => resolve(false));
+    });
+    const isValid = await sut.compare("plaintext", "digest");
+    expect(isValid).toBe(false);
   });
 });
