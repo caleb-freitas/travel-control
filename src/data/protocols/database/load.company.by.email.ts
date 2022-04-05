@@ -1,4 +1,4 @@
-export namespace LoadCompanyByEmailRepository {
+export namespace LoadCompanyByEmail {
   export type Result = {
     id: string;
     name: string;
@@ -11,5 +11,5 @@ export namespace LoadCompanyByEmailRepository {
 }
 
 export interface ILoadCompanyByEmailRepository {
-  loadByEmail(email: string): Promise<LoadCompanyByEmailRepository.Result>;
+  loadByEmail(email: string): Promise<LoadCompanyByEmail.Result>;
 }
