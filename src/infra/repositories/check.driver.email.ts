@@ -9,6 +9,7 @@ export class CheckDriverByEmailRepository implements ICheckDriverByEmailReposito
         email,
       },
     });
-    return !!emailExists;
+    // eslint-disable-next-line no-unneeded-ternary
+    return emailExists ? true : false;
   }
 }
