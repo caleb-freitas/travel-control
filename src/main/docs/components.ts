@@ -1,8 +1,9 @@
-import { badRequest, notFound, forbidden, serverError } from "./components/";
+import { badRequest, notFound, forbidden, serverError, unauthorized } from "./components/";
 
 export default {
   badRequest,
   notFound,
   forbidden,
-  serverError
+  serverError,
+  unauthorized
 }
