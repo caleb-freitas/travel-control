@@ -1,6 +1,6 @@
 export const driverAccountPath = {
   post: {
-    tags: ["Sign up"],
+    tags: ["Signup"],
     summary: "Create a new driver",
     description: "Create a new driver",
     parameters: [

@@ -1,25 +1,25 @@
-export const companyAccountPath = {
+export const loginPath = {
   post: {
-    tags: ["Signup"],
-    summary: "Create a new company",
-    description: "Create a new company",
+    tags: ["Login"],
+    summary: "Log in a company or a driver",
+    description: "Log in a company or a driver",
     requestBody: {
       required: true,
       content: {
         "application/json": {
           schema: {
-            $ref: "#/schemas/companyParams"
+            $ref: "#/schemas/loginParams"
           },
         },
       },
     },
     responses: {
       200: {
-        description: "Company created",
+        description: "Company or driver authenticated",
         content: {
           "application/json": {
             schema: {
-              $ref: "#/schemas/companyResult",
+              $ref: "#/schemas/loginResult",
             }
           }
         }
@@ -27,8 +27,8 @@ export const companyAccountPath = {
       400: {
         $ref: "#/components/badRequest"
       },
-      403: {
-        $ref: "#/components/forbidden"
+      401: {
+        $ref: "#/components/unauthorized"
       },
       500: {
         $ref: "#/components/serverError"

@@ -27,8 +27,12 @@ export const swaggerDocument = {
   ],
   tags: [
     {
-      name: "Sign up",
-      description: "Sign up related APIs"
+      name: "Signup",
+      description: "Signup related APIs"
+    },
+    {
+      name: "Login",
+      description: "Login related APIs"
     }
   ],
   paths,
