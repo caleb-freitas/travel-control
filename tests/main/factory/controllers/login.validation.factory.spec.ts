@@ -33,7 +33,7 @@ function makePasswordValidator(): IPasswordValidator {
 }
 
 describe("LoginValidationFactory", () => {
-  test("should call validation composite with all validation", () => {
+  test("should call validation composite with all validations", () => {
     makeLoginValidation();
     const validations: IValidation[] = [];
     const requiredFields: string[] = ["email", "password", "role"];
