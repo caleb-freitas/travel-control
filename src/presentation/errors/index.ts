@@ -3,3 +3,4 @@ export * from "./missing.param.error";
 export * from "./field.in.use.error";
 export * from "./server.error";
 export * from "./unauthorized";
+export * from "./access.denied";
