@@ -23,14 +23,12 @@ import {
 function makeFakeRequest(): IHttpRequest {
   return {
     body: {
+      company_id: "company_id",
       name: "any_name",
       email: "any@email.com",
       password: "any_password",
       passwordConfirmation: "any_password",
       drivers_license: "any_driver_license",
-    },
-    params: {
-      company_id: "company_id",
     },
   };
 }
@@ -88,6 +86,7 @@ describe("DriverSignUpController", () => {
     const validateSpy = jest.spyOn(validationStub, "validate");
     await sut.handle(makeFakeRequest());
     expect(validateSpy).toHaveBeenCalledWith({
+      company_id: "company_id",
       name: "any_name",
       email: "any@email.com",
       password: "any_password",

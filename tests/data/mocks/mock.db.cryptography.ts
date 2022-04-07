@@ -1,4 +1,8 @@
-import { IEncrypter, IHashComparer } from "@/data/protocols/cryptography";
+import {
+  IEncrypter,
+  IHashComparer,
+  IDecrypter,
+} from "@/data/protocols/cryptography";
 
 export class HashComparerSpy implements IHashComparer {
   plaintext: string;
@@ -18,6 +22,16 @@ export class EncrypterSpy implements IEncrypter {
 
   async encrypt(plaintext: string): Promise<string> {
     this.plaintext = plaintext;
+    return this.result;
+  }
+}
+
+export class DecrypterSpy implements IDecrypter {
+  token: string;
+  result = "any_value";
+
+  async decrypt(token: string): Promise<string> {
+    this.token = token;
     return this.result;
   }
 }
