@@ -5,6 +5,7 @@ import {
   LoadAccountByTokenRepositorySpy,
 } from "@/tests/data/mocks";
 import { throwError } from "@/tests/domain/mocks";
+import { mockCompanyResult } from "@/tests/domain/mocks/mock.company";
 
 type Sut = {
   sut: DbLoadAccountByToken;
@@ -58,5 +59,11 @@ describe("DbLoadAccountByToken", () => {
       .mockImplementationOnce(throwError);
     const promise = sut.load("any_token");
     await expect(promise).rejects.toThrow();
+  });
+
+  test("should return an account on success", async () => {
+    const { sut } = makeSut();
+    const account = await sut.load("any_token");
+    expect(account).toEqual(mockCompanyResult());
   });
 });
