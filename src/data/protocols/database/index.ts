@@ -8,3 +8,4 @@ export * from "./load.company.by.email.repository";
 export * from "./load.driver.by.email.repository";
 export * from "./update.company.token.repository";
 export * from "./update.driver.token.repository";
+export * from "./load.account.by.token.repository";
