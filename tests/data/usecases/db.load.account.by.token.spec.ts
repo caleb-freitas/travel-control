@@ -61,6 +61,15 @@ describe("DbLoadAccountByToken", () => {
     await expect(promise).rejects.toThrow();
   });
 
+  test("should return null if token does not exist", async () => {
+    const { sut, loadAccountByTokenRepositorySpy } = makeSut();
+    jest
+      .spyOn(loadAccountByTokenRepositorySpy, "loadByToken")
+      .mockImplementationOnce(null);
+    const response = await sut.load("any_token");
+    expect(response).toBeNull();
+  });
+
   test("should return an account on success", async () => {
     const { sut } = makeSut();
     const account = await sut.load("any_token");
