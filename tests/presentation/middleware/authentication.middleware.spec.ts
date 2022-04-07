@@ -1,6 +1,6 @@
 import { ILoadAccountByToken } from "@/domain/usecases";
 import { ServerError, AccessDeniedError } from "@/presentation/errors";
-import { serverError, forbidden } from "@/presentation/helpers";
+import { serverError, forbidden, ok } from "@/presentation/helpers";
 import { AuthenticationMiddleware } from "@/presentation/middleware";
 import { IHttpRequest } from "@/presentation/protocols";
 import { throwError } from "@/tests/domain/mocks";
@@ -58,5 +58,11 @@ describe("AuthenticationMiddleware", () => {
     delete request.headers;
     const response = await sut.handle(request);
     expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  test("should return 200 if DbLoadAccountByToken return an account", async () => {
+    const { sut } = makeSut();
+    const response = await sut.handle(mockRequest());
+    expect(response).toEqual(ok({ accountId: "company_id" }));
   });
 });
