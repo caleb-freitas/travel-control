@@ -27,7 +27,7 @@ function makeSut(): Sut {
 }
 
 describe("DbLoadAccountByToken", () => {
-  test("should call Decrypter with correct values", async () => {
+  test("should call Decrypter with correct token", async () => {
     const { sut, decrypterSpy } = makeSut();
     const decryptSpy = jest.spyOn(decrypterSpy, "decrypt");
     await sut.load("any_token");
@@ -37,6 +37,25 @@ describe("DbLoadAccountByToken", () => {
   test("should throw if Decrypter throw", async () => {
     const { sut, decrypterSpy } = makeSut();
     jest.spyOn(decrypterSpy, "decrypt").mockImplementationOnce(throwError);
+    const promise = sut.load("any_token");
+    await expect(promise).rejects.toThrow();
+  });
+
+  test("should call LoadAccountByTokenRepository with correct token", async () => {
+    const { sut, loadAccountByTokenRepositorySpy } = makeSut();
+    const loadByTokenSpy = jest.spyOn(
+      loadAccountByTokenRepositorySpy,
+      "loadByToken"
+    );
+    await sut.load("any_token");
+    expect(loadByTokenSpy).toHaveBeenCalledWith("any_token");
+  });
+
+  test("should throw if LoadAccountByTokenRepository throw", async () => {
+    const { sut, loadAccountByTokenRepositorySpy } = makeSut();
+    jest
+      .spyOn(loadAccountByTokenRepositorySpy, "loadByToken")
+      .mockImplementationOnce(throwError);
     const promise = sut.load("any_token");
     await expect(promise).rejects.toThrow();
   });
