@@ -8,7 +8,7 @@ import { authentication } from "../middleware/authentication";
 export default (router: Router): void => {
   router.post("/signup/company", adaptRoute(makeCompanySignUpController()));
   router.post(
-    "/signup/driver/:company_id",
+    "/signup/driver",
     authentication,
     adaptRoute(makeDriverSignUpController())
   );
