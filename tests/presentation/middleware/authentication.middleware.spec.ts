@@ -45,10 +45,18 @@ describe("AuthenticationMiddleware", () => {
     expect(response).toEqual(serverError(new ServerError()));
   });
 
-  test("should return 403 if DbLoadAccountByToken does not find an access token", async () => {
+  test("should return 403 if DbLoadAccountByToken does not return an account", async () => {
     const { sut, dbLoadAccountByTokenSpy } = makeSut();
     jest.spyOn(dbLoadAccountByTokenSpy, "load").mockImplementationOnce(null);
     const response = await sut.handle(mockRequest());
+    expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  test("should return 403 if no token is provided", async () => {
+    const { sut } = makeSut();
+    const request = mockRequest();
+    delete request.headers;
+    const response = await sut.handle(request);
     expect(response).toEqual(forbidden(new AccessDeniedError()));
   });
 });
