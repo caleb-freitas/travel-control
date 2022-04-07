@@ -4,6 +4,7 @@ import {
   DecrypterSpy,
   LoadAccountByTokenRepositorySpy,
 } from "@/tests/data/mocks";
+import { throwError } from "@/tests/domain/mocks";
 
 type Sut = {
   sut: DbLoadAccountByToken;
@@ -31,5 +32,12 @@ describe("DbLoadAccountByToken", () => {
     const decryptSpy = jest.spyOn(decrypterSpy, "decrypt");
     await sut.load("any_token");
     expect(decryptSpy).toHaveBeenCalledWith("any_token");
+  });
+
+  test("should throw if Decrypter throw", async () => {
+    const { sut, decrypterSpy } = makeSut();
+    jest.spyOn(decrypterSpy, "decrypt").mockImplementationOnce(throwError);
+    const promise = sut.load("any_token");
+    await expect(promise).rejects.toThrow();
   });
 });
