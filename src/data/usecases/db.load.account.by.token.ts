@@ -8,12 +8,17 @@ export class DbLoadAccountByToken implements ILoadAccountByToken {
     private readonly loadAccountByTokenRepository: ILoadAccountByTokenRepository
   ) {}
 
-  async load(accessToken: string): Promise<ICompanyModel | IDriverModel> {
+  async load(
+    accessToken: string,
+    roleAdmin?: string
+  ): Promise<ICompanyModel | IDriverModel> {
     const token = await this.decrypter.decrypt(accessToken);
     if (token) {
-      const account = await this.loadAccountByTokenRepository.loadByToken(
-        accessToken
-      );
+      const { role, account } =
+        await this.loadAccountByTokenRepository.loadByToken(accessToken);
+      if (role === roleAdmin) {
+        return account;
+      }
       if (account) {
         return account;
       }

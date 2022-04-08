@@ -41,7 +41,9 @@ export class UpdateCompanyTokenRepositorySpy
 export class LoadAccountByTokenRepositorySpy implements ILoadAccountByTokenRepository {
   result = mockCompanyResult();
 
-  async loadByToken(token: string): Promise<ICompanyModel | IDriverModel> {
+  async loadByToken(
+    token: string
+  ): Promise<{ role: string; account: ICompanyModel | IDriverModel }> {
     return this.result;
   }
 }
