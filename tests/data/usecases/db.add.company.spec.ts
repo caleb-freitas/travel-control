@@ -1,164 +1,67 @@
-import {
-  IAddCompanyRepository,
-  ICheckCompanyByCnpjRepository,
-  ICheckCompanyByEmailRepository,
-  IHasher,
-} from "@/data/protocols";
-import { DbAddCompany } from "@/data/usecases";
-import { ICompanyModel } from "@/domain/models";
-import { IAddCompany, IAddCompanyModel } from "@/domain/usecases";
 import { FieldInUseError } from "@/presentation/errors";
-
-function makeFakeAccountData(): IAddCompanyModel {
-  return {
-    name: "valid_name",
-    email: "valid@email.com",
-    password: "valid_password",
-    cnpj: "valid_cnpj",
-  };
-}
-
-function makeFakeAccount(): ICompanyModel {
-  return {
-    id: "valid_id",
-    name: "valid_name",
-    email: "valid@email.com",
-    password: "hashed_password",
-    cnpj: "valid_cnpj",
-    created_at: new Date("1995-12-17T03:24:00"),
-    updated_at: new Date("1995-12-17T03:24:00"),
-  };
-}
-
-function makeHasher(): IHasher {
-  class HasherStub implements IHasher {
-    async hash(value: string): Promise<string> {
-      return new Promise((resolve) => resolve("hashed_password"));
-    }
-  }
-  return new HasherStub();
-}
-
-function makeAddAccountRepository(): IAddCompanyRepository {
-  class AddAccountRepositoryStub implements IAddCompanyRepository {
-    async add(accountData: IAddCompanyModel): Promise<ICompanyModel> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
-    }
-  }
-  return new AddAccountRepositoryStub();
-}
-
-function makeCheckCompanyByEmailRepository(): ICheckCompanyByEmailRepository {
-  class CheckCompanyByEmailRepositoryStub
-    // eslint-disable-next-line prettier/prettier
-    implements ICheckCompanyByEmailRepository {
-    async checkEmail(email: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(false));
-    }
-  }
-  return new CheckCompanyByEmailRepositoryStub();
-}
-
-function makeCheckCompanyByCnpjRepository(): ICheckCompanyByCnpjRepository {
-  class CheckCompanyByCnpjRepositoryStub
-    // eslint-disable-next-line prettier/prettier
-    implements ICheckCompanyByCnpjRepository {
-    async checkCnpj(cnpj: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(false));
-    }
-  }
-  return new CheckCompanyByCnpjRepositoryStub();
-}
-
-interface ISutTypes {
-  sut: IAddCompany;
-  hasherStub: IHasher;
-  addAccountRepositoryStub: IAddCompanyRepository;
-  checkCompanyByEmailRepositoryStub: ICheckCompanyByEmailRepository;
-  checkAccountByCnpjRepositoryStub: ICheckCompanyByCnpjRepository;
-}
-
-function makeSut(): ISutTypes {
-  const hasherStub = makeHasher();
-  const addAccountRepositoryStub = makeAddAccountRepository();
-  const checkCompanyByEmailRepositoryStub = makeCheckCompanyByEmailRepository();
-  const checkAccountByCnpjRepositoryStub = makeCheckCompanyByCnpjRepository();
-  const sut = new DbAddCompany(
-    hasherStub,
-    addAccountRepositoryStub,
-    checkCompanyByEmailRepositoryStub,
-    checkAccountByCnpjRepositoryStub
-  );
-  return {
-    sut,
-    hasherStub,
-    addAccountRepositoryStub,
-    checkCompanyByEmailRepositoryStub,
-    checkAccountByCnpjRepositoryStub,
-  };
-}
+import { dbAddCompanySut } from "@/tests/data/factory";
+import {
+  mockCompanyParams,
+  mockCompanyResult,
+  mockHashedCompanyParams,
+} from "@/tests/domain/mocks";
 
 describe("DbAddCompany", () => {
   test("should call Hasher with correct password", async () => {
-    const { sut, hasherStub } = makeSut();
-    const hashSpy = jest.spyOn(hasherStub, "hash");
-    await sut.add(makeFakeAccountData());
+    const { sut, hasherSpy } = dbAddCompanySut();
+    const hashSpy = jest.spyOn(hasherSpy, "hash");
+    await sut.add(mockCompanyParams());
     expect(hashSpy).toHaveBeenCalledWith("valid_password");
   });
 
   test("should call AddAccountRepository with correct values", async () => {
-    const { sut, addAccountRepositoryStub } = makeSut();
-    const addSpy = jest.spyOn(addAccountRepositoryStub, "add");
-    await sut.add(makeFakeAccountData());
-    expect(addSpy).toHaveBeenCalledWith({
-      name: "valid_name",
-      email: "valid@email.com",
-      password: "hashed_password",
-      cnpj: "valid_cnpj",
-    });
+    const { sut, addAccountRepositorySpy } = dbAddCompanySut();
+    const addSpy = jest.spyOn(addAccountRepositorySpy, "add");
+    await sut.add(mockCompanyParams());
+    expect(addSpy).toHaveBeenCalledWith(mockHashedCompanyParams());
   });
 
   test("should call CheckCompanyByEmailRepository with correct email", async () => {
-    const { sut, checkCompanyByEmailRepositoryStub } = makeSut();
+    const { sut, checkCompanyByEmailRepositorySpy } = dbAddCompanySut();
     const checkEmailSpy = jest.spyOn(
-      checkCompanyByEmailRepositoryStub,
+      checkCompanyByEmailRepositorySpy,
       "checkEmail"
     );
-    await sut.add(makeFakeAccountData());
-    expect(checkEmailSpy).toHaveBeenCalledWith("valid@email.com");
+    await sut.add(mockCompanyParams());
+    expect(checkEmailSpy).toHaveBeenCalledWith("company@email.com");
   });
 
-  test("should throw an error if CheckCompanyByEmailRepository return false", async () => {
-    const { sut, checkCompanyByEmailRepositoryStub } = makeSut();
+  test("should throw an error if CheckCompanyByEmailRepository return true", async () => {
+    const { sut, checkCompanyByEmailRepositorySpy } = dbAddCompanySut();
     jest
-      .spyOn(checkCompanyByEmailRepositoryStub, "checkEmail")
+      .spyOn(checkCompanyByEmailRepositorySpy, "checkEmail")
       .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
-    const error = await sut.add(makeFakeAccountData());
+    const error = await sut.add(mockCompanyParams());
     expect(error).toEqual(new FieldInUseError("email"));
   });
 
-  test("should throw an error if CheckCompanyByCnpjRepository return false", async () => {
-    const { sut, checkAccountByCnpjRepositoryStub } = makeSut();
+  test("should throw an error if CheckCompanyByCnpjRepository return true", async () => {
+    const { sut, checkCompanyByCnpjRepositorySpy } = dbAddCompanySut();
     jest
-      .spyOn(checkAccountByCnpjRepositoryStub, "checkCnpj")
+      .spyOn(checkCompanyByCnpjRepositorySpy, "checkCnpj")
       .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
-    const error = await sut.add(makeFakeAccountData());
+    const error = await sut.add(mockCompanyParams());
     expect(error).toEqual(new FieldInUseError("cnpj"));
   });
 
   test("should call CheckCompanyByCnpjRepository with correct cnpj", async () => {
-    const { sut, checkAccountByCnpjRepositoryStub } = makeSut();
+    const { sut, checkCompanyByCnpjRepositorySpy } = dbAddCompanySut();
     const checkCnpjSpy = jest.spyOn(
-      checkAccountByCnpjRepositoryStub,
+      checkCompanyByCnpjRepositorySpy,
       "checkCnpj"
     );
-    await sut.add(makeFakeAccountData());
-    expect(checkCnpjSpy).toHaveBeenCalledWith("valid_cnpj");
+    await sut.add(mockCompanyParams());
+    expect(checkCnpjSpy).toHaveBeenCalledWith("company_cnpj");
   });
 
   test("should return an account on success", async () => {
-    const { sut } = makeSut();
-    const account = await sut.add(makeFakeAccountData());
-    expect(account).toEqual(makeFakeAccount());
+    const { sut } = dbAddCompanySut();
+    const account = await sut.add(mockCompanyParams());
+    expect(account).toEqual(mockCompanyResult());
   });
 });

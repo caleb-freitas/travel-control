@@ -1,49 +1,23 @@
-import { IDecrypter, ILoadAccountByTokenRepository } from "@/data/protocols";
-import { DbLoadAccountByToken } from "@/data/usecases";
-import {
-  DecrypterSpy,
-  LoadAccountByTokenRepositorySpy,
-} from "@/tests/data/mocks";
-import { throwError } from "@/tests/domain/mocks";
-import { mockCompanyResult } from "@/tests/domain/mocks/mock.company";
-
-type Sut = {
-  sut: DbLoadAccountByToken;
-  decrypterSpy: IDecrypter;
-  loadAccountByTokenRepositorySpy: ILoadAccountByTokenRepository;
-};
-
-function makeSut(): Sut {
-  const decrypterSpy = new DecrypterSpy();
-  const loadAccountByTokenRepositorySpy = new LoadAccountByTokenRepositorySpy();
-  const sut = new DbLoadAccountByToken(
-    decrypterSpy,
-    loadAccountByTokenRepositorySpy
-  );
-  return {
-    sut,
-    decrypterSpy,
-    loadAccountByTokenRepositorySpy,
-  };
-}
+import { driverAuthSut } from "@/tests/data/factory";
+import { throwError, mockCompanyResult } from "@/tests/domain/mocks";
 
 describe("DbLoadAccountByToken", () => {
   test("should call Decrypter with correct token", async () => {
-    const { sut, decrypterSpy } = makeSut();
+    const { sut, decrypterSpy } = driverAuthSut();
     const decryptSpy = jest.spyOn(decrypterSpy, "decrypt");
     await sut.load("any_token");
     expect(decryptSpy).toHaveBeenCalledWith("any_token");
   });
 
   test("should throw if Decrypter throw", async () => {
-    const { sut, decrypterSpy } = makeSut();
+    const { sut, decrypterSpy } = driverAuthSut();
     jest.spyOn(decrypterSpy, "decrypt").mockImplementationOnce(throwError);
     const promise = sut.load("any_token");
     await expect(promise).rejects.toThrow();
   });
 
   test("should call LoadAccountByTokenRepository with correct token", async () => {
-    const { sut, loadAccountByTokenRepositorySpy } = makeSut();
+    const { sut, loadAccountByTokenRepositorySpy } = driverAuthSut();
     const loadByTokenSpy = jest.spyOn(
       loadAccountByTokenRepositorySpy,
       "loadByToken"
@@ -53,7 +27,7 @@ describe("DbLoadAccountByToken", () => {
   });
 
   test("should throw if LoadAccountByTokenRepository throw", async () => {
-    const { sut, loadAccountByTokenRepositorySpy } = makeSut();
+    const { sut, loadAccountByTokenRepositorySpy } = driverAuthSut();
     jest
       .spyOn(loadAccountByTokenRepositorySpy, "loadByToken")
       .mockImplementationOnce(throwError);
@@ -62,7 +36,7 @@ describe("DbLoadAccountByToken", () => {
   });
 
   test("should return an account on success", async () => {
-    const { sut } = makeSut();
+    const { sut } = driverAuthSut();
     const account = await sut.load("any_token");
     expect(account).toEqual(mockCompanyResult());
   });
