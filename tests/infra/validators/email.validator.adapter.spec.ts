@@ -1,5 +1,4 @@
-import { EmailValidatorAdapter } from "@/infra/validators";
-import { IEmailValidator } from "@/presentation/protocols";
+import { emailValidatorSut } from "@/tests/infra/validators/sut";
 import validator from "validator";
 
 jest.mock("validator", () => ({
@@ -8,31 +7,22 @@ jest.mock("validator", () => ({
   },
 }));
 
-interface ISutTypes {
-  sut: IEmailValidator;
-}
-
-function makeSut(): ISutTypes {
-  const sut = new EmailValidatorAdapter();
-  return { sut };
-}
-
 describe("EmailValidatorAdapter", () => {
   test("should call validator with the correct email", () => {
-    const { sut } = makeSut();
+    const { sut } = emailValidatorSut();
     const isValidSpy = jest.spyOn(validator, "isEmail");
     sut.isValid("valid@email.com");
     expect(isValidSpy).toHaveBeenCalledWith("valid@email.com");
   });
 
   test("should return true if validator return true", () => {
-    const { sut } = makeSut();
+    const { sut } = emailValidatorSut();
     const response = sut.isValid("valid@email.com");
     expect(response).toBe(true);
   });
 
   test("should return false if validator return false", () => {
-    const { sut } = makeSut();
+    const { sut } = emailValidatorSut();
     jest.spyOn(validator, "isEmail").mockReturnValueOnce(false);
     const response = sut.isValid("valid@email.com");
     expect(response).toBe(false);

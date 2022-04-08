@@ -4,35 +4,20 @@ import {
   DriverRepository,
   prisma,
 } from "@/infra/repositories";
+import { mockCompanyParams, mockDriverParams } from "@/tests/domain/mocks";
 
-function makeDriverRepository(): DriverRepository {
-  return new DriverRepository();
-}
-
-function makeCompanyRepository(): CompanyRepository {
-  return new CompanyRepository();
-}
-
-function makeSut(): CheckDriverByEmailRepository {
+function checkDriverEmailSut(): CheckDriverByEmailRepository {
   return new CheckDriverByEmailRepository();
 }
 
 describe("CheckDriverByEmailRepository", () => {
   beforeAll(async () => {
-    const companyRepository = makeCompanyRepository();
-    const driverRepository = makeDriverRepository();
-    const company = await companyRepository.add({
-      name: "any_name",
-      email: "registered@email.com",
-      password: "ValidPass1234",
-      cnpj: "30.270.488/0001-38",
-    });
+    const companyRepository = new CompanyRepository();
+    const driverRepository = new DriverRepository();
+    const company = await companyRepository.add(mockCompanyParams());
     await driverRepository.add({
+      ...mockDriverParams(),
       company_id: company.id,
-      name: "any_name",
-      email: "registered@email.com",
-      password: "ValidPass1234",
-      drivers_license: "any_drivers_license",
     });
   });
 
@@ -44,13 +29,13 @@ describe("CheckDriverByEmailRepository", () => {
   });
 
   test("should return true if an email was registered", async () => {
-    const sut = makeSut();
-    const response = await sut.checkEmail("registered@email.com");
+    const sut = checkDriverEmailSut();
+    const response = await sut.checkEmail("driver@email.com");
     expect(response).toBe(true);
   });
 
   test("should return false if an email was not registered", async () => {
-    const sut = makeSut();
+    const sut = checkDriverEmailSut();
     const response = await sut.checkEmail("non-registered@email.com");
     expect(response).toBe(false);
   });

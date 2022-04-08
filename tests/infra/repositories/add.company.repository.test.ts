@@ -1,7 +1,7 @@
-import { IAddCompanyModel } from "@/domain/usecases";
 import { CompanyRepository, prisma } from "@/infra/repositories";
+import { mockCompanyParams } from "@/tests/domain/mocks";
 
-function makeSut(): CompanyRepository {
+function companyRepositorySut(): CompanyRepository {
   return new CompanyRepository();
 }
 
@@ -12,15 +12,9 @@ describe("CompanyRepository", () => {
     await prisma.$disconnect();
   });
 
-  test("should create a new company account", async () => {
-    const sut = makeSut();
-    const account: IAddCompanyModel = {
-      name: "company",
-      email: "company@email.com",
-      password: "password",
-      cnpj: "cnpj",
-    };
-    const response = await sut.add(account);
-    expect(response).toHaveProperty("id");
+  test("should persist company account data", async () => {
+    const sut = companyRepositorySut();
+    const companyAccount = await sut.add(mockCompanyParams());
+    expect(companyAccount).toHaveProperty("id");
   });
 });
