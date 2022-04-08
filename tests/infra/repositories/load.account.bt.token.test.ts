@@ -39,14 +39,14 @@ describe("LoadAccountByTokenRepository", () => {
 
   test("should return a company with company token", async () => {
     const sut = new LoadAccountByTokenRepository();
-    const company = await sut.loadByToken("company_token");
-    expect(company.access_token).toBe("company_token");
+    const { account } = await sut.loadByToken("company_token");
+    expect(account.access_token).toBe("company_token");
   });
 
   test("should return a driver with driver token", async () => {
     const sut = new LoadAccountByTokenRepository();
-    const driver = await sut.loadByToken("driver_token");
-    expect(driver.access_token).toBe("driver_token");
+    const { account } = await sut.loadByToken("driver_token");
+    expect(account.access_token).toBe("driver_token");
   });
 
   test("should return null if the provided access token does not exist", async () => {

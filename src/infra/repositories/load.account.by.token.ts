@@ -18,7 +18,7 @@ export class LoadAccountByTokenRepository implements ILoadAccountByTokenReposito
         access_token: token,
       },
     });
-    if (driver) return { role: "driver", account: company };
+    if (driver) return { role: "driver", account: driver };
     return null;
   }
 }
