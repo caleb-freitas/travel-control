@@ -1,13 +1,9 @@
 import { InvalidParamError } from "@/presentation/errors";
-import { CompareFieldsValidation } from "@/validation";
+import { comparePasswordsSut } from "@/tests/validation/sut";
 
-function makeSut(): CompareFieldsValidation {
-  const sut = new CompareFieldsValidation("field", "fieldToCompare");
-  return sut;
-}
 describe("CompareFieldsValidation", () => {
   test("should return an InvalidParamError if validation fails", () => {
-    const sut = makeSut();
+    const { sut } = comparePasswordsSut();
     const error = sut.validate({
       field: "any_value",
       fieldToCompare: "different_value",
@@ -16,7 +12,7 @@ describe("CompareFieldsValidation", () => {
   });
 
   test("should not return if validation succeeds", () => {
-    const sut = makeSut();
+    const { sut } = comparePasswordsSut();
     const error = sut.validate({
       field: "any_value",
       fieldToCompare: "any_value",

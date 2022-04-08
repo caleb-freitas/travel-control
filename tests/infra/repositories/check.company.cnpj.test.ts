@@ -4,24 +4,16 @@ import {
   CompanyRepository,
   prisma,
 } from "@/infra/repositories";
+import { mockCompanyParams } from "@/tests/domain/mocks";
 
-function makeCompanyRepository(): CompanyRepository {
-  return new CompanyRepository();
-}
-
-function makeSut(): ICheckCompanyByCnpjRepository {
+function checkCompanyCnpjSut(): CheckCompanyByCnpjRepository {
   return new CheckCompanyByCnpjRepository();
 }
 
 describe("CheckCompanyByEmailRepository", () => {
   beforeAll(async () => {
-    const CompanyRepository = makeCompanyRepository();
-    await CompanyRepository.add({
-      name: "any_name",
-      email: "registered@email.com",
-      password: "ValidPass1234",
-      cnpj: "30.270.488/0001-38",
-    });
+    const companyRepository = new CompanyRepository();
+    await companyRepository.add(mockCompanyParams());
   });
 
   afterAll(async () => {
@@ -31,14 +23,14 @@ describe("CheckCompanyByEmailRepository", () => {
   });
 
   test("should return true if an cnpj was registered", async () => {
-    const sut = makeSut();
-    const response = await sut.checkCnpj("30.270.488/0001-38");
+    const sut = checkCompanyCnpjSut();
+    const response = await sut.checkCnpj("company_cnpj");
     expect(response).toBe(true);
   });
 
   test("should return false if an cnpj was not registered", async () => {
-    const sut = makeSut();
-    const response = await sut.checkCnpj("35.270.400/0001-30");
+    const sut = checkCompanyCnpjSut();
+    const response = await sut.checkCnpj("invalid_cnpj");
     expect(response).toBe(false);
   });
 });

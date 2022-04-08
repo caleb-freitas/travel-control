@@ -4,23 +4,21 @@ import { prisma } from "@/infra/repositories";
 
 // eslint-disable-next-line prettier/prettier
 export class LoadAccountByTokenRepository implements ILoadAccountByTokenRepository {
-  async loadByToken(token: string): Promise<ICompanyModel | IDriverModel> {
+  async loadByToken(
+    token: string
+  ): Promise<{ role: string; account: ICompanyModel | IDriverModel }> {
     const company = await prisma.company.findFirst({
       where: {
         access_token: token,
       },
     });
-    if (company) {
-      return company;
-    }
+    if (company) return { role: "company", account: company };
     const driver = await prisma.driver.findFirst({
       where: {
         access_token: token,
       },
     });
-    if (driver) {
-      return driver;
-    }
+    if (driver) return { role: "driver", account: driver };
     return null;
   }
 }

@@ -1,4 +1,3 @@
-import { ICompanyModel } from "@/domain/models";
 import {
   CompanyRepository,
   DriverRepository,
@@ -6,6 +5,11 @@ import {
   prisma,
   UpdateDriverTokenRepository,
 } from "@/infra/repositories";
+import { mockCompanyParams, mockDriverParams } from "@/tests/domain/mocks";
+
+function updateDriverTokenSut(): UpdateDriverTokenRepository {
+  return new UpdateDriverTokenRepository();
+}
 
 describe("UpdateDriverTokenRepository", () => {
   afterAll(async () => {
@@ -16,22 +20,14 @@ describe("UpdateDriverTokenRepository", () => {
   });
 
   test("should update the correct company access token", async () => {
-    const sut = new UpdateDriverTokenRepository();
+    const sut = updateDriverTokenSut();
     const companyRepository = new CompanyRepository();
     const driverRepository = new DriverRepository();
     const loadDriver = new LoadDriverByEmailRepository();
-    const company: ICompanyModel = await companyRepository.add({
-      name: "company",
-      email: "company@email.com",
-      password: "password",
-      cnpj: "cnpj",
-    });
+    const company = await companyRepository.add(mockCompanyParams());
     const driver = await driverRepository.add({
+      ...mockDriverParams(),
       company_id: company.id,
-      name: "any_name",
-      email: "driver@email.com",
-      password: "any_password",
-      drivers_license: "any_drivers_license",
     });
     await sut.updateAccessToken(driver.id, "new_token");
     const newDriver = await loadDriver.loadByEmail("driver@email.com");

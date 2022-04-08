@@ -2,36 +2,37 @@ import {
   IEncrypter,
   IHashComparer,
   IDecrypter,
+  IHasher,
 } from "@/data/protocols/cryptography";
 
 export class HashComparerSpy implements IHashComparer {
-  plaintext: string;
-  digest: string;
-  isValid = true;
-
+  isValid: boolean;
   async compare(plaintext: string, digest: string): Promise<boolean> {
-    this.plaintext = plaintext;
-    this.digest = digest;
-    return this.isValid;
+    this.isValid = true;
+    return new Promise((resolve) => resolve(this.isValid));
+  }
+}
+
+export class HasherSpy implements IHasher {
+  hashed: string;
+  async hash(value: string): Promise<string> {
+    this.hashed = "hashed_password";
+    return new Promise((resolve) => resolve(this.hashed));
   }
 }
 
 export class EncrypterSpy implements IEncrypter {
-  plaintext: string;
-  result = "access_token";
-
+  token: string;
   async encrypt(plaintext: string): Promise<string> {
-    this.plaintext = plaintext;
-    return this.result;
+    this.token = "access_token";
+    return new Promise((resolve) => resolve(this.token));
   }
 }
 
 export class DecrypterSpy implements IDecrypter {
-  token: string;
-  result = "any_value";
-
+  result: string;
   async decrypt(token: string): Promise<string> {
-    this.token = token;
-    return this.result;
+    this.result = "any_value";
+    return new Promise((resolve) => resolve(this.result));
   }
 }

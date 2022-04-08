@@ -77,7 +77,10 @@ describe("DbCompanyAuthentication", () => {
     const compareSpy = jest.spyOn(hashComparerSpy, "compare");
     const authenticationParams = mockCompanyAuthenticationParams();
     await sut.auth(authenticationParams);
-    expect(compareSpy).toHaveBeenCalledWith("password", "hashed_password");
+    expect(compareSpy).toHaveBeenCalledWith(
+      "valid_password",
+      "hashed_password"
+    );
   });
 
   test("should throw if HashComparer throw", async () => {

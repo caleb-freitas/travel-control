@@ -4,23 +4,20 @@ import {
   prisma,
   LoadDriverByEmailRepository,
 } from "@/infra/repositories";
+import { mockCompanyParams, mockDriverParams } from "@/tests/domain/mocks";
+
+function loadDriverEmailSut(): LoadDriverByEmailRepository {
+  return new LoadDriverByEmailRepository();
+}
 
 describe("LoadDriverByEmailRepository", () => {
   beforeAll(async () => {
     const companyRepository = new CompanyRepository();
     const driverRepository = new DriverRepository();
-    const company = await companyRepository.add({
-      name: "company",
-      email: "company@email.com",
-      password: "password",
-      cnpj: "cnpj",
-    });
+    const company = await companyRepository.add(mockCompanyParams());
     await driverRepository.add({
+      ...mockDriverParams(),
       company_id: company.id,
-      name: "any_name",
-      email: "driver@email.com",
-      password: "any_password",
-      drivers_license: "any_drivers_license",
     });
   });
 
@@ -32,7 +29,7 @@ describe("LoadDriverByEmailRepository", () => {
   });
 
   test("should load the correct driver with the provided email", async () => {
-    const sut = new LoadDriverByEmailRepository();
+    const sut = loadDriverEmailSut();
     const company = await sut.loadByEmail("driver@email.com");
     expect(company).toHaveProperty("id");
     expect(company).toHaveProperty("email", "driver@email.com");

@@ -3,24 +3,16 @@ import {
   CompanyRepository,
   prisma,
 } from "@/infra/repositories";
+import { mockCompanyParams } from "@/tests/domain/mocks";
 
-function makeCompanyRepository(): CompanyRepository {
-  return new CompanyRepository();
-}
-
-function makeSut(): CheckCompanyByEmailRepository {
+function checkCompanyEmailSut(): CheckCompanyByEmailRepository {
   return new CheckCompanyByEmailRepository();
 }
 
 describe("CheckCompanyByEmailRepository", () => {
   beforeAll(async () => {
-    const CompanyRepository = makeCompanyRepository();
-    await CompanyRepository.add({
-      name: "any_name",
-      email: "registered@email.com",
-      password: "ValidPass1234",
-      cnpj: "30.270.488/0001-38",
-    });
+    const companyRepository = new CompanyRepository();
+    await companyRepository.add(mockCompanyParams());
   });
 
   afterAll(async () => {
@@ -30,13 +22,13 @@ describe("CheckCompanyByEmailRepository", () => {
   });
 
   test("should return true if an email was registered", async () => {
-    const sut = makeSut();
-    const response = await sut.checkEmail("registered@email.com");
+    const sut = checkCompanyEmailSut();
+    const response = await sut.checkEmail("company@email.com");
     expect(response).toBe(true);
   });
 
   test("should return false if an email was not registered", async () => {
-    const sut = makeSut();
+    const sut = checkCompanyEmailSut();
     const response = await sut.checkEmail("non-registered@email.com");
     expect(response).toBe(false);
   });
