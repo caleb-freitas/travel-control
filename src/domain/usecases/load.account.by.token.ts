@@ -1,8 +1,10 @@
 import { ICompanyModel, IDriverModel } from "../models";
 
+type Authentication = {
+  role: string;
+  account: ICompanyModel | IDriverModel;
+};
+
 export interface ILoadAccountByToken {
-  load(
-    accessToken: string,
-    role: string
-  ): Promise<ICompanyModel | IDriverModel>;
+  load(accessToken: string): Promise<Authentication>;
 }

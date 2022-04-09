@@ -8,6 +8,9 @@ export const adaptMiddleware = (middleware: IMiddleware) => {
     };
     const httpResponse = await middleware.handle(httpRequest);
     if (httpResponse.statusCode === 200) {
+      if (!httpResponse.body?.company_id) {
+        next();
+      }
       Object.assign(request.body, httpResponse.body);
       next();
     } else {
