@@ -13,16 +13,10 @@ export class DbLoadAccountByToken implements ILoadAccountByToken {
     roleAdmin?: string
   ): Promise<ICompanyModel | IDriverModel> {
     const token = await this.decrypter.decrypt(accessToken);
-    if (token) {
-      const { role, account } =
-        await this.loadAccountByTokenRepository.loadByToken(accessToken);
-      if (role === roleAdmin) {
-        return account;
-      }
-      if (account) {
-        return account;
-      }
-      return null;
-    }
+    if (!token) return null;
+    const { role, account } =
+      await this.loadAccountByTokenRepository.loadByToken(accessToken);
+    if (!account) return null;
+    return account;
   }
 }

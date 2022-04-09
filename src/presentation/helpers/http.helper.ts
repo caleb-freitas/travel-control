@@ -2,7 +2,7 @@ import { UnauthorizedError } from "../errors";
 import { ServerError } from "../errors/server.error";
 import { IHttpResponse } from "../protocols/http";
 
-export function ok(data: any): IHttpResponse {
+export function ok(data?: any): IHttpResponse {
   return {
     statusCode: 200,
     body: data,

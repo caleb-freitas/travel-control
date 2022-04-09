@@ -63,6 +63,6 @@ describe("AuthenticationMiddleware", () => {
   test("should return 200 if DbLoadAccountByToken return an account", async () => {
     const { sut } = makeSut();
     const response = await sut.handle(mockRequest());
-    expect(response).toEqual(ok({ company_id: "company_id" }));
+    expect(response).toEqual(ok());
   });
 });

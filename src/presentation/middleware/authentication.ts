@@ -8,24 +8,19 @@ import {
 } from "@/presentation/protocols";
 
 export class AuthenticationMiddleware implements IMiddleware {
-  constructor(
-    private readonly loadAccountByToken: ILoadAccountByToken,
-    private readonly role?: string
-  ) {}
+  constructor(private readonly loadAccountByToken: ILoadAccountByToken) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const accessToken = httpRequest.headers?.["x-access-token"];
-      if (accessToken) {
-        const account = await this.loadAccountByToken.load(
-          accessToken,
-          this.role
-        );
-        if (account) {
-          return ok({ company_id: account.id });
-        }
+      if (!accessToken) {
+        return forbidden(new AccessDeniedError());
       }
-      return forbidden(new AccessDeniedError());
+      const account = await this.loadAccountByToken.load(accessToken);
+      if (!account) {
+        return forbidden(new AccessDeniedError());
+      }
+      return ok();
     } catch (error) {
       return serverError(error);
     }
