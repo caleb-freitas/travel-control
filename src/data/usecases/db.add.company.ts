@@ -31,10 +31,10 @@ export class DbAddCompany implements IAddCompany {
       return new FieldInUseError("cnpj");
     }
     const hashedPassword = await this.hasher.hash(accountData.password);
-    const account = await this.addAccountRepository.add({
+    const companyAccount = await this.addAccountRepository.add({
       ...accountData,
       password: hashedPassword,
     });
-    return account;
+    return companyAccount;
   }
 }
