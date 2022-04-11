@@ -38,24 +38,31 @@ describe("JwtAdapter", () => {
     });
   });
   describe("verify()", () => {
+    test("should return a value on success", async () => {
+      const sut = makeSut();
+      const token = await sut.decrypt("any.valid.token");
+      expect(token).toBe("any_value");
+    });
+
     test("should call verify with correct values", async () => {
       const sut = makeSut();
       const verifySpy = jest.spyOn(jwt, "verify");
-      await sut.decrypt("any_token");
-      expect(verifySpy).toHaveBeenCalledWith("any_token", "secret");
+      await sut.decrypt("any.valid.token");
+      expect(verifySpy).toHaveBeenCalledWith("any.valid.token", "secret");
     });
 
     test("should throw if verify throw", async () => {
       const sut = makeSut();
       jest.spyOn(jwt, "verify").mockImplementationOnce(throwError);
-      const promise = sut.decrypt("any_token");
+      const promise = sut.decrypt("any.valid.token");
       await expect(promise).rejects.toThrow();
     });
 
-    test("should return a value on success", async () => {
+    test("should return null if an malformed token is provided", async () => {
       const sut = makeSut();
-      const token = await sut.decrypt("any_token");
-      expect(token).toBe("any_value");
+      jest.spyOn(jwt, "verify").mockImplementationOnce(null);
+      const response = await sut.decrypt("invalid_token");
+      expect(response).toBeNull();
     });
   });
 });
