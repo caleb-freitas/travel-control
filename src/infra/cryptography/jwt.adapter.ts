@@ -8,6 +8,8 @@ export class JwtAdapter implements IEncrypter, IDecrypter {
     return jwt.sign({ id: plaintext }, this.secret);
   }
   async decrypt(token: string): Promise<string | JwtPayload> {
+    const tokenParts = token.split(".");
+    if (tokenParts.length !== 3) return null;
     return jwt.verify(token, this.secret);
   }
 }
