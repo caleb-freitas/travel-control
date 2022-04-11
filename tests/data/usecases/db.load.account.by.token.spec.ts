@@ -1,4 +1,4 @@
-import { loadAccountTokenSut } from "@/tests/data/factory";
+import { loadAccountTokenSut } from "@/tests/data/sut";
 import { throwError, mockCompanyResult } from "@/tests/domain/mocks";
 
 describe("DbLoadAccountByToken", () => {

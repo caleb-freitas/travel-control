@@ -1,4 +1,4 @@
-import { companyAuthSut } from "@/tests/data/factory";
+import { companyAuthSut } from "@/tests/data/sut";
 import {
   mockCompanyAuthenticationParams,
   throwError,
@@ -46,6 +46,15 @@ describe("DbCompanyAuthentication", () => {
     jest.spyOn(hashComparerSpy, "compare").mockImplementationOnce(throwError);
     const promise = sut.auth(mockCompanyAuthenticationParams());
     await expect(promise).rejects.toThrow();
+  });
+
+  test("should return null if HashComparer return null", async () => {
+    const { sut, hashComparerSpy } = companyAuthSut();
+    jest
+      .spyOn(hashComparerSpy, "compare")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const response = await sut.auth(mockCompanyAuthenticationParams());
+    expect(response).toBeNull();
   });
 
   test("should call Encrypter with correct plaintext", async () => {

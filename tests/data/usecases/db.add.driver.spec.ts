@@ -1,5 +1,5 @@
 import { FieldInUseError, InvalidParamError } from "@/presentation/errors";
-import { dbAddDriverSut } from "@/tests/data/factory";
+import { dbAddDriverSut } from "@/tests/data/sut";
 import {
   mockDriverParams,
   mockHashedDriverParams,
