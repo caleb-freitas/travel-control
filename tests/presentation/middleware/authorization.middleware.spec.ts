@@ -1,6 +1,6 @@
 import { AccessDeniedError, ServerError } from "@/presentation/errors";
-import { forbidden, serverError } from "@/presentation/helpers";
-import { throwError } from "@/tests/domain/mocks";
+import { forbidden, ok, serverError } from "@/presentation/helpers";
+import { mockCompanyResult, throwError } from "@/tests/domain/mocks";
 import { authorizationSut } from "@/tests/presentation/middleware/sut";
 import { mockTokenRequest } from "@/tests/presentation/mocks";
 
@@ -34,5 +34,11 @@ describe("AuthorizationMiddleware", () => {
     jest.spyOn(dbLoadAccountByTokenSpy, "load").mockImplementationOnce(null);
     const response = await sut.handle(mockTokenRequest());
     expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  test("should return 200 if DbLoadAccountByToken return an account", async () => {
+    const { sut } = authorizationSut();
+    const response = await sut.handle(mockTokenRequest());
+    expect(response).toEqual(ok({ company_id: "company_id" }));
   });
 });

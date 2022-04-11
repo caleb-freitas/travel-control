@@ -1,15 +1,15 @@
 import { ILoadAccountByToken } from "@/domain/usecases";
-import { AuthenticationMiddleware } from "@/presentation/middleware";
+import { AuthorizationMiddleware } from "@/presentation/middleware";
 import { DbLoadAccountByTokenSpy } from "@/tests/presentation/mocks";
 
 type Sut = {
-  sut: AuthenticationMiddleware;
+  sut: AuthorizationMiddleware;
   dbLoadAccountByTokenSpy: ILoadAccountByToken;
 };
 
 export function authorizationSut(): Sut {
   const dbLoadAccountByTokenSpy = new DbLoadAccountByTokenSpy();
-  const sut = new AuthenticationMiddleware(dbLoadAccountByTokenSpy);
+  const sut = new AuthorizationMiddleware(dbLoadAccountByTokenSpy, "company");
   return {
     sut,
     dbLoadAccountByTokenSpy,
