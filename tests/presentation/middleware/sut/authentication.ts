@@ -1,6 +1,5 @@
 import { ILoadAccountByToken } from "@/domain/usecases";
 import { AuthenticationMiddleware } from "@/presentation/middleware";
-import { IHttpRequest } from "@/presentation/protocols";
 import { DbLoadAccountByTokenSpy } from "@/tests/presentation/mocks";
 
 type Sut = {
