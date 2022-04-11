@@ -35,7 +35,7 @@ export class LoadAccountByTokenRepositorySpy implements ILoadAccountByTokenRepos
   async loadByToken(
     token: string
   ): Promise<{ role: string; account: ICompanyModel | IDriverModel }> {
-    return { role: "role", account: this.result };
+    return { role: "company", account: this.result };
   }
 }
 

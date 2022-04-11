@@ -19,15 +19,14 @@ export class AuthorizationMiddleware implements IMiddleware {
       if (!accessToken) {
         return forbidden(new AccessDeniedError());
       }
-      const { role, account } = await this.loadAccountByToken.load(accessToken);
-      console.log(account);
-      if (!account) {
+      const response = await this.loadAccountByToken.load(accessToken);
+      if (!response) {
         return forbidden(new AccessDeniedError());
       }
-      if (role !== this.adminRole) {
+      if (response.role !== this.adminRole) {
         return forbidden(new AccessDeniedError());
       }
-      return ok({ company_id: account.id });
+      return ok({ company_id: response.account });
     } catch (error) {
       return serverError(error);
     }

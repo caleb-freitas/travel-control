@@ -16,7 +16,7 @@ export class AuthenticationMiddleware implements IMiddleware {
       if (!accessToken) {
         return forbidden(new AccessDeniedError());
       }
-      const { account } = await this.loadAccountByToken.load(accessToken);
+      const account = await this.loadAccountByToken.load(accessToken);
       if (!account) {
         return forbidden(new AccessDeniedError());
       }

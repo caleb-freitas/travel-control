@@ -11,7 +11,7 @@ type Sut = {
   loadAccountByTokenRepositorySpy: ILoadAccountByTokenRepository;
 };
 
-export function driverAuthSut(): Sut {
+export function loadAccountTokenSut(): Sut {
   const decrypterSpy = new DecrypterSpy();
   const loadAccountByTokenRepositorySpy = new LoadAccountByTokenRepositorySpy();
   const sut = new DbLoadAccountByToken(

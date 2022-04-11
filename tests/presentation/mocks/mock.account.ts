@@ -16,8 +16,13 @@ export class DbAuthenticationSpy implements IAuthentication {
 }
 
 export class DbLoadAccountByTokenSpy implements ILoadAccountByToken {
-  result = mockCompanyResult();
-  async load(accessToken: string): Promise<ICompanyModel | IDriverModel> {
+  result = {
+    role: "company",
+    account: mockCompanyResult(),
+  };
+  async load(
+    accessToken: string
+  ): Promise<{ role: string; account: ICompanyModel | IDriverModel }> {
     return this.result;
   }
 }
