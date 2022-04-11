@@ -47,7 +47,7 @@ describe("DbLoadAccountByToken", () => {
     jest
       .spyOn(loadAccountByTokenRepositorySpy, "loadByToken")
       .mockImplementationOnce(() => null);
-    const response = await sut.load("");
+    const response = await sut.load("invalid_or_empty_token");
     expect(response).toBeNull();
   });
 
