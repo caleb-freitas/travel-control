@@ -28,4 +28,11 @@ describe("AuthorizationMiddleware", () => {
     const response = await sut.handle(mockTokenRequest());
     expect(response).toEqual(serverError(new ServerError()));
   });
+
+  test("should return 403 if DbLoadAccountByToken does not return an account", async () => {
+    const { sut, dbLoadAccountByTokenSpy } = authorizationSut();
+    jest.spyOn(dbLoadAccountByTokenSpy, "load").mockImplementationOnce(null);
+    const response = await sut.handle(mockTokenRequest());
+    expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
 });
