@@ -1,4 +1,5 @@
 import { IHttpRequest } from "@/presentation/protocols";
+import { mockDriverResult } from "@/tests/domain/mocks";
 
 export const mockCompanyRequest = (): IHttpRequest => ({
   body: {
@@ -33,4 +34,9 @@ export const mockTokenRequest = (): IHttpRequest => ({
   headers: {
     "x-access-token": "any_token",
   },
+});
+
+export const mockInvalidRole = () => ({
+  role: "driver",
+  account: mockDriverResult(),
 });
