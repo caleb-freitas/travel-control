@@ -1,7 +1,7 @@
-import { ICheckCompanyIdRepository } from "@/data/protocols";
+import { ICheckCompanyByIdRepository } from "@/data/protocols";
 import { prisma } from "@/infra/repositories";
 
-export class CheckCompanyIdRepository implements ICheckCompanyIdRepository {
+export class CheckCompanyByIdRepository implements ICheckCompanyByIdRepository {
   async checkId(id: string): Promise<boolean> {
     const companyExists = await prisma.company.findFirst({
       where: {

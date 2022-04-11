@@ -1,6 +1,6 @@
 import {
-  CompanyRepository,
-  DriverRepository,
+  AddCompanyRepository,
+  AddDriverRepository,
   LoadDriverByEmailRepository,
   prisma,
   UpdateDriverTokenRepository,
@@ -21,8 +21,8 @@ describe("UpdateDriverTokenRepository", () => {
 
   test("should update the correct company access token", async () => {
     const sut = updateDriverTokenSut();
-    const companyRepository = new CompanyRepository();
-    const driverRepository = new DriverRepository();
+    const companyRepository = new AddCompanyRepository();
+    const driverRepository = new AddDriverRepository();
     const loadDriver = new LoadDriverByEmailRepository();
     const company = await companyRepository.add(mockCompanyParams());
     const driver = await driverRepository.add({

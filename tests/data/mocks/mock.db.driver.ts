@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
   IAddDriverRepository,
-  ICheckCompanyIdRepository,
+  ICheckCompanyByIdRepository,
   ICheckDriverByEmailRepository,
   ILoadDriverByEmailRepository,
   IUpdateDriverTokenRepository,
@@ -47,7 +47,7 @@ export class CheckDriverEmailRepositorySpy implements ICheckDriverByEmailReposit
   }
 }
 
-export class CheckCompanyIdRepositorySpy implements ICheckCompanyIdRepository {
+export class CheckCompanyByIdRepositorySpy implements ICheckCompanyByIdRepository {
   driverExists: boolean;
   async checkId(id: string): Promise<boolean> {
     this.driverExists = true

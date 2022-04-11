@@ -1,6 +1,6 @@
 import { ICompanyModel } from "@/domain/models";
 import {
-  CompanyRepository,
+  AddCompanyRepository,
   LoadCompanyByEmailRepository,
   prisma,
   UpdateCompanyTokenRepository,
@@ -20,7 +20,7 @@ describe("UpdateCompanyTokenRepository", () => {
 
   test("should update the correct company access token", async () => {
     const sut = updateCompanyTokenSut();
-    const companyRepository = new CompanyRepository();
+    const companyRepository = new AddCompanyRepository();
     const loadCompany = new LoadCompanyByEmailRepository();
     const company = await companyRepository.add(mockCompanyParams());
     await sut.updateAccessToken(company.id, "new_token");

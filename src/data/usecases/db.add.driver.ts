@@ -1,6 +1,6 @@
 import {
   IAddDriverRepository,
-  ICheckCompanyIdRepository,
+  ICheckCompanyByIdRepository,
   ICheckDriverByEmailRepository,
   IHasher,
 } from "@/data/protocols/";
@@ -13,7 +13,7 @@ export class DbAddDriver implements IAddDriver {
     private readonly hasher: IHasher,
     private readonly driverRepository: IAddDriverRepository,
     private readonly checkDriverByEmailRepository: ICheckDriverByEmailRepository,
-    private readonly checkCompanyIdRepository: ICheckCompanyIdRepository
+    private readonly checkCompanyIdRepository: ICheckCompanyByIdRepository
   ) {}
 
   async add(account: IAddDriverModel): Promise<IDriverModel | Error> {

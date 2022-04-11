@@ -1,7 +1,7 @@
 import {
   CheckDriverByEmailRepository,
-  CompanyRepository,
-  DriverRepository,
+  AddCompanyRepository,
+  AddDriverRepository,
   prisma,
 } from "@/infra/repositories";
 import { mockCompanyParams, mockDriverParams } from "@/tests/domain/mocks";
@@ -12,8 +12,8 @@ function checkDriverEmailSut(): CheckDriverByEmailRepository {
 
 describe("CheckDriverByEmailRepository", () => {
   beforeAll(async () => {
-    const companyRepository = new CompanyRepository();
-    const driverRepository = new DriverRepository();
+    const companyRepository = new AddCompanyRepository();
+    const driverRepository = new AddDriverRepository();
     const company = await companyRepository.add(mockCompanyParams());
     await driverRepository.add({
       ...mockDriverParams(),

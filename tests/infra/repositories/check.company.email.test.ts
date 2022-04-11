@@ -1,6 +1,6 @@
 import {
   CheckCompanyByEmailRepository,
-  CompanyRepository,
+  AddCompanyRepository,
   prisma,
 } from "@/infra/repositories";
 import { mockCompanyParams } from "@/tests/domain/mocks";
@@ -11,7 +11,7 @@ function checkCompanyEmailSut(): CheckCompanyByEmailRepository {
 
 describe("CheckCompanyByEmailRepository", () => {
   beforeAll(async () => {
-    const companyRepository = new CompanyRepository();
+    const companyRepository = new AddCompanyRepository();
     await companyRepository.add(mockCompanyParams());
   });
 

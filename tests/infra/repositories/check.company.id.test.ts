@@ -1,15 +1,15 @@
 import {
-  CheckCompanyIdRepository,
-  CompanyRepository,
+  CheckCompanyByIdRepository,
+  AddCompanyRepository,
   prisma,
 } from "@/infra/repositories";
 import { mockCompanyParams } from "@/tests/domain/mocks";
 
-function checkCompanyIdSut(): CheckCompanyIdRepository {
-  return new CheckCompanyIdRepository();
+function checkCompanyIdSut(): CheckCompanyByIdRepository {
+  return new CheckCompanyByIdRepository();
 }
 
-describe("CheckCompanyIdRepository", () => {
+describe("CheckCompanyByIdRepository", () => {
   afterAll(async () => {
     const deleteCompanies = prisma.company.deleteMany();
     await prisma.$transaction([deleteCompanies]);
@@ -24,7 +24,7 @@ describe("CheckCompanyIdRepository", () => {
 
   test("should return true if a company id exists", async () => {
     const sut = checkCompanyIdSut();
-    const companyRepository = new CompanyRepository();
+    const companyRepository = new AddCompanyRepository();
     const company = await companyRepository.add(mockCompanyParams());
     const response = await sut.checkId(company.id);
     expect(response).toBe(true);
