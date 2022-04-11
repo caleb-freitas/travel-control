@@ -1,5 +1,6 @@
-import { AccessDeniedError } from "@/presentation/errors";
-import { forbidden } from "@/presentation/helpers";
+import { AccessDeniedError, ServerError } from "@/presentation/errors";
+import { forbidden, serverError } from "@/presentation/helpers";
+import { throwError } from "@/tests/domain/mocks";
 import { authorizationSut } from "@/tests/presentation/middleware/sut";
 import { mockTokenRequest } from "@/tests/presentation/mocks";
 
@@ -10,5 +11,21 @@ describe("AuthorizationMiddleware", () => {
     delete request.headers;
     const response = await sut.handle(request);
     expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  test("should call DbLoadAccountByToken with correct token", async () => {
+    const { sut, dbLoadAccountByTokenSpy } = authorizationSut();
+    const loadSpy = jest.spyOn(dbLoadAccountByTokenSpy, "load");
+    await sut.handle(mockTokenRequest());
+    expect(loadSpy).toHaveBeenCalledWith("any_token");
+  });
+
+  test("should return 500 if DbLoadAccountByToken throw", async () => {
+    const { sut, dbLoadAccountByTokenSpy } = authorizationSut();
+    jest
+      .spyOn(dbLoadAccountByTokenSpy, "load")
+      .mockImplementationOnce(throwError);
+    const response = await sut.handle(mockTokenRequest());
+    expect(response).toEqual(serverError(new ServerError()));
   });
 });
