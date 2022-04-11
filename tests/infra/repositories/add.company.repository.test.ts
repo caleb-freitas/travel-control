@@ -1,11 +1,11 @@
-import { CompanyRepository, prisma } from "@/infra/repositories";
+import { AddCompanyRepository, prisma } from "@/infra/repositories";
 import { mockCompanyParams } from "@/tests/domain/mocks";
 
-function companyRepositorySut(): CompanyRepository {
-  return new CompanyRepository();
+function companyRepositorySut(): AddCompanyRepository {
+  return new AddCompanyRepository();
 }
 
-describe("CompanyRepository", () => {
+describe("AddCompanyRepository", () => {
   afterAll(async () => {
     const deleteCompanies = prisma.company.deleteMany();
     await prisma.$transaction([deleteCompanies]);

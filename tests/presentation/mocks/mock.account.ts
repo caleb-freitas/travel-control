@@ -1,9 +1,12 @@
 import { ICompanyModel, IDriverModel } from "@/domain/models";
 import {
   Authentication,
+  IAddDriver,
+  IAddDriverModel,
   IAuthentication,
   ILoadAccountByToken,
 } from "@/domain/usecases";
+import { mockDriverResult } from "@/tests/domain/mocks";
 import { mockCompanyResult } from "@/tests/domain/mocks/mock.company";
 
 export class DbAuthenticationSpy implements IAuthentication {
@@ -16,8 +19,20 @@ export class DbAuthenticationSpy implements IAuthentication {
 }
 
 export class DbLoadAccountByTokenSpy implements ILoadAccountByToken {
-  result = mockCompanyResult();
-  async load(accessToken: string): Promise<ICompanyModel | IDriverModel> {
+  result = {
+    role: "company",
+    account: mockCompanyResult(),
+  };
+  async load(
+    accessToken: string
+  ): Promise<{ role: string; account: ICompanyModel | IDriverModel }> {
     return this.result;
+  }
+}
+
+export class DbAddDriverSpy implements IAddDriver {
+  driverAccount = mockDriverResult();
+  async add(account: IAddDriverModel): Promise<IDriverModel | Error> {
+    return this.driverAccount;
   }
 }

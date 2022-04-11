@@ -1,3 +1,3 @@
-export interface ICheckCompanyIdRepository {
+export interface ICheckCompanyByIdRepository {
   checkId(id: string): Promise<boolean>;
 }

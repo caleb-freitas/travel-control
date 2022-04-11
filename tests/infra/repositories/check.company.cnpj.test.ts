@@ -1,7 +1,7 @@
 import { ICheckCompanyByCnpjRepository } from "@/data/protocols/database";
 import {
   CheckCompanyByCnpjRepository,
-  CompanyRepository,
+  AddCompanyRepository,
   prisma,
 } from "@/infra/repositories";
 import { mockCompanyParams } from "@/tests/domain/mocks";
@@ -12,7 +12,7 @@ function checkCompanyCnpjSut(): CheckCompanyByCnpjRepository {
 
 describe("CheckCompanyByEmailRepository", () => {
   beforeAll(async () => {
-    const companyRepository = new CompanyRepository();
+    const companyRepository = new AddCompanyRepository();
     await companyRepository.add(mockCompanyParams());
   });
 

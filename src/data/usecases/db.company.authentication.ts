@@ -16,26 +16,19 @@ export class DbCompanyAuthentication implements IAuthentication {
   async auth(
     authenticationParams: Authentication.Params
   ): Promise<Authentication.Result> {
-    const company = await this.loadCompanyByEmail.loadByEmail(
-      authenticationParams.email
+    const { email, password } = authenticationParams;
+    const company = await this.loadCompanyByEmail.loadByEmail(email);
+    if (!company) return null;
+    const validPassword = await this.hashComparer.compare(
+      password,
+      company.password
     );
-    if (company) {
-      const validPassword = await this.hashComparer.compare(
-        authenticationParams.password,
-        company.password
-      );
-      if (validPassword) {
-        const accessToken = await this.encrypter.encrypt(company.id);
-        await this.updateCompanyToken.updateAccessToken(
-          company.id,
-          accessToken
-        );
-        return {
-          accessToken,
-          name: company.name,
-        };
-      }
-    }
-    return null;
+    if (!validPassword) return null;
+    const accessToken = await this.encrypter.encrypt(company.id);
+    await this.updateCompanyToken.updateAccessToken(company.id, accessToken);
+    return {
+      accessToken,
+      name: company.name,
+    };
   }
 }

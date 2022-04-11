@@ -1,4 +1,4 @@
-import { authenticationSut } from "@/tests/data/factory";
+import { authenticationSut } from "@/tests/data/sut";
 import {
   mockCompanyAuthenticationParams,
   mockCompanyAuthenticationResult,

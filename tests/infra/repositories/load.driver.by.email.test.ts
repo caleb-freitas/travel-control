@@ -1,6 +1,6 @@
 import {
-  CompanyRepository,
-  DriverRepository,
+  AddCompanyRepository,
+  AddDriverRepository,
   prisma,
   LoadDriverByEmailRepository,
 } from "@/infra/repositories";
@@ -12,8 +12,8 @@ function loadDriverEmailSut(): LoadDriverByEmailRepository {
 
 describe("LoadDriverByEmailRepository", () => {
   beforeAll(async () => {
-    const companyRepository = new CompanyRepository();
-    const driverRepository = new DriverRepository();
+    const companyRepository = new AddCompanyRepository();
+    const driverRepository = new AddDriverRepository();
     const company = await companyRepository.add(mockCompanyParams());
     await driverRepository.add({
       ...mockDriverParams(),

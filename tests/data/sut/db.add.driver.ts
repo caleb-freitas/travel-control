@@ -1,6 +1,6 @@
 import {
   IAddDriverRepository,
-  ICheckCompanyIdRepository,
+  ICheckCompanyByIdRepository,
   ICheckDriverByEmailRepository,
   IHasher,
 } from "@/data/protocols";
@@ -9,33 +9,33 @@ import { IAddDriver } from "@/domain/usecases";
 import {
   AddDriverRepositorySpy,
   CheckDriverEmailRepositorySpy,
-  CheckCompanyIdRepositorySpy,
+  CheckCompanyByIdRepositorySpy,
   HasherSpy,
 } from "@/tests/data/mocks";
 
 type Sut = {
   sut: IAddDriver;
   hasherSpy: IHasher;
-  addDriverRepositorySpy: IAddDriverRepository;
+  addAddDriverRepositorySpy: IAddDriverRepository;
   checkDriverByEmailRepositorySpy: ICheckDriverByEmailRepository;
-  checkCompanyByIdRepositorySpy: ICheckCompanyIdRepository;
+  checkCompanyByIdRepositorySpy: ICheckCompanyByIdRepository;
 };
 
 export function dbAddDriverSut(): Sut {
   const hasherSpy = new HasherSpy();
-  const addDriverRepositorySpy = new AddDriverRepositorySpy();
+  const addAddDriverRepositorySpy = new AddDriverRepositorySpy();
   const checkDriverByEmailRepositorySpy = new CheckDriverEmailRepositorySpy();
-  const checkCompanyByIdRepositorySpy = new CheckCompanyIdRepositorySpy();
+  const checkCompanyByIdRepositorySpy = new CheckCompanyByIdRepositorySpy();
   const sut = new DbAddDriver(
     hasherSpy,
-    addDriverRepositorySpy,
+    addAddDriverRepositorySpy,
     checkDriverByEmailRepositorySpy,
     checkCompanyByIdRepositorySpy
   );
   return {
     sut,
     hasherSpy,
-    addDriverRepositorySpy,
+    addAddDriverRepositorySpy,
     checkDriverByEmailRepositorySpy,
     checkCompanyByIdRepositorySpy,
   };

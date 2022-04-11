@@ -2,17 +2,17 @@ import { DbAddDriver } from "@/data/usecases";
 import { IAddDriver } from "@/domain/usecases";
 import { BcryptAdapter } from "@/infra/cryptography";
 import {
-  CheckCompanyIdRepository,
+  CheckCompanyByIdRepository,
   CheckDriverByEmailRepository,
-  DriverRepository,
+  AddDriverRepository,
 } from "@/infra/repositories";
 
 export function makeDbAddDriver(): IAddDriver {
   const salt = 12;
   const bcryptAdapter = new BcryptAdapter(salt);
-  const driverRepository = new DriverRepository();
+  const driverRepository = new AddDriverRepository();
   const checkDriverByEmailRepository = new CheckDriverByEmailRepository();
-  const checkCompanyIdRepository = new CheckCompanyIdRepository();
+  const checkCompanyIdRepository = new CheckCompanyByIdRepository();
   return new DbAddDriver(
     bcryptAdapter,
     driverRepository,

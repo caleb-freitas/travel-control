@@ -16,23 +16,19 @@ export class DbDriverAuthentication implements IAuthentication {
   async auth(
     authenticationParams: Authentication.Params
   ): Promise<Authentication.Result> {
-    const driver = await this.loadDriverByEmail.loadByEmail(
-      authenticationParams.email
+    const { email, password } = authenticationParams;
+    const driver = await this.loadDriverByEmail.loadByEmail(email);
+    if (!driver) return null;
+    const validPassword = await this.hashComparer.compare(
+      password,
+      driver.password
     );
-    if (driver) {
-      const validPassword = await this.hashComparer.compare(
-        authenticationParams.password,
-        driver.password
-      );
-      if (validPassword) {
-        const accessToken = await this.encrypter.encrypt(driver.id);
-        await this.updateDriverToken.updateAccessToken(driver.id, accessToken);
-        return {
-          accessToken,
-          name: driver.name,
-        };
-      }
-    }
-    return null;
+    if (!validPassword) return null;
+    const accessToken = await this.encrypter.encrypt(driver.id);
+    await this.updateDriverToken.updateAccessToken(driver.id, accessToken);
+    return {
+      accessToken,
+      name: driver.name,
+    };
   }
 }

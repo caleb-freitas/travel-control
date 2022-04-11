@@ -1,5 +1,3 @@
-import { IAuthentication } from "@/domain/usecases";
-import { LoginController } from "@/presentation/controllers";
 import { InvalidParamError, ServerError } from "@/presentation/errors";
 import {
   badRequest,
@@ -7,85 +5,58 @@ import {
   serverError,
   unauthorized,
 } from "@/presentation/helpers";
-import { IHttpRequest, IValidation } from "@/presentation/protocols";
 import { throwError } from "@/tests/domain/mocks";
-import { ValidationSpy, DbAuthenticationSpy } from "@/tests/presentation/mocks";
+import { loginSut } from "@/tests/presentation/controllers/sut";
+import { mockLoginRequest } from "@/tests/presentation/mocks";
 
-function mockRequest(): IHttpRequest {
-  return {
-    body: {
-      email: "valid@email.com",
-      password: "valid_pass",
-      role: "role",
-    },
-  };
-}
-
-type Sut = {
-  sut: LoginController;
-  validationSpy: IValidation;
-  dbAuthenticationSpy: IAuthentication;
-};
-
-function makeSut(): Sut {
-  const validationSpy = new ValidationSpy();
-  const dbAuthenticationSpy = new DbAuthenticationSpy();
-  const sut = new LoginController(validationSpy, dbAuthenticationSpy);
-  return {
-    sut,
-    validationSpy,
-    dbAuthenticationSpy,
-  };
-}
-
-describe("CompanyLoginController", () => {
+describe("LoginController", () => {
   test("should call Validation with correct values", async () => {
-    const { sut, validationSpy } = makeSut();
+    const { sut, validationSpy } = loginSut();
     const validateSpy = jest.spyOn(validationSpy, "validate");
-    await sut.handle(mockRequest());
-    expect(validateSpy).toHaveBeenCalledWith(mockRequest().body);
+    await sut.handle(mockLoginRequest());
+    expect(validateSpy).toHaveBeenCalledWith(mockLoginRequest().body);
   });
 
   test("should return 500 if Validation throw", async () => {
-    const { sut, validationSpy } = makeSut();
+    const { sut, validationSpy } = loginSut();
     jest.spyOn(validationSpy, "validate").mockImplementationOnce(throwError);
-    const response = await sut.handle(mockRequest());
+    const response = await sut.handle(mockLoginRequest());
     expect(response).toEqual(serverError(new ServerError()));
   });
 
   test("should call DbAuthentication with correct values", async () => {
-    const { sut, dbAuthenticationSpy } = makeSut();
+    const { sut, dbAuthenticationSpy } = loginSut();
     const validateSpy = jest.spyOn(dbAuthenticationSpy, "auth");
-    await sut.handle(mockRequest());
-    expect(validateSpy).toHaveBeenCalledWith(mockRequest().body);
+    await sut.handle(mockLoginRequest());
+    expect(validateSpy).toHaveBeenCalledWith(mockLoginRequest().body);
   });
 
   test("should return 500 if DbAuthentication throw", async () => {
-    const { sut, dbAuthenticationSpy } = makeSut();
+    const { sut, dbAuthenticationSpy } = loginSut();
     jest.spyOn(dbAuthenticationSpy, "auth").mockImplementationOnce(throwError);
-    const response = await sut.handle(mockRequest());
+    const response = await sut.handle(mockLoginRequest());
     expect(response).toEqual(serverError(new ServerError()));
   });
 
   test("should return 401 if DbAuthentication fail", async () => {
-    const { sut, dbAuthenticationSpy } = makeSut();
+    const { sut, dbAuthenticationSpy } = loginSut();
     jest.spyOn(dbAuthenticationSpy, "auth").mockImplementationOnce(null);
-    const response = await sut.handle(mockRequest());
+    const response = await sut.handle(mockLoginRequest());
     expect(response).toEqual(unauthorized());
   });
 
   test("should return 403 if Validation fail", async () => {
-    const { sut, validationSpy } = makeSut();
+    const { sut, validationSpy } = loginSut();
     jest
       .spyOn(validationSpy, "validate")
       .mockReturnValueOnce(new InvalidParamError("field"));
-    const response = await sut.handle(mockRequest());
+    const response = await sut.handle(mockLoginRequest());
     expect(response).toEqual(badRequest(new InvalidParamError("field")));
   });
 
   test("should return 200 on success", async () => {
-    const { sut } = makeSut();
-    const response = await sut.handle(mockRequest());
+    const { sut } = loginSut();
+    const response = await sut.handle(mockLoginRequest());
     expect(response).toEqual(ok({ accessToken: "access_token", name: "name" }));
   });
 });

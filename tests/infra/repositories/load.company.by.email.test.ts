@@ -1,5 +1,5 @@
 import {
-  CompanyRepository,
+  AddCompanyRepository,
   LoadCompanyByEmailRepository,
   prisma,
 } from "@/infra/repositories";
@@ -11,7 +11,7 @@ function loadCompanyEmailSut(): LoadCompanyByEmailRepository {
 
 describe("LoadCompanyByEmailRepository", () => {
   beforeAll(async () => {
-    const companyRepository = new CompanyRepository();
+    const companyRepository = new AddCompanyRepository();
     await companyRepository.add(mockCompanyParams());
   });
 

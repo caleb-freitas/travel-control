@@ -1,5 +1,5 @@
 import { FieldInUseError, InvalidParamError } from "@/presentation/errors";
-import { dbAddDriverSut } from "@/tests/data/factory";
+import { dbAddDriverSut } from "@/tests/data/sut";
 import {
   mockDriverParams,
   mockHashedDriverParams,
@@ -15,8 +15,8 @@ describe("DbAddDriver", () => {
   });
 
   test("should call AddDriverRepository with correct values", async () => {
-    const { sut, addDriverRepositorySpy } = dbAddDriverSut();
-    const addSpy = jest.spyOn(addDriverRepositorySpy, "add");
+    const { sut, addAddDriverRepositorySpy } = dbAddDriverSut();
+    const addSpy = jest.spyOn(addAddDriverRepositorySpy, "add");
     await sut.add(mockDriverParams());
     expect(addSpy).toHaveBeenCalledWith(mockHashedDriverParams());
   });
@@ -43,7 +43,7 @@ describe("DbAddDriver", () => {
     expect(error).toEqual(new FieldInUseError("email"));
   });
 
-  test("should call CheckCompanyIdRepository with correct id", async () => {
+  test("should call CheckCompanyByIdRepository with correct id", async () => {
     const { sut, checkCompanyByIdRepositorySpy } = dbAddDriverSut();
     const addSpy = jest.spyOn(checkCompanyByIdRepositorySpy, "checkId");
     await sut.add(mockDriverParams());

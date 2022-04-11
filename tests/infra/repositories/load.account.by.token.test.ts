@@ -1,10 +1,10 @@
 import {
-  CompanyRepository,
+  AddCompanyRepository,
   prisma,
   LoadAccountByTokenRepository,
   UpdateCompanyTokenRepository,
   UpdateDriverTokenRepository,
-  DriverRepository,
+  AddDriverRepository,
 } from "@/infra/repositories";
 import { mockCompanyParams, mockDriverParams } from "@/tests/domain/mocks";
 
@@ -14,8 +14,8 @@ function loadAccountTokenSut(): LoadAccountByTokenRepository {
 
 describe("LoadAccountByTokenRepository", () => {
   beforeAll(async () => {
-    const companyRepository = new CompanyRepository();
-    const driverRepository = new DriverRepository();
+    const companyRepository = new AddCompanyRepository();
+    const driverRepository = new AddDriverRepository();
     const updateCompanyToken = new UpdateCompanyTokenRepository();
     const updateDriverToken = new UpdateDriverTokenRepository();
     const company = await companyRepository.add(mockCompanyParams());

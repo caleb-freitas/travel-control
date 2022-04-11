@@ -1,17 +1,17 @@
 import { IAddDriverRepository } from "@/data/protocols";
 import { IAddDriverModel } from "@/domain/usecases";
 import {
-  CompanyRepository,
-  DriverRepository,
+  AddCompanyRepository,
+  AddDriverRepository,
   prisma,
 } from "@/infra/repositories";
 import { mockCompanyParams, mockDriverParams } from "@/tests/domain/mocks";
 
-function driverRepositorySut(): DriverRepository {
-  return new DriverRepository();
+function driverRepositorySut(): AddDriverRepository {
+  return new AddDriverRepository();
 }
 
-describe("DriverRepository", () => {
+describe("AddDriverRepository", () => {
   afterAll(async () => {
     const deleteDrivers = prisma.driver.deleteMany();
     await prisma.$transaction([deleteDrivers]);
@@ -20,7 +20,7 @@ describe("DriverRepository", () => {
 
   test("should add a new driver account", async () => {
     const sut = driverRepositorySut();
-    const companyRepository = new CompanyRepository();
+    const companyRepository = new AddCompanyRepository();
     const companyAccount = await companyRepository.add(mockCompanyParams());
     const driverAccount = await sut.add({
       ...mockDriverParams(),

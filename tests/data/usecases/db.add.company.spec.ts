@@ -1,5 +1,5 @@
 import { FieldInUseError } from "@/presentation/errors";
-import { dbAddCompanySut } from "@/tests/data/factory";
+import { dbAddCompanySut } from "@/tests/data/sut";
 import {
   mockCompanyParams,
   mockCompanyResult,

@@ -1,19 +1,17 @@
 export const driverAccountPath = {
   post: {
+    parameters: [{
+      name: "x-access-token",
+      in: "header",
+      description: "Company access token",
+      required: true,
+      schema: {
+        type: "string"
+      }
+    }],
     tags: ["Signup"],
     summary: "Create a new driver",
     description: "Create a new driver",
-    parameters: [
-      {
-        name: "company_id",
-        in: "path",
-        description: "Company id",
-        required: true,
-        schema: {
-          type: "string",
-        },
-      },
-    ],
     requestBody: {
       required: true,
       content: {

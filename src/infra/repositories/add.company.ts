@@ -3,7 +3,7 @@ import { ICompanyModel } from "@/domain/models";
 import { IAddCompanyModel } from "@/domain/usecases";
 import { prisma } from "@/infra/repositories";
 
-export class CompanyRepository implements IAddCompanyRepository {
+export class AddCompanyRepository implements IAddCompanyRepository {
   async add(accountData: IAddCompanyModel): Promise<ICompanyModel> {
     const { name, email, password, cnpj } = accountData;
     const companyAccount = await prisma.company.create({

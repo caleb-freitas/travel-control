@@ -4,13 +4,13 @@ import { BcryptAdapter } from "@/infra/cryptography";
 import {
   CheckCompanyByCnpjRepository,
   CheckCompanyByEmailRepository,
-  CompanyRepository,
+  AddCompanyRepository,
 } from "@/infra/repositories";
 
 export const makeDbAddCompany = (): IAddCompany => {
   const salt = 12;
   const bcryptAdapter = new BcryptAdapter(salt);
-  const companyPrismaRepository = new CompanyRepository();
+  const companyPrismaRepository = new AddCompanyRepository();
   const checkCompanyByEmailRepository = new CheckCompanyByEmailRepository();
   const checkAccountByCnpjRepository = new CheckCompanyByCnpjRepository();
   return new DbAddCompany(

@@ -1,52 +1,12 @@
-import {
-  IEncrypter,
-  IHashComparer,
-  ILoadDriverByEmailRepository,
-} from "@/data/protocols";
-import { IUpdateDriverTokenRepository } from "@/data/protocols/database";
-import { DbDriverAuthentication } from "@/data/usecases";
-import {
-  EncrypterSpy,
-  HashComparerSpy,
-  LoadDriverByEmailRepositorySpy,
-  UpdateDriverTokenRepositorySpy,
-} from "@/tests/data/mocks";
+import { driverAuthSut } from "@/tests/data/sut";
 import {
   mockCompanyAuthenticationParams,
   throwError,
 } from "@/tests/domain/mocks";
 
-type Sut = {
-  sut: DbDriverAuthentication;
-  loadDriverByEmailRepositorySpy: ILoadDriverByEmailRepository;
-  hashComparerSpy: IHashComparer;
-  encrypterSpy: IEncrypter;
-  updateDriverTokenRepositorySpy: IUpdateDriverTokenRepository;
-};
-
-function makeSut(): Sut {
-  const loadDriverByEmailRepositorySpy = new LoadDriverByEmailRepositorySpy();
-  const hashComparerSpy = new HashComparerSpy();
-  const encrypterSpy = new EncrypterSpy();
-  const updateDriverTokenRepositorySpy = new UpdateDriverTokenRepositorySpy();
-  const sut = new DbDriverAuthentication(
-    loadDriverByEmailRepositorySpy,
-    hashComparerSpy,
-    encrypterSpy,
-    updateDriverTokenRepositorySpy
-  );
-  return {
-    sut,
-    loadDriverByEmailRepositorySpy,
-    hashComparerSpy,
-    encrypterSpy,
-    updateDriverTokenRepositorySpy,
-  };
-}
-
 describe("DbCompanyAuthentication", () => {
   test("should call LoadDriverByEmailRepository with correct email", async () => {
-    const { sut, loadDriverByEmailRepositorySpy } = makeSut();
+    const { sut, loadDriverByEmailRepositorySpy } = driverAuthSut();
     const loadSpy = jest.spyOn(loadDriverByEmailRepositorySpy, "loadByEmail");
     const authenticationParams = mockCompanyAuthenticationParams();
     await sut.auth(authenticationParams);
@@ -54,7 +14,7 @@ describe("DbCompanyAuthentication", () => {
   });
 
   test("should throw if LoadDriverByEmailRepository throw", async () => {
-    const { sut, loadDriverByEmailRepositorySpy } = makeSut();
+    const { sut, loadDriverByEmailRepositorySpy } = driverAuthSut();
     jest
       .spyOn(loadDriverByEmailRepositorySpy, "loadByEmail")
       .mockImplementationOnce(throwError);
@@ -63,7 +23,7 @@ describe("DbCompanyAuthentication", () => {
   });
 
   test("should return null if LoadDriverByEmailRepository return null", async () => {
-    const { sut, loadDriverByEmailRepositorySpy } = makeSut();
+    const { sut, loadDriverByEmailRepositorySpy } = driverAuthSut();
     jest
       .spyOn(loadDriverByEmailRepositorySpy, "loadByEmail")
       .mockReturnValueOnce(null);
@@ -73,7 +33,7 @@ describe("DbCompanyAuthentication", () => {
   });
 
   test("should call HashComparer with correct password", async () => {
-    const { sut, hashComparerSpy } = makeSut();
+    const { sut, hashComparerSpy } = driverAuthSut();
     const compareSpy = jest.spyOn(hashComparerSpy, "compare");
     const authenticationParams = mockCompanyAuthenticationParams();
     await sut.auth(authenticationParams);
@@ -84,14 +44,23 @@ describe("DbCompanyAuthentication", () => {
   });
 
   test("should throw if HashComparer throw", async () => {
-    const { sut, hashComparerSpy } = makeSut();
+    const { sut, hashComparerSpy } = driverAuthSut();
     jest.spyOn(hashComparerSpy, "compare").mockImplementationOnce(throwError);
     const promise = sut.auth(mockCompanyAuthenticationParams());
     await expect(promise).rejects.toThrow();
   });
 
+  test("should return null if HashComparer return null", async () => {
+    const { sut, hashComparerSpy } = driverAuthSut();
+    jest
+      .spyOn(hashComparerSpy, "compare")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const response = await sut.auth(mockCompanyAuthenticationParams());
+    expect(response).toBeNull();
+  });
+
   test("should call Encrypter with correct plaintext", async () => {
-    const { sut, encrypterSpy } = makeSut();
+    const { sut, encrypterSpy } = driverAuthSut();
     const encryptSpy = jest.spyOn(encrypterSpy, "encrypt");
     const authenticationParams = mockCompanyAuthenticationParams();
     await sut.auth(authenticationParams);
@@ -99,21 +68,21 @@ describe("DbCompanyAuthentication", () => {
   });
 
   test("should throw if Encrypter throw", async () => {
-    const { sut, encrypterSpy } = makeSut();
+    const { sut, encrypterSpy } = driverAuthSut();
     jest.spyOn(encrypterSpy, "encrypt").mockImplementationOnce(throwError);
     const promise = sut.auth(mockCompanyAuthenticationParams());
     await expect(promise).rejects.toThrow();
   });
 
   test("should return correct data on success", async () => {
-    const { sut, encrypterSpy } = makeSut();
+    const { sut, encrypterSpy } = driverAuthSut();
     jest.spyOn(encrypterSpy, "encrypt").mockImplementationOnce(throwError);
     const promise = sut.auth(mockCompanyAuthenticationParams());
     await expect(promise).rejects.toThrow();
   });
 
   test("should call UpdateDriverTokenRepository with correct values", async () => {
-    const { sut, updateDriverTokenRepositorySpy } = makeSut();
+    const { sut, updateDriverTokenRepositorySpy } = driverAuthSut();
     const loadSpy = jest.spyOn(
       updateDriverTokenRepositorySpy,
       "updateAccessToken"
@@ -124,7 +93,7 @@ describe("DbCompanyAuthentication", () => {
   });
 
   test("should throw if UpdateDriverTokenRepository throw", async () => {
-    const { sut, updateDriverTokenRepositorySpy } = makeSut();
+    const { sut, updateDriverTokenRepositorySpy } = driverAuthSut();
     jest
       .spyOn(updateDriverTokenRepositorySpy, "updateAccessToken")
       .mockImplementationOnce(throwError);
