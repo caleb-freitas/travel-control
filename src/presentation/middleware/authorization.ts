@@ -26,7 +26,7 @@ export class AuthorizationMiddleware implements IMiddleware {
       if (response.role !== this.adminRole) {
         return forbidden(new AccessDeniedError());
       }
-      return ok({ company_id: response.account });
+      return ok({ company_id: response.account.id });
     } catch (error) {
       return serverError(error);
     }
