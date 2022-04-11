@@ -29,12 +29,12 @@ function makeSut(): Sut {
 }
 
 describe("AuthenticationMiddleware", () => {
-  // test("should call DbLoadAccountByToken with correct token", async () => {
-  //   const { sut, dbLoadAccountByTokenSpy } = makeSut();
-  //   const loadSpy = jest.spyOn(dbLoadAccountByTokenSpy, "load");
-  //   await sut.handle(mockRequest());
-  //   expect(loadSpy).toHaveBeenCalledWith("any_token");
-  // });
+  test("should call DbLoadAccountByToken with correct token", async () => {
+    const { sut, dbLoadAccountByTokenSpy } = makeSut();
+    const loadSpy = jest.spyOn(dbLoadAccountByTokenSpy, "load");
+    await sut.handle(mockRequest());
+    expect(loadSpy).toHaveBeenCalledWith("any_token");
+  });
 
   test("should return 500 if DbLoadAccountByToken throw", async () => {
     const { sut, dbLoadAccountByTokenSpy } = makeSut();
