@@ -1,5 +1,6 @@
 export namespace Truck {
   export type Params = {
+    company_id: string;
     license_plate: string;
     ton_capacity: number;
     brand: string;
