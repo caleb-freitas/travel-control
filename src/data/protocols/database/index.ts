@@ -9,3 +9,5 @@ export * from "./load.driver.by.email.repository";
 export * from "./update.company.token.repository";
 export * from "./update.driver.token.repository";
 export * from "./load.account.by.token.repository";
+export * from "./check.truck.license.plate.repository";
+export * from "./add.truck.repository";
