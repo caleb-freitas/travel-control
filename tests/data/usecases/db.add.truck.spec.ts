@@ -1,3 +1,4 @@
+import { FieldInUseError, InvalidParamError } from "@/presentation/errors";
 import { dbAddTruckSut } from "@/tests/data/sut";
 import {
   mockTruckModel,
@@ -22,13 +23,22 @@ describe("DbAddTruck", () => {
     await expect(promise).rejects.toThrow();
   });
 
-  test("should return null if CheckTruckByLicensePlateRepository return null", async () => {
+  test("should return FieldInUseError if CheckTruckByLicensePlateRepository return true", async () => {
     const { sut, checkTruckLicensePlateRepositorySpy } = dbAddTruckSut();
     jest
       .spyOn(checkTruckLicensePlateRepositorySpy, "check")
       .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
     const response = await sut.add(mockTruckParams());
-    expect(response).toBeNull();
+    expect(response).toEqual(new FieldInUseError("license_plate"));
+  });
+
+  test("should return InvalidParamError if CheckCompanyByIdRepository return false", async () => {
+    const { sut, checkCompanyByIdRepositorySpy } = dbAddTruckSut();
+    jest
+      .spyOn(checkCompanyByIdRepositorySpy, "checkId")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    const response = await sut.add(mockTruckParams());
+    expect(response).toEqual(new InvalidParamError("company_id"));
   });
 
   test("should call AddTruckRepository with correct values", async () => {
