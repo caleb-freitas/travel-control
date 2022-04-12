@@ -19,6 +19,9 @@ export const truckResultSchema = {
     model: {
       type: "string",
     },
+    created_at: {
+      type: "timestamp"
+    },
   },
   example: {
     id: "654f2ccc-3ae9-4aec-9a98-c4aa8d8c08b7",
@@ -27,5 +30,6 @@ export const truckResultSchema = {
     ton_capacity: 30,
     brand: "brand_name",
     model: "model_name",
+    created_at: "2022-03-22T13:35:56.204Z",
   }
 }

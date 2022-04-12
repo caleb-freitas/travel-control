@@ -15,4 +15,5 @@ export const mockTruckModel = (): Truck.Model => ({
   ton_capacity: 30,
   brand: "brand_name",
   model: "model_name",
+  created_at: new Date("1995-12-17T03:24:00"),
 });

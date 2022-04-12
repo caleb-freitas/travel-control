@@ -14,6 +14,7 @@ export namespace Truck {
     ton_capacity: number;
     brand: string;
     model: string;
+    created_at: Date;
   };
 
   export type Model = TruckModel | Error;
