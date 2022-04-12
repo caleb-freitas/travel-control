@@ -1,5 +1,3 @@
-import { IAddDriverRepository } from "@/data/protocols";
-import { IAddDriverModel } from "@/domain/usecases";
 import {
   AddCompanyRepository,
   AddDriverRepository,
@@ -14,7 +12,8 @@ function driverRepositorySut(): AddDriverRepository {
 describe("AddDriverRepository", () => {
   afterAll(async () => {
     const deleteDrivers = prisma.driver.deleteMany();
-    await prisma.$transaction([deleteDrivers]);
+    const deleteCompanies = prisma.company.deleteMany();
+    await prisma.$transaction([deleteDrivers, deleteCompanies]);
     await prisma.$disconnect();
   });
 

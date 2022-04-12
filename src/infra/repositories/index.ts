@@ -10,3 +10,5 @@ export * from "./load.driver.by.email";
 export * from "./update.company.token";
 export * from "./update.driver.token";
 export * from "./load.account.by.token";
+export * from "./check.truck.license.plate";
+export * from "./add.truck";

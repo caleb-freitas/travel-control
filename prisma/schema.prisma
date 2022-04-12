@@ -18,6 +18,7 @@ model Company {
   access_token String?
 
   Driver Driver[]
+  Truck  Truck[]
 
   @@map("companies")
 }
@@ -36,4 +37,18 @@ model Driver {
   Company Company @relation(fields: [company_id], references: [id])
 
   @@map("drivers")
+}
+
+model Truck {
+  id            String   @id @default(uuid())
+  company_id    String
+  license_plate String
+  ton_capacity  Int
+  brand         String
+  model         String
+  created_at    DateTime @default(now())
+
+  Company Company? @relation(fields: [company_id], references: [id])
+
+  @@map("trucks")
 }
