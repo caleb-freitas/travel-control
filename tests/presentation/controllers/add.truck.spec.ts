@@ -17,4 +17,18 @@ describe("AddTruckController", () => {
     const response = await sut.handle(mockTruckRequest());
     expect(response).toEqual(serverError(response));
   });
+
+  test("should call DbAddTruck with correct values", async () => {
+    const { sut, addTruckSpy } = addTruckSut();
+    const addSpy = jest.spyOn(addTruckSpy, "add");
+    await sut.handle(mockTruckRequest());
+    expect(addSpy).toHaveBeenCalledWith(mockTruckRequest().body);
+  });
+
+  test("should throw if DbAddTruck throw", async () => {
+    const { sut, addTruckSpy } = addTruckSut();
+    jest.spyOn(addTruckSpy, "add").mockImplementationOnce(throwError);
+    const response = await sut.handle(mockTruckRequest());
+    expect(response).toEqual(serverError(response));
+  });
 });
