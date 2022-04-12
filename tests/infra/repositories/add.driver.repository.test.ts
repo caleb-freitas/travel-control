@@ -1,5 +1,3 @@
-import { IAddDriverRepository } from "@/data/protocols";
-import { IAddDriverModel } from "@/domain/usecases";
 import {
   AddCompanyRepository,
   AddDriverRepository,
