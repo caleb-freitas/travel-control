@@ -4,17 +4,12 @@ import { IAddDriverModel } from "@/domain/usecases";
 import { prisma } from "@/infra/repositories";
 
 export class AddDriverRepository implements IAddDriverRepository {
-  async add(accountData: IAddDriverModel): Promise<IDriverModel> {
-    const { company_id, name, password, email, drivers_license } = accountData;
-    const driverAccount = await prisma.driver.create({
+  async add(driverData: IAddDriverModel): Promise<IDriverModel> {
+    const driver = await prisma.driver.create({
       data: {
-        company_id,
-        name,
-        password,
-        email,
-        drivers_license,
+        ...driverData,
       },
     });
-    return driverAccount;
+    return driver;
   }
 }
