@@ -7,7 +7,7 @@ export namespace Truck {
     model: string;
   };
 
-  export type Model = {
+  export type TruckModel = {
     id: string;
     company_id: string;
     license_plate: string;
@@ -15,6 +15,8 @@ export namespace Truck {
     brand: string;
     model: string;
   };
+
+  export type Model = TruckModel | Error;
 }
 
 export interface IAddTruck {
