@@ -5,7 +5,9 @@ import {
   driverResultSchema,
   loginParamsSchema,
   loginResultSchema,
-  errorSchema
+  errorSchema,
+  truckParamsSchema,
+  truckResultSchema
 } from "./schemas/"
 import {} from "./schemas/login.params.schema"
 
@@ -16,5 +18,7 @@ export default {
   driverResult: driverResultSchema,
   loginParams: loginParamsSchema,
   loginResult: loginResultSchema,
+  truckParams: truckParamsSchema,
+  truckResult: truckResultSchema,
   error: errorSchema,
 }
