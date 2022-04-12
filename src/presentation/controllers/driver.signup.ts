@@ -22,18 +22,12 @@ export class DriverSignUpController implements IController {
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { company_id, name, email, password, drivers_license } =
-        httpRequest.body;
       const error = this.validation.validate(httpRequest.body);
       if (error) {
         return badRequest(error);
       }
       const account = await this.addDriver.add({
-        company_id,
-        name,
-        email,
-        password,
-        drivers_license,
+        ...httpRequest.body,
       });
       if (account instanceof FieldInUseError) {
         return forbidden(account);
