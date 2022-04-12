@@ -17,4 +17,18 @@ describe("DbAddTruck", () => {
     const promise = sut.add(mockTruckParams());
     await expect(promise).rejects.toThrow();
   });
+
+  test("should call AddTruckRepository with correct values", async () => {
+    const { sut, addTruckRepositorySpy } = dbAddTruckSut();
+    const addSpy = jest.spyOn(addTruckRepositorySpy, "add");
+    await sut.add(mockTruckParams());
+    expect(addSpy).toHaveBeenCalledWith(mockTruckParams());
+  });
+
+  test("should throw if AddTruckRepository throw", async () => {
+    const { sut, addTruckRepositorySpy } = dbAddTruckSut();
+    jest.spyOn(addTruckRepositorySpy, "add").mockImplementationOnce(throwError);
+    const promise = sut.add(mockTruckParams());
+    await expect(promise).rejects.toThrow();
+  });
 });
