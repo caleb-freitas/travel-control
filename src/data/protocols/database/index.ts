@@ -11,3 +11,6 @@ export * from "./update.driver.token.repository";
 export * from "./load.account.by.token.repository";
 export * from "./check.truck.license.plate.repository";
 export * from "./add.truck.repository";
+export * from "./add.travel.repository";
+export * from "./check.driver.id.repository";
+export * from "./check.truck.id.repository";
