@@ -3,12 +3,18 @@ import {
   Authentication,
   IAddDriver,
   IAddDriverModel,
+  IAddTravel,
   IAddTruck,
   IAuthentication,
   ILoadAccountByToken,
+  Travel,
   Truck,
 } from "@/domain/usecases";
-import { mockDriverResult, mockTruckModel } from "@/tests/domain/mocks";
+import {
+  mockDriverResult,
+  mockTravelModel,
+  mockTruckModel,
+} from "@/tests/domain/mocks";
 import { mockCompanyResult } from "@/tests/domain/mocks/mock.company";
 
 export class DbAuthenticationSpy implements IAuthentication {
@@ -43,5 +49,12 @@ export class DbAddTruckSpy implements IAddTruck {
   truck = mockTruckModel();
   async add(data: Truck.Params): Promise<Truck.Model> {
     return this.truck;
+  }
+}
+
+export class DbAddTravelSpy implements IAddTravel {
+  travel = mockTravelModel();
+  async add(travelData: Travel.Params): Promise<Travel.Model> {
+    return this.travel;
   }
 }

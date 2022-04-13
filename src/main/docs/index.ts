@@ -37,6 +37,10 @@ export const swaggerDocument = {
     {
       name: "Truck",
       description: "Truck related API"
+    },
+    {
+      name: "Travel",
+      description: "Travel related API"
     }
   ],
   paths,

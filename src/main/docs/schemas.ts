@@ -7,9 +7,12 @@ import {
   loginResultSchema,
   errorSchema,
   truckParamsSchema,
-  truckResultSchema
+  truckResultSchema,
+  travelParamsSchema,
+  travelResultSchema
 } from "./schemas/"
 import {} from "./schemas/login.params.schema"
+
 
 export default {
   companyParams: companyParamsSchema,
@@ -20,5 +23,7 @@ export default {
   loginResult: loginResultSchema,
   truckParams: truckParamsSchema,
   truckResult: truckResultSchema,
+  travelParams: travelParamsSchema,
+  travelResult: travelResultSchema,
   error: errorSchema,
 }
