@@ -1,5 +1,9 @@
 import { IHttpRequest } from "@/presentation/protocols";
-import { mockDriverResult, mockTruckParams } from "@/tests/domain/mocks";
+import {
+  mockDriverResult,
+  mockTravelParams,
+  mockTruckParams,
+} from "@/tests/domain/mocks";
 
 export const mockCompanyRequest = (): IHttpRequest => ({
   body: {
@@ -33,6 +37,12 @@ export const mockLoginRequest = (): IHttpRequest => ({
 export const mockTruckRequest = (): IHttpRequest => ({
   body: {
     ...mockTruckParams(),
+  },
+});
+
+export const mockTravelRequest = (): IHttpRequest => ({
+  body: {
+    ...mockTravelParams(),
   },
 });
 
