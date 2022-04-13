@@ -1,5 +1,9 @@
 import { dbAddTravelSut } from "@/tests/data/sut";
-import { mockTravelParams, throwError } from "@/tests/domain/mocks";
+import {
+  mockTravelModel,
+  mockTravelParams,
+  throwError,
+} from "@/tests/domain/mocks";
 
 describe("DbAddTravel", () => {
   test("should call AddTravelRepository with correct values", async () => {
@@ -62,5 +66,18 @@ describe("DbAddTravel", () => {
       .mockImplementationOnce(throwError);
     const promise = sut.add(mockTravelParams());
     await expect(promise).rejects.toThrow();
+  });
+
+  test("should return null if AddTravelRepository return null", async () => {
+    const { sut, addTravelSpy } = dbAddTravelSut();
+    jest.spyOn(addTravelSpy, "add").mockImplementationOnce(null);
+    const response = await sut.add(mockTravelParams());
+    expect(response).toBeNull();
+  });
+
+  test("should return a travel on success", async () => {
+    const { sut } = dbAddTravelSut();
+    const response = await sut.add(mockTravelParams());
+    expect(response).toEqual(mockTravelModel());
   });
 });
