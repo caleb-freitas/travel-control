@@ -32,7 +32,6 @@ export class DbAddTravel implements IAddTravel {
     const travel = this.addTravel.add({
       ...travelData,
     });
-    if (!travel) return null;
     return travel;
   }
 }
