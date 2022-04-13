@@ -1,3 +1,4 @@
+import { InvalidParamError } from "@/presentation/errors";
 import { dbAddTravelSut } from "@/tests/data/sut";
 import {
   mockTravelModel,
@@ -20,6 +21,13 @@ describe("DbAddTravel", () => {
     await expect(promise).rejects.toThrow();
   });
 
+  test("should return null if AddTravelRepository return null", async () => {
+    const { sut, addTravelSpy } = dbAddTravelSut();
+    jest.spyOn(addTravelSpy, "add").mockImplementationOnce(null);
+    const response = await sut.add(mockTravelParams());
+    expect(response).toBeNull();
+  });
+
   test("should call CheckCompanyByIdRepository with correct id", async () => {
     const { sut, checkCompanyByIdRepositorySpy } = dbAddTravelSut();
     const checkIdSpy = jest.spyOn(checkCompanyByIdRepositorySpy, "checkId");
@@ -34,6 +42,15 @@ describe("DbAddTravel", () => {
       .mockImplementationOnce(throwError);
     const promise = sut.add(mockTravelParams());
     await expect(promise).rejects.toThrow();
+  });
+
+  test("should return an error if CheckCompanyByIdRepository return null", async () => {
+    const { sut, checkCompanyByIdRepositorySpy } = dbAddTravelSut();
+    jest
+      .spyOn(checkCompanyByIdRepositorySpy, "checkId")
+      .mockImplementationOnce(null);
+    const response = await sut.add(mockTravelParams());
+    expect(response).toEqual(new InvalidParamError("company_id"));
   });
 
   test("should call CheckDriverByIdRepository with correct id", async () => {
@@ -52,6 +69,15 @@ describe("DbAddTravel", () => {
     await expect(promise).rejects.toThrow();
   });
 
+  test("should return an error if CheckDriverByIdRepository return null", async () => {
+    const { sut, checkDriverByIdRepositorySpy } = dbAddTravelSut();
+    jest
+      .spyOn(checkDriverByIdRepositorySpy, "check")
+      .mockImplementationOnce(null);
+    const response = await sut.add(mockTravelParams());
+    expect(response).toEqual(new InvalidParamError("driver_id"));
+  });
+
   test("should call CheckTruckByIdRepository with correct id", async () => {
     const { sut, checkTruckByIdRepositorySpy } = dbAddTravelSut();
     const checkSpy = jest.spyOn(checkTruckByIdRepositorySpy, "check");
@@ -68,11 +94,13 @@ describe("DbAddTravel", () => {
     await expect(promise).rejects.toThrow();
   });
 
-  test("should return null if AddTravelRepository return null", async () => {
-    const { sut, addTravelSpy } = dbAddTravelSut();
-    jest.spyOn(addTravelSpy, "add").mockImplementationOnce(null);
+  test("should return an error if CheckTruckByIdRepository return null", async () => {
+    const { sut, checkTruckByIdRepositorySpy } = dbAddTravelSut();
+    jest
+      .spyOn(checkTruckByIdRepositorySpy, "check")
+      .mockImplementationOnce(null);
     const response = await sut.add(mockTravelParams());
-    expect(response).toBeNull();
+    expect(response).toEqual(new InvalidParamError("truck_id"));
   });
 
   test("should return a travel on success", async () => {
