@@ -21,13 +21,6 @@ describe("DbAddTravel", () => {
     await expect(promise).rejects.toThrow();
   });
 
-  test("should return null if AddTravelRepository return null", async () => {
-    const { sut, addTravelSpy } = dbAddTravelSut();
-    jest.spyOn(addTravelSpy, "add").mockImplementationOnce(null);
-    const response = await sut.add(mockTravelParams());
-    expect(response).toBeNull();
-  });
-
   test("should call CheckCompanyByIdRepository with correct id", async () => {
     const { sut, checkCompanyByIdRepositorySpy } = dbAddTravelSut();
     const checkIdSpy = jest.spyOn(checkCompanyByIdRepositorySpy, "checkId");
