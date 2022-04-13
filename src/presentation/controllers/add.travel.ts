@@ -17,12 +17,19 @@ export class AddTravelController implements IController {
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const invalid = this.validation.validate(httpRequest.body);
+      const { driver_id, truck_id } = httpRequest.params;
+      const invalid = this.validation.validate({
+        ...httpRequest.body,
+        driver_id,
+        truck_id,
+      });
       if (invalid) {
         return badRequest(invalid);
       }
       const travel = await this.addTravel.add({
         ...httpRequest.body,
+        driver_id,
+        truck_id,
       });
       if (travel instanceof InvalidParamError) {
         return notFound(travel);

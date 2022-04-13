@@ -5,3 +5,4 @@ export * from "../validations/driver.signup.controller";
 export * from "../validations/login.controller";
 export * from "./login";
 export * from "./add.truck";
+export * from "./add.travel";

@@ -63,6 +63,7 @@ model Travel {
   driver_id         String
   company_id        String
   truck_id          String
+  client            String
   departure_city    String
   departure_state   String
   destination_city  String

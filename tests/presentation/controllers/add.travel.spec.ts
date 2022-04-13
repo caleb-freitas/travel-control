@@ -1,20 +1,6 @@
-import {
-  FieldInUseError,
-  InvalidParamError,
-  MissingParamError,
-} from "@/presentation/errors";
-import {
-  badRequest,
-  forbidden,
-  notFound,
-  ok,
-  serverError,
-} from "@/presentation/helpers";
-import {
-  mockTravelModel,
-  mockTruckModel,
-  throwError,
-} from "@/tests/domain/mocks";
+import { InvalidParamError, MissingParamError } from "@/presentation/errors";
+import { badRequest, notFound, ok, serverError } from "@/presentation/helpers";
+import { mockTravelModel, throwError } from "@/tests/domain/mocks";
 import { addTravelSut } from "@/tests/presentation/controllers/sut";
 import { mockTravelRequest } from "@/tests/presentation/mocks";
 
@@ -23,7 +9,10 @@ describe("AddTravelController", () => {
     const { sut, validationSpy } = addTravelSut();
     const validateSpy = jest.spyOn(validationSpy, "validate");
     await sut.handle(mockTravelRequest());
-    expect(validateSpy).toHaveBeenCalledWith(mockTravelRequest().body);
+    expect(validateSpy).toHaveBeenCalledWith({
+      ...mockTravelRequest().body,
+      ...mockTravelRequest().params,
+    });
   });
 
   test("should return 500 if Validation throw", async () => {
@@ -46,7 +35,10 @@ describe("AddTravelController", () => {
     const { sut, addTravelSpy } = addTravelSut();
     const addSpy = jest.spyOn(addTravelSpy, "add");
     await sut.handle(mockTravelRequest());
-    expect(addSpy).toHaveBeenCalledWith(mockTravelRequest().body);
+    expect(addSpy).toHaveBeenCalledWith({
+      ...mockTravelRequest().body,
+      ...mockTravelRequest().params,
+    });
   });
 
   test("should return 500 if DbAddTravel throw", async () => {

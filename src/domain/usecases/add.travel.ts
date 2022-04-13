@@ -3,6 +3,7 @@ export namespace Travel {
     driver_id: string;
     company_id: string;
     truck_id: string;
+    client: string;
     departure_city: string;
     departure_state: string;
     destination_city: string;
@@ -17,6 +18,7 @@ export namespace Travel {
     driver_id: string;
     company_id: string;
     truck_id: string;
+    client: string;
     departure_city: string;
     departure_state: string;
     destination_city: string;
