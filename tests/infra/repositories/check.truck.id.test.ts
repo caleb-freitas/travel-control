@@ -18,13 +18,13 @@ describe("CheckTruckByIdRepository", () => {
     await prisma.$disconnect();
   });
 
-  test("should return false if a company id does not exists", async () => {
+  test("should return false if a truck id does not exists", async () => {
     const sut = checkTruckIdSut();
     const response = await sut.check("non-existing_truck_id");
     expect(response).toBe(false);
   });
 
-  test("should return true if a company id exists", async () => {
+  test("should return true if a truck id exists", async () => {
     const sut = checkTruckIdSut();
     const companyRepository = new AddCompanyRepository();
     const truckRepository = new AddTruckRepository();
