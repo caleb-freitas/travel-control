@@ -19,6 +19,7 @@ model Company {
 
   Driver Driver[]
   Truck  Truck[]
+  Travel Travel[]
 
   @@map("companies")
 }
@@ -34,6 +35,8 @@ model Driver {
   updated_at      DateTime?
   access_token    String?
 
+  Travel Travel[]
+
   Company Company @relation(fields: [company_id], references: [id])
 
   @@map("drivers")
@@ -48,7 +51,30 @@ model Truck {
   model         String
   created_at    DateTime @default(now())
 
+  Travel Travel[]
+
   Company Company? @relation(fields: [company_id], references: [id])
 
   @@map("trucks")
+}
+
+model Travel {
+  id                String    @id @default(uuid())
+  driver_id         String
+  company_id        String
+  truck_id          String
+  departure_city    String
+  departure_state   String
+  destination_city  String
+  destination_state String
+  product           String
+  freight_value     Int
+  created_at        DateTime  @default(now())
+  delivered_in      DateTime?
+
+  Company Company? @relation(fields: [company_id], references: [id])
+  Driver  Driver?  @relation(fields: [driver_id], references: [id])
+  Truck   Truck?   @relation(fields: [truck_id], references: [id])
+
+  @@map("travels")
 }

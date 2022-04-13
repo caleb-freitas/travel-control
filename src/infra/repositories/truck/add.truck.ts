@@ -1,4 +1,4 @@
-import { IAddTruckRepository } from "@/data/protocols";
+import { IAddTruckRepository } from "@/data/protocols/database/truck";
 import { Truck } from "@/domain/usecases";
 import { prisma } from "@/infra/repositories";
 

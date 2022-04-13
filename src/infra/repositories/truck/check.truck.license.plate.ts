@@ -1,4 +1,4 @@
-import { ICheckTruckLicensePlateRepository } from "@/data/protocols";
+import { ICheckTruckLicensePlateRepository } from "@/data/protocols/database/truck";
 import { prisma } from "@/infra/repositories";
 
 // eslint-disable-next-line prettier/prettier
