@@ -5,3 +5,4 @@ export * from "./db.authentication";
 export * from "./db.load.account.by.token";
 export * from "./db.driver.authentication";
 export * from "./db.add.truck";
+export * from "./db.add.travel";
