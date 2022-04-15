@@ -77,5 +77,21 @@ model Travel {
   Driver  Driver?  @relation(fields: [driver_id], references: [id])
   Truck   Truck?   @relation(fields: [truck_id], references: [id])
 
+  Expense Expense[]
+
   @@map("travels")
+}
+
+model Expense {
+  id             String   @id @default(uuid())
+  travel_id      String
+  label          String
+  description    String
+  value          Int
+  payment_method String
+  created_at     DateTime @default(now())
+
+  Travel Travel? @relation(fields: [travel_id], references: [id])
+
+  @@map("expenses")
 }
