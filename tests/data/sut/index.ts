@@ -6,3 +6,4 @@ export * from "./db.load.account.by.token";
 export * from "./db.driver.authentication";
 export * from "./db.add.truck";
 export * from "./db.add.travel";
+export * from "./db.add.expense";

@@ -4,3 +4,4 @@ export * from "./mock.driver";
 export * from "./mock.company";
 export * from "./mock.truck";
 export * from "./mock.travel";
+export * from "./mock.expense";
