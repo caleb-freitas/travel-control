@@ -4,3 +4,4 @@ export * from "./authentication";
 export * from "./load.account.by.token";
 export * from "./add.truck";
 export * from "./add.travel";
+export * from "./add.expense";
