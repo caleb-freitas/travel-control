@@ -41,4 +41,13 @@ describe("BdAddExpense", () => {
     const promise = sut.add(mockExpenseParams());
     await expect(promise).rejects.toThrow();
   });
+
+  test("should return null if CheckTravelByIdRepository return true", async () => {
+    const { sut, checkExpenseByIdRepositorySpy } = dbAddExpenseSut();
+    jest
+      .spyOn(checkExpenseByIdRepositorySpy, "check")
+      .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
+    const response = await sut.add(mockExpenseParams());
+    expect(response).toBeNull();
+  });
 });
