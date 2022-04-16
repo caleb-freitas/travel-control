@@ -7,7 +7,7 @@
     "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn -r tsconfig-paths/register src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --coverage=false --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:unit": "npm test -- --watch -c jest.unit.config.ts",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:staged": "npm test",
     "test:ci": "npm test -- --coverage",
