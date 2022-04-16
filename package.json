@@ -6,14 +6,16 @@
   "scripts": {
     "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn -r tsconfig-paths/register src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --coverage=false --runInBand",
-    "test:general": "jest --passWithNoTests --runInBand",
-    "test:e2e": "npm test -- --watch -c jest.e2e.config.ts",
+    "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest.unit.config.ts",
+    "test:e2e": "npm test -- --watch -c jest.e2e.config.ts",
     "test:integration": "npm test -- --watch -c jest.integration.config.ts",
     "test:staged": "npm test",
     "test:ci": "npm test -- --coverage",
     "test:clear": "jest --clearCache",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev --name",
+    "test:prisma": "dotenv -e .env.test jest -i"
   },
   "lint-staged": {
     "*.ts": [

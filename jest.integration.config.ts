@@ -2,5 +2,5 @@ import jestConfig from "./jest.config";
 
 export default {
   ...jestConfig,
-  testRegex: ".test.ts$",
+  testMatch: ["**/*.test.ts"],
 };
