@@ -9,7 +9,7 @@ describe("POST /api/company/signup", () => {
     await prisma.$disconnect();
   });
 
-  test("should return 200 on signup", async () => {
+  test("should return 200 on company signup", async () => {
     await request(app)
       .post("/api/signup/company")
       .send({
