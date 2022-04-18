@@ -1,7 +1,7 @@
 import { IDecrypter, IEncrypter } from "@/data/protocols";
 import jwt from "jsonwebtoken";
 
-/* Class representing an adapter to json web token package */
+/* Class representing an adapter to jsonwebtoken package */
 export class JwtAdapter implements IEncrypter, IDecrypter {
   /**
    * Initialize the secret variable (md5 hash)
@@ -12,7 +12,7 @@ export class JwtAdapter implements IEncrypter, IDecrypter {
   /**
    * Responsible for encrypting a string
    *
-   * @param  plaintext - the payload (plaintext) to be encrypted. in this case, the account id
+   * @param  plaintext - the payload (plaintext) to be encrypted. usually, the account id
    * @returns the json web token as string
    */
   async encrypt(plaintext: string): Promise<string> {
