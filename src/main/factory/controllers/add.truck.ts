@@ -3,6 +3,6 @@ import { makeAddTruckValidation } from "@/main/factory/validations";
 import { AddTruckController } from "@/presentation/controllers";
 import { IController } from "@/presentation/protocols";
 
-export const makeAddTruckController = (): IController => {
+export function makeAddTruckController(): IController {
   return new AddTruckController(makeDbAddTruck(), makeAddTruckValidation());
-};
+}

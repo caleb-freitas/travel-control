@@ -12,7 +12,7 @@ export class DbAddExpense implements IAddExpense {
 
   async add(expenseData: Expense.Params): Promise<Expense.Model> {
     const travelExists = await this.checkTravelId.check(expenseData.travel_id);
-    if (travelExists) return null;
+    if (!travelExists) return null;
     const expense = await this.addExpense.add({
       ...expenseData,
     });
