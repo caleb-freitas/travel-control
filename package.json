@@ -7,7 +7,7 @@
     "start": "node dist/main/server.js",
     "start:dev": "dotenv -e .env.dev -- ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn -r tsconfig-paths/register src/main/server.ts",
     "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --noStackTrace --coverage=false --runInBand",
-    "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:verbose": "dotenv -e .env.test -- jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest.unit.config.ts",
     "test:e2e": "npm test -- --watch -c jest.e2e.config.ts",
     "test:integration": "npm test -- --watch -c jest.integration.config.ts",
