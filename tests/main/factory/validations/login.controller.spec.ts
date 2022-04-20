@@ -1,4 +1,4 @@
-import { makeLoginValidation } from "@/main/factory";
+import { makeLoginValidation } from "@/main/factory/validations";
 import {
   IEmailValidator,
   IPasswordValidator,

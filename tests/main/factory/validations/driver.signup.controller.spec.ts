@@ -1,4 +1,4 @@
-import { makeDriverSignUpValidation } from "@/main/factory";
+import { makeDriverSignUpValidation } from "@/main/factory/validations";
 import {
   IEmailValidator,
   IPasswordValidator,
