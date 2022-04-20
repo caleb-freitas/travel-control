@@ -5,7 +5,7 @@ import {
   throwError,
 } from "@/tests/domain/mocks";
 
-describe("BdAddExpense", () => {
+describe("DbAddExpense", () => {
   test("should return an expense on success", async () => {
     const { sut } = dbAddExpenseSut();
     const response = await sut.add(mockExpenseParams());
@@ -42,11 +42,11 @@ describe("BdAddExpense", () => {
     await expect(promise).rejects.toThrow();
   });
 
-  test("should return null if CheckTravelByIdRepository return true", async () => {
+  test("should return null if CheckTravelByIdRepository return false", async () => {
     const { sut, checkExpenseByIdRepositorySpy } = dbAddExpenseSut();
     jest
       .spyOn(checkExpenseByIdRepositorySpy, "check")
-      .mockReturnValueOnce(new Promise((resolve) => resolve(true)));
+      .mockReturnValueOnce(new Promise((resolve) => resolve(false)));
     const response = await sut.add(mockExpenseParams());
     expect(response).toBeNull();
   });
