@@ -2,7 +2,7 @@ import { prisma } from "@/infra/repositories";
 import app from "@/main/config/app";
 import request from "supertest";
 
-describe("POST /api/login", () => {
+describe("POST /api/signup/driver", () => {
   beforeAll(async () => {
     await request(app).post("/api/signup/company").send({
       name: "Company",
