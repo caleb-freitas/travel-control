@@ -8,3 +8,4 @@ export * from "./db.add.truck";
 export * from "./db.add.travel";
 export * from "./db.add.expense";
 export * from "./db.finish.travel";
+export * from "./db.load.open.travels";
