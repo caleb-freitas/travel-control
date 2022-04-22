@@ -13,7 +13,7 @@ export namespace Travel {
     delivered_in?: Date;
   };
 
-  export type TravelModel = {
+  export type Model = {
     id: string;
     driver_id: string;
     company_id: string;
@@ -29,9 +29,9 @@ export namespace Travel {
     delivered_in: Date;
   };
 
-  export type Model = TravelModel | Error;
+  // export type Model = TravelModel | Error;
 }
 
 export interface IAddTravel {
-  add(travelData: Travel.Params): Promise<Travel.Model>;
+  add(travelData: Travel.Params): Promise<Travel.Model | Error>;
 }

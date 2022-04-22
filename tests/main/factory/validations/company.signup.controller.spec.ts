@@ -1,5 +1,5 @@
 import { CnpjValidatorAdapter } from "@/infra/validators";
-import { makeCompanySignUpValidation } from "@/main/factory";
+import { makeCompanySignUpValidation } from "@/main/factory/validations";
 import {
   IEmailValidator,
   IPasswordValidator,

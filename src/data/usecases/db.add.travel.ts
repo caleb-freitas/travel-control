@@ -15,7 +15,7 @@ export class DbAddTravel implements IAddTravel {
     private readonly checkTruckId: ICheckTruckByIdRepository
   ) {}
 
-  async add(travelData: Travel.Params): Promise<Travel.Model> {
+  async add(travelData: Travel.Params): Promise<Travel.Model | Error> {
     const { company_id, truck_id, driver_id } = travelData;
     const truckExists = this.checkTruckId.check(truck_id);
     const driverExists = this.checkDriverId.check(driver_id);

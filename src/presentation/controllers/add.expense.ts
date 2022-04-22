@@ -25,6 +25,8 @@ export class AddExpenseController implements IController {
       if (invalid) {
         return badRequest(invalid);
       }
+      // eslint-disable-next-line no-param-reassign
+      delete httpRequest.body?.company_id;
       const expense = await this.addExpense.add({
         ...httpRequest.body,
         travel_id,

@@ -12,7 +12,7 @@ export class AddExpenseRepositorySpy implements IAddExpenseRepository {
 }
 
 export class CheckTravelByIdRepositorySpy implements ICheckTravelByIdRepository {
-  travelExists = false;
+  travelExists = true;
   async check(id: string): Promise<boolean> {
     return this.travelExists;
   }

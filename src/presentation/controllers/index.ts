@@ -4,3 +4,5 @@ export * from "./login";
 export * from "./add.truck";
 export * from "./add.travel";
 export * from "./add.expense";
+export * from "./finish.travel";
+export * from "./load.open.travels";
