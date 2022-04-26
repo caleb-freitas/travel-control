@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
-    "start:dev": "dotenv -e .env.dev -- ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn -r tsconfig-paths/register src/main/server.ts",
-    "test": "dotenv -e .env.test -- jest --passWithNoTests --noStackTrace --coverage=false --runInBand",
-    "test:verbose": "dotenv -e .env.test -- jest --passWithNoTests --runInBand",
+    "start:dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn -r tsconfig-paths/register src/main/server.ts",
+    "test": "jest --passWithNoTests --noStackTrace --coverage=false --runInBand",
+    "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest.unit.config.ts",
     "test:e2e": "npm test -- --watch -c jest.e2e.config.ts",
     "test:integration": "npm test -- --watch -c jest.integration.config.ts",
@@ -15,7 +15,7 @@
     "test:ci": "npm test -- --coverage",
     "test:clear": "jest --clearCache",
     "prepare": "husky install",
-    "migrate:dev": "dotenv -e .env.dev -- npx prisma migrate dev --name postgres-dev",
+    "migrate:dev": "npx prisma migrate dev --name postgres-dev",
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-test",
     "test:prisma": "dotenv -e .env.test jest -i",
     "build": "rimraf dist && prisma generate && tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
