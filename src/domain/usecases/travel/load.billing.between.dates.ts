@@ -1,4 +1,9 @@
 export namespace Billing {
+  export type Params = {
+    startDate: string;
+    endDate: string;
+    companyId: string;
+  };
   export type Model = {
     id: string;
     driver_id: string;
@@ -10,5 +15,5 @@ export namespace Billing {
 }
 
 export interface ILoadBillingBetweenDates {
-  load(startDate: string, endDate: string): Promise<Billing.Model[]>;
+  load(params: Billing.Params): Promise<Billing.Model[]>;
 }

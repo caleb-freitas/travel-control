@@ -14,14 +14,16 @@ export class LoadBillingBetweenDatesController implements IController {
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
+      const { company_id } = httpRequest.body;
       const { startDate, endDate } = httpRequest.query;
       if (!startDate || !endDate) {
         return badRequest(new MissingParamError("startDate or endDate"));
       }
-      const billing = await this.loadBillingBetweenDates.load(
+      const billing = await this.loadBillingBetweenDates.load({
         startDate,
-        endDate
-      );
+        endDate,
+        companyId: company_id,
+      });
       return ok(billing);
     } catch (error) {
       return serverError(error);

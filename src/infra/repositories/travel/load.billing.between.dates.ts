@@ -4,7 +4,8 @@ import { prisma } from "@/infra/repositories";
 
 // eslint-disable-next-line prettier/prettier
 export class LoadBillingBetweenDatesRepository implements ILoadBillingBetweenDatesRepository {
-  async load(startDate: string, endDate: string): Promise<Billing.Model[]> {
+  async load(params: Billing.Params): Promise<Billing.Model[]> {
+    const { startDate, endDate, companyId } = params;
     const billing = await prisma.travel.findMany({
       where: {
         AND: [
@@ -18,6 +19,9 @@ export class LoadBillingBetweenDatesRepository implements ILoadBillingBetweenDat
               lte: new Date(endDate),
             },
           },
+          {
+            company_id: companyId,
+          },
         ],
       },
       select: {
@@ -27,6 +31,13 @@ export class LoadBillingBetweenDatesRepository implements ILoadBillingBetweenDat
         client: true,
         created_at: true,
         freight_value: true,
+        Expense: {
+          select: {
+            id: true,
+            label: true,
+            value: true,
+          },
+        },
       },
     });
     return billing;

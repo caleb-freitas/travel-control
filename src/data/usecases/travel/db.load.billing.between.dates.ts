@@ -6,8 +6,13 @@ export class DbLoadBillingBetweenDates implements ILoadBillingBetweenDates {
     private readonly loadBillingRepository: ILoadBillingBetweenDatesRepository
   ) {}
 
-  async load(startDate: string, endDate: string): Promise<Billing.Model[]> {
-    const billing = await this.loadBillingRepository.load(startDate, endDate);
+  async load(params: Billing.Params): Promise<Billing.Model[]> {
+    const { startDate, endDate, companyId } = params;
+    const billing = await this.loadBillingRepository.load({
+      startDate,
+      endDate,
+      companyId,
+    });
     return billing;
   }
 }
