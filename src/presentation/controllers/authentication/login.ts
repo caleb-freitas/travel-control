@@ -6,7 +6,7 @@ import {
   IValidation,
 } from "@/presentation/protocols";
 
-import { badRequest, ok, serverError, unauthorized } from "../helpers";
+import { badRequest, ok, serverError, unauthorized } from "../../helpers";
 
 export class LoginController implements IController {
   constructor(

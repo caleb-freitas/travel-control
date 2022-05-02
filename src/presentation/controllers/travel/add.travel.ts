@@ -1,4 +1,5 @@
 import { IAddTravel } from "@/domain/usecases";
+import { InvalidParamError } from "@/presentation/errors";
 import { badRequest, notFound, ok, serverError } from "@/presentation/helpers";
 import {
   IController,
@@ -6,8 +7,6 @@ import {
   IHttpResponse,
   IValidation,
 } from "@/presentation/protocols";
-
-import { InvalidParamError } from "../errors";
 
 export class AddTravelController implements IController {
   constructor(

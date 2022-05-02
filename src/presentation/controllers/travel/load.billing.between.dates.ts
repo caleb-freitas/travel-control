@@ -1,8 +1,11 @@
 import { ILoadBillingBetweenDates } from "@/domain/usecases";
-
-import { MissingParamError } from "../errors";
-import { badRequest, ok, serverError } from "../helpers";
-import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import { MissingParamError } from "@/presentation/errors";
+import { badRequest, ok, serverError } from "@/presentation/helpers";
+import {
+  IController,
+  IHttpRequest,
+  IHttpResponse,
+} from "@/presentation/protocols";
 
 export class LoadBillingBetweenDatesController implements IController {
   constructor(

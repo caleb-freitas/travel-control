@@ -7,7 +7,7 @@ import {
   IValidation,
 } from "@/presentation/protocols";
 
-import { InvalidParamError } from "../errors";
+import { InvalidParamError } from "../../errors";
 
 export class AddExpenseController implements IController {
   constructor(

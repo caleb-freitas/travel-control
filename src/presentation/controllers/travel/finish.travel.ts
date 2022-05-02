@@ -1,8 +1,11 @@
 import { IFinishTravel } from "@/domain/usecases";
-
-import { InvalidParamError, MissingParamError } from "../errors";
-import { badRequest, ok, serverError } from "../helpers";
-import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import { InvalidParamError, MissingParamError } from "@/presentation/errors";
+import { badRequest, ok, serverError } from "@/presentation/helpers";
+import {
+  IController,
+  IHttpRequest,
+  IHttpResponse,
+} from "@/presentation/protocols";
 
 export class FinishTravelController implements IController {
   constructor(private readonly finishTravel: IFinishTravel) {}
