@@ -1,7 +1,7 @@
 import { DbLoadExpensesByTravel } from "@/data/usecases";
 import { ILoadExpensesByTravel } from "@/domain/usecases";
 import { CheckTravelByIdRepository } from "@/infra";
-import { LoadExpenseByTravelRepository } from "@/infra/repositories/expense";
+import { LoadExpenseByTravelRepository } from "@/infra/repositories";
 
 export function makeDbLoadExpenseByTravel(): ILoadExpensesByTravel {
   const checkTravelByIdRepository = new CheckTravelByIdRepository();

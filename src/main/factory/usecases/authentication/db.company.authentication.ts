@@ -1,9 +1,9 @@
 import { DbCompanyAuthentication } from "@/data/usecases";
+import { BcryptAdapter, JwtAdapter } from "@/infra/cryptography";
 import {
   LoadCompanyByEmailRepository,
   UpdateCompanyTokenRepository,
-} from "@/infra";
-import { BcryptAdapter, JwtAdapter } from "@/infra/cryptography";
+} from "@/infra/repositories";
 import env from "@/main/config/env";
 
 export function makeDbCompanyAuthentication(): DbCompanyAuthentication {

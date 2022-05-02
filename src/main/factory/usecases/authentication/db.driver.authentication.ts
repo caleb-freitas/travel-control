@@ -1,9 +1,9 @@
 import { DbDriverAuthentication } from "@/data/usecases";
+import { BcryptAdapter, JwtAdapter } from "@/infra/cryptography";
 import {
   LoadDriverByEmailRepository,
   UpdateDriverTokenRepository,
-} from "@/infra";
-import { BcryptAdapter, JwtAdapter } from "@/infra/cryptography";
+} from "@/infra/repositories";
 import env from "@/main/config/env";
 
 export function makeDbDriverAuthentication(): DbDriverAuthentication {

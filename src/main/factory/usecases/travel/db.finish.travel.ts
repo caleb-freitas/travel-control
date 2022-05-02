@@ -1,5 +1,8 @@
 import { DbFinishTravel } from "@/data/usecases";
-import { CheckTravelByIdRepository, FinishTravelRepository } from "@/infra";
+import {
+  CheckTravelByIdRepository,
+  FinishTravelRepository,
+} from "@/infra/repositories";
 
 export function makeDbFinishTravel(): DbFinishTravel {
   const checkTravelByIdRepository = new CheckTravelByIdRepository();
