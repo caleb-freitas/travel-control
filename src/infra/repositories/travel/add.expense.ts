@@ -1,5 +1,5 @@
 import { IAddExpenseRepository } from "@/data/protocols";
-import { Expense } from "@/domain/usecases";
+import { Expense } from "@/domain/models";
 import { prisma } from "@/infra/repositories";
 
 export class AddExpenseRepository implements IAddExpenseRepository {

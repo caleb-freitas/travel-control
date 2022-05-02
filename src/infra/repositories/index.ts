@@ -3,4 +3,4 @@ export * from "./company";
 export * from "./driver";
 export * from "./truck";
 export * from "./travel";
-export * from "./expense";
+export * from "./authentication";

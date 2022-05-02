@@ -1,5 +1,5 @@
 import { IAddTruckRepository } from "@/data/protocols/database/truck";
-import { Truck } from "@/domain/usecases";
+import { Truck } from "@/domain/models";
 import { prisma } from "@/infra/repositories";
 
 export class AddTruckRepository implements IAddTruckRepository {

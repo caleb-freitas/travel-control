@@ -1,5 +1,5 @@
 import { ILoadExpensesByTravelRepository } from "@/data/protocols";
-import { Expense } from "@/domain/usecases";
+import { Expense } from "@/domain/models";
 import { prisma } from "@/infra/repositories";
 
 // eslint-disable-next-line prettier/prettier

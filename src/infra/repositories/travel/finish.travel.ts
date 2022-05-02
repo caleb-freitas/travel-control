@@ -1,5 +1,5 @@
 import { IFinishTravelRepository } from "@/data/protocols/database/travel/finish.travel";
-import { Travel } from "@/domain/usecases";
+import { Travel } from "@/domain/models";
 import { prisma } from "@/infra/repositories";
 
 export class FinishTravelRepository implements IFinishTravelRepository {

@@ -1,5 +1,5 @@
 import { IAddTravelRepository } from "@/data/protocols";
-import { Travel } from "@/domain/usecases";
+import { Travel } from "@/domain/models";
 import { prisma } from "@/infra/repositories";
 
 export class AddTravelRepository implements IAddTravelRepository {
