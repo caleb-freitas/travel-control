@@ -17,7 +17,3 @@ export namespace Expense {
     created_at: Date;
   };
 }
-
-export interface IAddExpense {
-  add(expenseData: Expense.Params): Promise<Expense.Model>;
-}

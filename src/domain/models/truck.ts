@@ -16,10 +16,5 @@ export namespace Truck {
     model: string;
     created_at: Date;
   };
-
   export type Model = TruckModel | Error;
-}
-
-export interface IAddTruck {
-  add(data: Truck.Params): Promise<Truck.Model>;
 }

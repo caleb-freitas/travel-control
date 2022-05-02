@@ -1,4 +1,4 @@
-import { ICompanyModel, IDriverModel } from "../models";
+import { ICompanyModel, IDriverModel } from "@/domain/models";
 
 type Authentication = {
   role: string;

@@ -1,5 +1,5 @@
-import { FieldInUseError } from "../../presentation/errors";
-import { ICompanyModel } from "../models/company.model";
+import { ICompanyModel } from "@/domain/models";
+import { FieldInUseError } from "@/presentation/errors";
 
 export interface IAddCompanyModel {
   name: string;

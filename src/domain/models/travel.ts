@@ -28,10 +28,4 @@ export namespace Travel {
     created_at: Date;
     delivered_in: Date;
   };
-
-  // export type Model = TravelModel | Error;
-}
-
-export interface IAddTravel {
-  add(travelData: Travel.Params): Promise<Travel.Model | Error>;
 }

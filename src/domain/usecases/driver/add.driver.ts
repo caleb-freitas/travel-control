@@ -1,4 +1,4 @@
-import { IDriverModel } from "../models/driver.model";
+import { IDriverModel } from "@/domain/models";
 
 export interface IAddDriverModel {
   company_id: string;
