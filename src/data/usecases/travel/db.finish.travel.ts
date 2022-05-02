@@ -1,7 +1,9 @@
-import { IFinishTravel, Travel } from "@/domain/usecases";
-
-import { ICheckTravelByIdRepository } from "../protocols";
-import { IFinishTravelRepository } from "../protocols/database/travel/finish.travel";
+import {
+  ICheckTravelByIdRepository,
+  IFinishTravelRepository,
+} from "@/data/protocols";
+import { Travel } from "@/domain/models";
+import { IFinishTravel } from "@/domain/usecases";
 
 export class DbFinishTravel implements IFinishTravel {
   constructor(

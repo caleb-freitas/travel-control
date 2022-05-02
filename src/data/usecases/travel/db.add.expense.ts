@@ -1,7 +1,7 @@
 import {
   IAddExpenseRepository,
   ICheckTravelByIdRepository,
-} from "@/data/protocols";
+} from "@/data/protocols/database";
 import { Expense, IAddExpense } from "@/domain/usecases";
 
 export class DbAddExpense implements IAddExpense {

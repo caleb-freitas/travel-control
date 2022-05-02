@@ -4,7 +4,8 @@ import {
   ICheckDriverByIdRepository,
   ICheckTruckByIdRepository,
 } from "@/data/protocols";
-import { IAddTravel, Travel } from "@/domain/usecases";
+import { Travel } from "@/domain/models";
+import { IAddTravel } from "@/domain/usecases";
 import { InvalidParamError } from "@/presentation/errors";
 
 export class DbAddTravel implements IAddTravel {

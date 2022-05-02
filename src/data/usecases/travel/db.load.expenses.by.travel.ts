@@ -1,7 +1,6 @@
-import { Expense } from "@/domain/usecases";
-import { ILoadExpensesByTravel } from "@/domain/usecases/load.expenses.by.travel";
-
-import { ICheckTravelByIdRepository } from "../protocols";
+import { ICheckTravelByIdRepository } from "@/data/protocols/database";
+import { Expense } from "@/domain/models";
+import { ILoadExpensesByTravel } from "@/domain/usecases";
 
 export class DbLoadExpensesByTravel implements ILoadExpensesByTravel {
   constructor(

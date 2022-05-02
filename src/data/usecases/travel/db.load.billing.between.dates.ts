@@ -1,6 +1,5 @@
+import { ILoadBillingBetweenDatesRepository } from "@/data/protocols";
 import { Billing, ILoadBillingBetweenDates } from "@/domain/usecases";
-
-import { ILoadBillingBetweenDatesRepository } from "../protocols";
 
 export class DbLoadBillingBetweenDates implements ILoadBillingBetweenDates {
   constructor(

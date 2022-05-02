@@ -1,5 +1,6 @@
 import { ILoadOpenTravelsRepository } from "@/data/protocols";
-import { ILoadOpenTravels, Travel } from "@/domain/usecases";
+import { Travel } from "@/domain/models";
+import { ILoadOpenTravels } from "@/domain/usecases";
 
 export class DbLoadOpenTravels implements ILoadOpenTravels {
   constructor(

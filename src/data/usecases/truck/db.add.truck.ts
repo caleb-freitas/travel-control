@@ -3,7 +3,8 @@ import {
   ICheckCompanyByIdRepository,
   ICheckTruckLicensePlateRepository,
 } from "@/data/protocols/database";
-import { IAddTruck, Truck } from "@/domain/usecases";
+import { Truck } from "@/domain/models";
+import { IAddTruck } from "@/domain/usecases";
 import { FieldInUseError, InvalidParamError } from "@/presentation/errors";
 
 export class DbAddTruck implements IAddTruck {
