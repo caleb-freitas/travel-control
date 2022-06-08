@@ -6,7 +6,7 @@ An application created to control the travels of an ore transport company
 
 ## How to execute
 
-- Add database credentials to [.example.env.dev](./.example.env.dev) file and rename it to `.env.dev`
+- Add database credentials to [.example.env](./.example.env) file and rename it to `.env`
 
 - Run `docker-compose up -d` to start the application
 
