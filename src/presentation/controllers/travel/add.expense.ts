@@ -31,7 +31,6 @@ export class AddExpenseController implements IController {
         ...httpRequest.body,
         travel_id,
       });
-      console.log(expense);
       if (!expense) {
         return badRequest(new InvalidParamError("travel_id"));
       }
