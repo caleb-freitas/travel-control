@@ -1,4 +1,4 @@
-import { Travel } from "@/domain/usecases";
+import { Travel } from "@/domain/models";
 
 export const mockTravelParams = (): Travel.Params => ({
   driver_id: "driver_id",

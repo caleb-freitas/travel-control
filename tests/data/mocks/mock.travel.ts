@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { IAddTravelRepository, ICheckDriverByIdRepository, ICheckTruckByIdRepository } from "@/data/protocols"
-import { Travel } from "@/domain/usecases";
+import { Travel } from "@/domain/models";
 import { mockTravelModel } from "@/tests/domain/mocks";
 
 export class AddTravelRepositorySpy implements IAddTravelRepository {

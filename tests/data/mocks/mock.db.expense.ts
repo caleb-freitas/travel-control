@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { IAddExpenseRepository, ICheckTravelByIdRepository } from "@/data/protocols"
-import { Expense } from "@/domain/usecases";
+import { Expense } from "@/domain/models";
 import { mockExpenseModel } from "@/tests/domain/mocks";
 
 export class AddExpenseRepositorySpy implements IAddExpenseRepository {

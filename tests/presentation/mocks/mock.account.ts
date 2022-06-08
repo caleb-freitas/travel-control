@@ -1,4 +1,4 @@
-import { ICompanyModel, IDriverModel } from "@/domain/models";
+import { ICompanyModel, IDriverModel, Travel, Truck } from "@/domain/models";
 import {
   Authentication,
   IAddDriver,
@@ -7,8 +7,6 @@ import {
   IAddTruck,
   IAuthentication,
   ILoadAccountByToken,
-  Travel,
-  Truck,
 } from "@/domain/usecases";
 import {
   mockDriverResult,

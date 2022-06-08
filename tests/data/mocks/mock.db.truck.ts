@@ -2,7 +2,7 @@ import {
   IAddTruckRepository,
   ICheckTruckLicensePlateRepository,
 } from "@/data/protocols";
-import { Truck } from "@/domain/usecases";
+import { Truck } from "@/domain/models";
 import { mockTruckModel } from "@/tests/domain/mocks";
 
 // eslint-disable-next-line prettier/prettier

@@ -1,4 +1,4 @@
-import { Truck } from "@/domain/usecases";
+import { Truck } from "@/domain/models";
 
 export const mockTruckParams = (): Truck.Params => ({
   company_id: "company_id",

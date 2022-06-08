@@ -1,4 +1,4 @@
-import { Expense } from "@/domain/usecases";
+import { Expense } from "@/domain/models";
 
 export const mockExpenseParams = (): Expense.Params => ({
   travel_id: "travel_id",
