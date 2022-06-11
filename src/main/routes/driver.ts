@@ -1,16 +1,14 @@
 import { adaptRoute } from "@/main/adapters";
-import {
-  makeCompanySignUpController,
-  makeDriverSignUpController,
-} from "@/main/factory/controllers";
+import { makeDriverSignUpController } from "@/main/factory/controllers";
 import { authorization } from "@/main/middleware";
 import { Router } from "express";
+import { makeLoadDriversController } from "../factory/controllers/driver/load.drivers";
 
 export default (router: Router): void => {
-  router.post("/signup/company", adaptRoute(makeCompanySignUpController()));
   router.post(
-    "/signup/driver",
+    "/driver",
     authorization,
     adaptRoute(makeDriverSignUpController())
   );
+  router.post("/drivers", adaptRoute(makeLoadDriversController()));
 };

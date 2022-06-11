@@ -2,9 +2,9 @@ import { prisma } from "@/infra/repositories";
 import app from "@/main/config/app";
 import request from "supertest";
 
-describe("POST /api/signup/driver", () => {
+describe("POST /api/driver", () => {
   beforeAll(async () => {
-    await request(app).post("/api/signup/company").send({
+    await request(app).post("/api/company").send({
       name: "Company",
       email: "company@email.com",
       password: "ValidPassword1234",
@@ -27,7 +27,7 @@ describe("POST /api/signup/driver", () => {
       role: "company",
     });
     await request(app)
-      .post("/api/signup/driver")
+      .post("/api/driver")
       .set("x-access-token", companyLogin.body?.accessToken)
       .send({
         name: "Driver",
@@ -46,7 +46,7 @@ describe("POST /api/signup/driver", () => {
       role: "company",
     });
     await request(app)
-      .post("/api/signup/driver")
+      .post("/api/driver")
       .send({
         name: "Driver",
         email: "driver@email.com",

@@ -2,7 +2,7 @@ import { prisma } from "@/infra/repositories";
 import app from "@/main/config/app";
 import request from "supertest";
 
-describe("POST /api/signup/company", () => {
+describe("POST /api/company", () => {
   afterAll(async () => {
     const deleteCompanies = prisma.company.deleteMany();
     await prisma.$transaction([deleteCompanies]);
@@ -11,7 +11,7 @@ describe("POST /api/signup/company", () => {
 
   test("should return 200 on company signup", async () => {
     await request(app)
-      .post("/api/signup/company")
+      .post("/api/company")
       .send({
         name: "Company",
         email: "company@email.com",
