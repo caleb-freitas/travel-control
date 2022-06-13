@@ -4,7 +4,7 @@ import request from "supertest";
 
 describe("POST /api/login", () => {
   beforeAll(async () => {
-    await request(app).post("/api/signup/company").send({
+    await request(app).post("/api/company").send({
       name: "Company",
       email: "company@email.com",
       password: "ValidPassword1234",
